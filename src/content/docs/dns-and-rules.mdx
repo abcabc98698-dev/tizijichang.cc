@@ -1,0 +1,76 @@
+---
+title: 分流规则与 DNS 防污染防泄漏实战指南：打造零干扰无感分流系统
+description: 深度解析代理客户端的规则分流（Rule-based Routing）机制：全面指导 DoH/DoT 加密 DNS 配置、防止 DNS 泄漏，以及优化中国大陆与海外流量分流策略。
+---
+
+在使用科学上网时，最理想的体验是**“润物细无声”**：访问 Google、YouTube、GitHub 时自动走专线高速代理；而访问微信、淘宝、网银、腾讯视频时完全走本地宽带直连，既不消耗代理流量，也不会引起异地登录风控。实现这一目标的核心就是**分流规则与安全 DNS**。
+
+## 一、三大路由行为与分流模式
+
+在现代代理客户端（如 Clash Verge Rev、Shadowrocket、OpenClash）中，每条网络请求都会经过规则匹配引擎，执行以下三种行为之一：
+
+1. **DIRECT (直连)**：
+   - 流量不经过任何代理服务器，直接通过本地电信/联通/移动宽带发起连接。
+   - 适用于：国内全部主流网站（`.cn` 域名、GeoIP CN 列表）、局域网 IP（`192.168.x.x`）及国内流媒体。
+2. **PROXY (代理)**：
+   - 流量被加密封装后，发送至指定的境外专线节点（如光速云香港、日本）。
+   - 适用于：被封锁的境外站点（Google、Twitter、OpenAI、Wikipedia）及外服游戏。
+3. **REJECT (拦截)**：
+   - 客户端直接阻断连接并丢弃数据包。
+   - 适用于：网络广告追踪器、恶意挖矿脚本及弹窗代码。
+
+---
+
+## 二、DNS 污染与 DNS 泄漏 (DNS Leak) 原理
+
+### 什么是 DNS 污染？
+当您尝试访问 `google.com` 时，本地运营商的常规 DNS 服务器会立刻伪造一个错误的 IP 地址（例如 `0.0.0.0`），导致您的电脑访问到死胡同。
+
+### 什么是 DNS 泄漏？
+即使您开启了代理软件，若客户端配置不当，系统依然将境外域名的解析请求发送给了您本地的国内运营商 DNS。这不仅会导致运营商日志中记录您的全部境外访问网址，还会被上游防火墙精准检测到访问意图。
+
+```mermaid
+flowchart TD
+    subgraph 危险的不安全配置 (存在 DNS 泄漏)
+        A1["访问 youtube.com"] --> B1["本地国内运营商 DNS (未加密明文解析)"]
+        B1 -->|被 GFW 嗅探拦截并记录访问域名| C1["DNS 污染导致解析失败"]
+    end
+    
+    subgraph 正确的加密分流配置 (安全 DoH / 专线解析)
+        A2["访问 youtube.com"] --> B2["Clash 内置安全 DNS (Fake-IP / DoH)"]
+        B2 -->|通过 IEPL 加密隧道发送至境外节点| C2["境外根服务器权威解析 · 零泄漏"]
+    end
+```
+
+---
+
+## 三、推荐的加密 DNS (DoH/DoT) 搭配方案
+
+在 Clash 或 OpenWrt 的配置文件中，推荐采用**国内外分离的双解析机制**：
+
+### 1. 国内域名解析上游（保证内网极速响应）：
+- 阿里安全 DNS (DoH)：`https://dns.alidns.com/dns-query`
+- 腾讯 DNSPod (DoH)：`https://doh.pub/dns-query`
+
+### 2. 境外境外域名解析上游（防污染无审计）：
+- Cloudflare DNS：`https://cloudflare-dns.com/dns-query`
+- Google Public DNS：`https://dns.google/dns-query`
+
+---
+
+## 四、如何验证自己的网络是否存在 DNS 泄漏？
+
+1. 保持当前梯子处于连接状态；
+2. 在浏览器中打开国际通用的权威检测工具：`https://browserleaks.com/ip` 或 `https://dnsleaktest.com`；
+3. 点击 **「Standard Test」**；
+4. **结果判定标准**：
+   - **安全通过**：测试结果中显示的 DNS 服务器所在国家均为**中国香港、日本、美国或新加坡**（与您当前选择的专线节点一致）；
+   - **存在泄漏**：若在测试结果列表中看到了 **“China Telecom / China Unicom / China Mobile”**，说明您的客户端发生了严重的 DNS 泄漏，应立即检查是否开启了 Fake-IP 模式或 TUN 虚拟网卡。
+
+---
+
+## 关联阅读
+
+- [Windows 平台客户端分流配置 &rarr;](/docs/windows-setup/)
+- [OpenWrt 软路由透明代理实战教程 &rarr;](/docs/openwrt-router/)
+- [2026 全球 42 家机场品牌测速排行榜 &rarr;](/ranking/)

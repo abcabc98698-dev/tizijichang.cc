@@ -1,0 +1,104 @@
+---
+import MarketingLayout from '../components/MarketingLayout.astro';
+import { SITE_CONFIG } from '../config/site';
+
+const title = `平台模块与技术体系展示 — ${SITE_CONFIG.name}`;
+const description = `探索 ${SITE_CONFIG.name} 构建的高端 SEO/GEO 专线测评系统：多调色盘引擎、暗黑网络观测台、结构化品牌数据库与 Starlight 文档百科。`;
+
+const modules = [
+  {
+    name: '42 家全量品牌知识库 (Brand Observatory)',
+    slug: 'brand-observatory',
+    category: '核心数据中台',
+    status: 'Ready',
+    summary: '严格区分实测 (Measured)、官方 (Vendor) 与历史 (Historical) 状态，包含起步价、协议、客户端及优惠码。',
+    docsUrl: '/brands/',
+    tags: ['42家品牌', '结构化数据', '多维筛选', '实时搜索'],
+  },
+  {
+    name: '暗黑网络观测台视效组件 (Dark Observatory UI)',
+    slug: 'observatory-ui',
+    category: '视觉与交互系统',
+    status: 'Ready',
+    summary: '采用原生 CSS 与 SVG 渲染测速进度条、3列流媒体/AI 解锁状态矩阵及跨境 IEPL/IPLC 骨干链路拓扑。',
+    docsUrl: '/compare/',
+    tags: ['测速条', '解锁矩阵', '网络拓扑', '实测原图'],
+  },
+  {
+    name: '跨平台代理客户端生态 (Proxy Clients Hub)',
+    slug: 'proxy-clients',
+    category: '客户端与教程',
+    status: 'Ready',
+    summary: '涵盖 Windows、Android、iOS、macOS、Linux、OpenWrt 6 大系统 21 款客户端下载与双向兼容性映射。',
+    docsUrl: '/clients/',
+    tags: ['Clash Verge Rev', 'Shadowrocket', 'v2rayN', '软路由'],
+  },
+  {
+    name: '18 款无抖动主题调色盘 (Multi-Palette Engine)',
+    slug: 'palette-engine',
+    category: '视觉与交互系统',
+    status: 'Ready',
+    summary: '包含 12 款暗黑极客主题与 6 款护眼明亮色系，由 CSS Custom Properties 驱动并在首屏零白屏恢复。',
+    docsUrl: '/performance/',
+    tags: ['18色盘', '暗黑模式', 'CSS Tokens', '零白屏'],
+  },
+  {
+    name: 'SEO & GEO 转化中台 (Semantic SEO Graph)',
+    slug: 'seo-engine',
+    category: '核心数据中台',
+    status: 'Ready',
+    summary: '自动化生成 Canonical 网址、规范级 OpenGraph 卡片、XML Sitemap 及 Schema.org JSON-LD 结构化数据。',
+    docsUrl: '/ranking/',
+    tags: ['JSON-LD', 'Sitemap', 'GEO速览', '合规推广'],
+  },
+  {
+    name: '专栏文章与评测深度解析 (Blog Collection)',
+    slug: 'blog-collection',
+    category: '内容与知识库',
+    status: 'Ready',
+    summary: '基于类型安全的 Astro Content Collections，支持文章阅读时长预估、作者归档与 RSS 2.0 聚合订阅。',
+    docsUrl: '/blog/',
+    tags: ['光速云实测', '选型指南', '客户端避坑', 'AI解锁'],
+  },
+];
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  canonicalPath="/showcase/"
+  activeNav="showcase"
+>
+  <section class="plugins-hero">
+    <div class="container">
+      <div class="section-header">
+        <span class="overline">System Showcase · 架构模块展示</span>
+        <h1>平台模块与技术体系展示</h1>
+        <p class="section-desc">
+          {SITE_CONFIG.name} 所有核心模块均使用语义化 HTML、极简 CSS Tokens 与 Astro 静态构建，无庞大运行时包体袱，实现极致的加载速度与 SEO 索引能力。
+        </p>
+      </div>
+
+      <div class="compare-cards" id="modules-grid" style="margin-top: 2rem;">
+        {modules.map((mod) => (
+          <article class="compare-card module-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+              <span class="blog-tag">{mod.category}</span>
+              <span class="yes" style="font-size:0.75rem;">{mod.status}</span>
+            </div>
+            <h3><a href={mod.docsUrl} style="color:inherit;text-decoration:none;">{mod.name}</a></h3>
+            <p style="color:var(--text-secondary);font-size:0.92rem;line-height:1.6;margin:0.5rem 0 1rem;">
+              {mod.summary}
+            </p>
+            <div class="blog-tags" style="margin-bottom:1rem;">
+              {mod.tags.map((t) => (
+                <span class="blog-tag">#{t}</span>
+              ))}
+            </div>
+            <a href={mod.docsUrl} class="card-link">进入对应模块 &rarr;</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</MarketingLayout>

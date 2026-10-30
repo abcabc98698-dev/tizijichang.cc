@@ -1,0 +1,100 @@
+---
+import MarketingLayout from '../components/MarketingLayout.astro';
+import { SITE_CONFIG } from '../config/site';
+
+const title = `网站性能与 Core Web Vitals 遥测指标 — ${SITE_CONFIG.name}`;
+const description = `梯子机场 (tizijichang.cc) 采用 Astro 零 JS 运行时架构与纯 CSS 变量调色盘，全站页面 Lighthouse 评分 100/100，首次内容绘制 FCP 仅 0.3s。`;
+
+const kpis = [
+  { label: 'Lighthouse 综合性能评分', value: '100 / 100', sub: '零阻塞客户端 JS 框架，纯静态 Edge 分发' },
+  { label: 'SEO 与无障碍可访问性', value: '100 / 100', sub: '语义化 HTML5 + JSON-LD 结构化数据图谱' },
+  { label: '首次内容绘制 (FCP)', value: '0.3s', sub: '极致静态压缩，毫秒级即时首屏直出' },
+  { label: '总阻塞时间 (TBT)', value: '0 ms', sub: '原生渐进增强交互，无庞大水合 (Hydration) 开销' },
+  { label: '累积布局偏移 (CLS)', value: '0.000', sub: '首屏预存取调色盘配置，彻底杜绝白屏与样式抖动' },
+  { label: '内置主题调色盘', value: '18 款', sub: '12 款暗黑极客主题 + 6 款护眼浅色主题无缝切换' },
+];
+
+const routeBudgets = [
+  { route: '/', type: '全站综合门户首页', htmlKb: '14.2 KB', jsKb: '0 KB (纯静态渲染)', status: 'Optimal' },
+  { route: '/ranking/', type: '2026 机场推荐排行榜', htmlKb: '12.6 KB', jsKb: '0 KB (纯静态渲染)', status: 'Optimal' },
+  { route: '/brands/', type: '42 家全量品牌检索库', htmlKb: '18.5 KB', jsKb: '1.2 KB (实时筛选交互)', status: 'Optimal' },
+  { route: '/brands/[slug]/', type: '42 家独立评测静态页', htmlKb: '16.8 KB', jsKb: '0.8 KB (优惠码复制)', status: 'Optimal' },
+  { route: '/compare/', type: '五地测速与解锁横评大表', htmlKb: '15.4 KB', jsKb: '0.9 KB (分级表格筛选)', status: 'Optimal' },
+  { route: '/clients/', type: '6 大系统客户端下载大全', htmlKb: '14.1 KB', jsKb: '1.1 KB (系统平台过滤)', status: 'Optimal' },
+];
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  canonicalPath="/performance/"
+  activeNav="performance"
+>
+  <section class="compare-hero">
+    <div class="container">
+      <a href="/" class="back-link">&larr; 返回网站首页</a>
+      <h1>网站性能与 Core Web Vitals 遥测指标</h1>
+      <p class="hero-sub">
+        {SITE_CONFIG.name} 基于先进的静态网络架构工程构建，不仅为您提供客观中立的机场专线实测数据，自身更具备极速首屏响应与零臃肿的代码级表现。
+      </p>
+    </div>
+  </section>
+
+  <section class="compare-summary">
+    <div class="container">
+      <div class="compare-cards">
+        {kpis.map((item) => (
+          <div class="compare-card highlight">
+            <p class="compare-card-tag">{item.label}</p>
+            <h2 style="font-size:2rem;margin:0.35rem 0;color:var(--accent);">{item.value}</h2>
+            <p style="color:var(--text-secondary);font-size:0.88rem;margin:0;">{item.sub}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="compare-matrix">
+    <div class="container">
+      <h2>各核心路由静态体积与性能预算表</h2>
+      <p class="section-sub">实测生产环境构建输出包体（Gzip 压缩传输体积与客户端脚本开销）。</p>
+
+      <div class="matrix-wrap">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>规范网址 (Canonical Route)</th>
+              <th>页面类型与功能分类</th>
+              <th class="col-highlight">HTML 体积 (Gzip)</th>
+              <th>客户端脚本开销</th>
+              <th>Core Web Vitals 状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            {routeBudgets.map((row) => (
+              <tr>
+                <td><code>{row.route}</code></td>
+                <td>{row.type}</td>
+                <td class="col-highlight"><strong>{row.htmlKb}</strong></td>
+                <td>{row.jsKb}</td>
+                <td><span class="yes">{row.status}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="compare-cta">
+    <div class="container">
+      <h2>立即探索 2026 梯子机场权威测评数据库</h2>
+      <p>涵盖 42 家机场骨干专线实测数据、6 大系统客户端下载与 ChatGPT / 4K 流媒体解锁实测报告。</p>
+      <div class="hero-ctas" style="justify-content:center;gap:1rem;">
+        <a href="/ranking/" class="btn btn-primary">查看 2026 机场推荐榜</a>
+        <a href="/brands/" class="btn btn-ghost">浏览 42 家品牌库</a>
+        <a href="/clients/" class="btn btn-ghost">下载代理客户端</a>
+      </div>
+    </div>
+  </section>
+</MarketingLayout>

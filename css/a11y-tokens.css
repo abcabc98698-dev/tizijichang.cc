@@ -1,6 +1,6 @@
 /* AA contrast refinements for terminal tokens, muted-2 and accents.
    Loaded after style.css; edit or delete freely when you retheme. */
-[data-palette="varsha"] { --muted-2: #7d7c74; --term-muted: #85847c; }
+[data-palette="TiziUI"] { --muted-2: #7d7c74; --term-muted: #85847c; }
 [data-palette="taat"] { --muted-2: #7c7b73; --term-muted: #828179; --term-dim: #828179; }
 [data-palette="catppuccin"] { --muted-2: #7c7d90; --term-muted: #878697; }
 [data-palette="catppuccin-latte"] { --muted-2: #6a6c7c; --accent: #1e56c8; --term-muted: #606272; --term-prompt: #1e5ad5; --term-cmd: #336f2c; --term-str: #825825; --term-dim: #5e6075; --term-blue: #1e5ad5; --term-green-bright: #336f2c; }

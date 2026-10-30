@@ -1,0 +1,153 @@
+---
+import MarketingLayout from '../components/MarketingLayout.astro';
+import { SITE_CONFIG } from '../config/site';
+import { TOP10_BRANDS } from '../data/brands';
+
+const title = `免费梯子节点风险揭秘与平价机场推荐 (低至¥5.6/月与永久不限时) — ${SITE_CONFIG.name}`;
+const description = `深度揭秘网上所谓的“免费梯子”、“免费节点”的安全陷阱（钓鱼窃密、注入木马、断连频繁），并为您盘点合规、稳定、极具性价比的平价替代方案（如99元/年与永久不过期包）。`;
+
+const budgetBrands = [
+  TOP10_BRANDS.find((b) => b.slug === 'guangsuyun')!,
+  TOP10_BRANDS.find((b) => b.slug === 'dalaoyun')!,
+  TOP10_BRANDS.find((b) => b.slug === 'feimao')!,
+  TOP10_BRANDS.find((b) => b.slug === 'weifeng')!,
+];
+
+const freeJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: title,
+  description,
+  url: `${SITE_CONFIG.url}/free/`,
+  mainEntity: {
+    '@type': 'ItemList',
+    name: '高性价比平价与永久不限时方案精选',
+    numberOfItems: budgetBrands.length,
+    itemListElement: budgetBrands.map((b, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      name: `${b.name} (${b.enName}) — ${b.startingPrice}`,
+      url: `${SITE_CONFIG.url}/brands/${b.slug}/`,
+    })),
+  },
+};
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  canonicalPath="/free/"
+  activeNav="free"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(freeJsonLd)} />
+
+  <section class="compare-hero">
+    <div class="container">
+      <a href="/" class="back-link">&larr; 返回网站首页</a>
+      <span class="page-overline">Security Alert & Budget Picks · 专题栏目</span>
+      <h1>免费梯子节点安全风险揭秘与高性价比平价方案</h1>
+      <p class="hero-sub">
+        “免费的往往是最贵的”。网上铺天盖地的免费翻墙工具、Telegram 抓取的公共节点与破解版客户端，背后往往隐藏着巨大隐私泄露与安全隐患。用极低成本享受正规商业专线，才是明智之选。
+      </p>
+    </div>
+  </section>
+
+  <section class="compare-summary">
+    <div class="container">
+
+      <!-- 栏目说明：免费陷阱揭秘 -->
+      <div style="margin-bottom: 3.5rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">一、为什么说使用“免费节点”极其危险？</h2>
+        <div class="compare-cards">
+          <div class="compare-card">
+            <span class="compare-card-tag" style="background:rgba(239, 68, 68, 0.15);color:#ef4444;">安全隐患 01</span>
+            <h3>中间人攻击 (MITM) 与凭据窃取</h3>
+            <p style="color:var(--text-secondary);font-size:0.86rem;line-height:1.5;">境外服务器与带宽成本极其高昂，无人会长期免费提供高质量专网。很多免费节点由黑灰产运营，在出口节点架设抓包嗅探，窃取用户的 Google/GitHub 账号、加密货币钱包与信用卡信息。</p>
+          </div>
+          <div class="compare-card">
+            <span class="compare-card-tag" style="background:rgba(239, 68, 68, 0.15);color:#ef4444;">安全隐患 02</span>
+            <h3>恶意 DNS 劫持与诱导钓鱼</h3>
+            <p style="color:var(--text-secondary);font-size:0.86rem;line-height:1.5;">免费节点普遍篡改上游 DNS 解析，将用户对正常官网的访问定向至伪造的高仿钓鱼网站或博彩广告页，严重破坏浏览体验与财产安全。</p>
+          </div>
+          <div class="compare-card">
+            <span class="compare-card-tag" style="background:rgba(239, 68, 68, 0.15);color:#ef4444;">体验隐患 03</span>
+            <h3>几万人挤一条水管，频繁断流</h3>
+            <p style="color:var(--text-secondary);font-size:0.86rem;line-height:1.5;">公共免费节点生命周期通常只有几小时或几天，且万人共享极低带宽，看网页文字都极为卡顿，根本无法满足工作、学习与影音需求。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 平价替代方案：每天只需几毛钱 -->
+      <div style="margin-bottom: 3.5rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <h2 style="font-size:1.75rem;margin:0;color:var(--text-primary);">二、替代免费节点的安全平价专线精选 (低至 ¥5.6/月)</h2>
+          <a href="/ranking/" class="btn btn-ghost btn-sm">查看排行榜 &rarr;</a>
+        </div>
+
+        <div class="compare-cards">
+          {budgetBrands.map((brand) => (
+            <div class={`compare-card ${brand.rank === 1 ? 'highlight' : ''}`}>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                <span class="compare-card-tag" style="margin:0;">#{brand.rank} {brand.lineType.split('（')[0]}</span>
+                <strong style="color:var(--accent);font-size:0.86rem;">{brand.startingPrice}</strong>
+              </div>
+              <h3 style="margin:0.25rem 0;">{brand.name} ({brand.enName})</h3>
+              <p style="color:var(--text-secondary);font-size:0.86rem;line-height:1.5;margin:0.4rem 0 0.8rem;">{brand.uniqueSellingPoint}</p>
+
+              <div style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:0.8rem;">
+                <div>🏷️ 专属优惠码：<code>{brand.promoCode || '无优惠码/直接购买'}</code></div>
+                <div>🛡️ 运营资历：{brand.establishedYear} 年成立</div>
+              </div>
+
+              <div style="display:flex;gap:0.5rem;margin-top:auto;">
+                <a href={`/brands/${brand.slug}/`} class="btn btn-ghost btn-sm" style="flex:1;justify-content:center;">评测详情</a>
+                <a href={brand.affLink} target="_blank" rel="nofollow sponsored noopener" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">官网直达 ↗</a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- 特别推荐：永久不过期套餐 -->
+      <div style="margin-bottom: 3.5rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">三、低频备用用户的终极解法：永久不过期流量包</h2>
+        <div style="background:var(--card-bg, #161b22);border:1px solid #10b98155;border-radius:8px;padding:1.5rem;line-height:1.7;color:var(--text-secondary);font-size:0.92rem;">
+          <p style="margin-top:0;">
+            对于只是偶尔查文献、下代码或备用防断网的用户，按月订购月付包容易造成流量浪费。此时<strong>「永久不限时套餐」</strong>是最划算的方案：
+          </p>
+          <div style="display:flex;flex-wrap:wrap;gap:1.5rem;align-items:center;margin-top:1rem;">
+            <div>
+              <strong style="color:var(--text-primary);font-size:1.1rem;">光速云 · 致敬斯诺克 147 永久套餐</strong>
+              <div style="color:var(--accent);font-weight:700;margin:0.25rem 0;">¥147 一次性付费 · 247GB 永久不过期</div>
+              <div style="font-size:0.84rem;">全 IEPL 物理专线，1 倍率扣费，单节点峰值高达 2.5Gbps，用完为止永不清零。</div>
+            </div>
+            <a href="/brands/guangsuyun/" class="btn btn-primary" style="margin-left:auto;">查看光速云评测详情 &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 延伸阅读导航 -->
+      <div>
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">四、平价与避坑延伸阅读</h2>
+        <div class="compare-cards">
+          <div class="compare-card">
+            <h3>📑 2026 梯子机场选型避坑指南</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">详解如何辨别真假专线、避开虚标倍率套路与按量付费规则。</p>
+            <a href="/blog/2026-airport-selection-guide/" class="card-link" style="margin-top:0.5rem;">查阅选型避坑指南 &rarr;</a>
+          </div>
+          <div class="compare-card">
+            <h3>🌐 42 家机场价格排行榜</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">按起步价格从低到高排列，支持快速筛选 10 元以内的平价入门机场。</p>
+            <a href="/ranking/" class="card-link" style="margin-top:0.5rem;">查阅完整排行榜 &rarr;</a>
+          </div>
+          <div class="compare-card">
+            <h3>📱 跨平台免费开源客户端大全</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">只推荐纯净、无广告、经过开源审计的安全正版代理工具。</p>
+            <a href="/clients/" class="card-link" style="margin-top:0.5rem;">查看客户端大全 &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</MarketingLayout>

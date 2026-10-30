@@ -1,45 +1,55 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>varsha: launch beautiful websites faster</title>
+        <title>梯子机场 (tizijichang.cc) — 2026 稳定便宜 IEPL/IPLC 专线机场推荐、42家晚高峰测速与客户端大全</title>
         <meta
             name="description"
-            content="varsha is a premium Astro website starter template by myndlabs.tech with built-in docs, blog, design system, dark mode, SEO, and i18n — ship production sites in minutes."
+            content="梯子机场 (tizijichang.cc) 专业网络可观测性评测实验室：深度收录 42 家主流 IEPL/IPLC 专线梯子机场，第一主推 2020 老牌「光速云」（优惠码 AMM，99元/年或147元永久247GB），提供非晚高峰与晚高峰实测、ChatGPT/Claude/Netflix 4K 解锁矩阵及 Clash Verge Rev / Shadowrocket 全平台客户端教程。"
         />
-        <meta name="theme-color" content="#f0eee9" />
-        <link rel="canonical" href="https://varsha.myndlabs.tech/" />
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+        <meta name="theme-color" content="#0d0e11" />
+        <link rel="canonical" href="https://tizijichang.cc/" />
+        <link rel="sitemap" href="/sitemap.xml" />
+        <link rel="alternate" type="application/rss+xml" title="梯子机场评测专栏 RSS" href="/rss.xml" />
+
+        <!-- 搜索引擎所有权验证代码预留 (Google / Bing / 百度 / 神马) -->
+        <!-- <meta name="google-site-verification" content="" /> -->
+        <!-- <meta name="msvalidate.01" content="" /> -->
+        <!-- <meta name="baidu-site-verification" content="" /> -->
+        <!-- <meta name="shenma-site-verification" content="" /> -->
 
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="varsha" />
-        <meta property="og:title" content="varsha: launch beautiful websites faster" />
+        <meta property="og:site_name" content="梯子机场" />
+        <meta property="og:title" content="梯子机场 (tizijichang.cc) — 2026 专线机场推荐榜与 42 家实测实验室" />
         <meta
             property="og:description"
-            content="A premium Astro website starter with built-in docs, blog, design system, dark mode, and SEO. Ship production sites in minutes."
+            content="收录 42 家 IEPL/IPLC 专线机场实测数据、套餐价格与优惠码，第一主推老牌光速云，涵盖 Windows/Mac/iOS/Android/软路由 6 大平台代理客户端下载与配置指南。"
         />
-        <meta property="og:url" content="https://varsha.myndlabs.tech/" />
+        <meta property="og:url" content="https://tizijichang.cc/" />
         <meta
             property="og:image"
-            content="https://varsha.myndlabs.tech/assets/og-card-v8.png"
+            content="https://tizijichang.cc/assets/og-card-v8.png"
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="varsha. Premium website starter by myndlabs." />
+        <meta property="og:image:alt" content="梯子机场 (tizijichang.cc) — 2026 专线机场评测与客户端导航" />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="varsha: launch beautiful websites faster" />
+        <meta name="twitter:title" content="梯子机场 (tizijichang.cc) — 2026 专线机场推荐与 42 家晚高峰测速" />
         <meta
             name="twitter:description"
-            content="A premium Astro website starter with built-in docs, blog, design system, dark mode, and SEO."
+            content="42 家 IEPL/IPLC 专线机场深度评测、流媒体与 ChatGPT 解锁实测矩阵及 6 大系统客户端指南。"
         />
         <meta
             name="twitter:image"
-            content="https://varsha.myndlabs.tech/assets/og-card-v8.png"
+            content="https://tizijichang.cc/assets/og-card-v8.png"
         />
-        <meta name="twitter:image:alt" content="varsha. Premium website starter by myndlabs." />
+        <meta name="twitter:image:alt" content="梯子机场 (tizijichang.cc)" />
 
-        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.png?v=16" />
+        <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.png" />
         <link rel="apple-touch-icon" href="/assets/logo.png" />
         <link
             rel="preload"
@@ -50,17 +60,16 @@
         />
         <script>
             (function () {
-                var saved = localStorage.getItem("varsha-palette");
+                var saved = localStorage.getItem("site-palette");
                 var system = window.matchMedia("(prefers-color-scheme: dark)").matches
                     ? "tokyo-night"
                     : "tokyo-night-day";
                 document.documentElement.setAttribute("data-palette", saved || system);
             })();
         </script>
-        <link rel="stylesheet" href="/css/style.css?v=45" />
-        <link rel="stylesheet" href="/css/a11y-tokens.css?v=1" />
+        <link rel="stylesheet" href="/css/style.css" />
+        <link rel="stylesheet" href="/css/a11y-tokens.css" />
         <style>
-            /* Browser preview mock for the website showcase */
             .browser-mock {
                 background: var(--bg-elevated, #1a1b26);
                 border-radius: 12px;
@@ -115,7 +124,6 @@
                 min-height: 340px;
                 position: relative;
             }
-            /* Simulated website preview inside the browser */
             .site-preview {
                 padding: 28px 32px;
                 color: var(--ink, #1f2f66);
@@ -124,7 +132,7 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-bottom: 36px;
+                margin-bottom: 28px;
             }
             .site-preview-brand {
                 font-size: 14px;
@@ -134,16 +142,16 @@
             }
             .site-preview-links {
                 display: flex;
-                gap: 18px;
+                gap: 14px;
                 font-size: 11px;
                 color: var(--muted, #68709a);
             }
             .site-preview-links span {
-                opacity: 0.7;
+                opacity: 0.85;
             }
             .site-preview-hero {
                 text-align: center;
-                padding: 20px 0 28px;
+                padding: 12px 0 22px;
             }
             .site-preview-eyebrow {
                 display: inline-block;
@@ -154,12 +162,12 @@
                 background: var(--bg-elevated, #d8d9e0);
                 padding: 4px 10px;
                 border-radius: 20px;
-                margin-bottom: 16px;
+                margin-bottom: 14px;
             }
             .site-preview-h1 {
-                font-size: 26px;
+                font-size: 24px;
                 font-weight: 700;
-                line-height: 1.15;
+                line-height: 1.2;
                 color: var(--ink, #1f2f66);
                 margin: 0 0 10px;
                 font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, sans-serif);
@@ -173,8 +181,8 @@
             .site-preview-sub {
                 font-size: 12px;
                 color: var(--muted, #68709a);
-                max-width: 380px;
-                margin: 0 auto 20px;
+                max-width: 400px;
+                margin: 0 auto 18px;
                 line-height: 1.5;
                 font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, sans-serif);
             }
@@ -182,13 +190,14 @@
                 display: flex;
                 gap: 10px;
                 justify-content: center;
-                margin-bottom: 32px;
+                margin-bottom: 24px;
             }
             .site-preview-btn {
-                padding: 7px 18px;
+                padding: 7px 16px;
                 border-radius: 6px;
                 font-size: 11px;
                 font-weight: 600;
+                text-decoration: none;
                 font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, sans-serif);
             }
             .site-preview-btn.primary {
@@ -237,7 +246,6 @@
                 line-height: 1.4;
                 font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, sans-serif);
             }
-            /* Showcase cards replacing video grid */
             .showcase-grid {
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -267,43 +275,29 @@
                 overflow: hidden;
             }
             .showcase-thumb-inner {
-                width: 82%;
-                height: 78%;
+                width: 86%;
+                height: 82%;
                 background: var(--bg);
                 border-radius: 8px;
                 border: 1px solid var(--line-strong);
                 padding: 14px;
                 display: flex;
                 flex-direction: column;
+                justify-content: space-between;
                 gap: 8px;
-            }
-            .showcase-thumb-bar {
-                height: 8px;
-                border-radius: 4px;
-                background: var(--bg-elevated);
-            }
-            .showcase-thumb-bar.accent { background: var(--accent); width: 60%; }
-            .showcase-thumb-bar.muted { width: 90%; opacity: 0.4; }
-            .showcase-thumb-bar.short { width: 40%; opacity: 0.4; }
-            .showcase-thumb-grid {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 6px;
-                flex: 1;
-            }
-            .showcase-thumb-grid > div {
-                background: var(--bg-elevated);
-                border-radius: 4px;
+                font-family: var(--font-mono, monospace);
+                font-size: 11px;
             }
             .showcase-copy {
                 padding: 18px 20px;
             }
             .showcase-meta {
                 font-size: 12px;
-                color: var(--muted);
+                color: var(--accent);
                 text-transform: uppercase;
                 letter-spacing: 0.8px;
                 margin-bottom: 6px;
+                font-weight: 600;
             }
             .showcase-title {
                 font-size: 18px;
@@ -316,7 +310,6 @@
                 margin: 0;
                 line-height: 1.5;
             }
-            /* Component showcase grid replacing agent grid */
             .component-grid {
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -325,10 +318,13 @@
             .component-card {
                 border: 1px solid var(--line-strong);
                 border-radius: 10px;
-                padding: 24px 16px;
+                padding: 20px 14px;
                 text-align: center;
                 background: var(--bg-elevated);
                 transition: border-color 0.2s, transform 0.2s;
+                text-decoration: none;
+                color: inherit;
+                display: block;
             }
             .component-card:hover {
                 border-color: var(--accent);
@@ -343,13 +339,20 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                margin: 0 auto 12px;
-                font-size: 18px;
+                margin: 0 auto 10px;
+                font-size: 15px;
                 font-weight: 700;
             }
             .component-card span {
-                font-size: 14px;
-                font-weight: 500;
+                font-size: 13px;
+                font-weight: 600;
+                display: block;
+            }
+            .component-card small {
+                font-size: 11px;
+                color: var(--muted);
+                display: block;
+                margin-top: 4px;
             }
             @media (max-width: 768px) {
                 .site-preview-features {
@@ -363,17 +366,18 @@
         {
             "@context": "https://schema.org",
             "@type": "WebSite",
-            "name": "varsha",
-            "url": "https://varsha.myndlabs.tech/",
-            "description": "varsha is a premium Astro website starter template by myndlabs.tech with built-in docs, blog, design system, dark mode, SEO, and i18n.",
+            "name": "梯子机场",
+            "alternateName": "tizijichang.cc",
+            "url": "https://tizijichang.cc/",
+            "description": "2026 专业梯子机场评测与网络可观测性实验室，收录 42 家 IEPL/IPLC 专线机场晚高峰测速、套餐价格、优惠码与 6 大平台代理客户端教程。",
             "publisher": {
                 "@type": "Organization",
-                "name": "myndlabs",
-                "url": "https://myndlabs.tech"
+                "name": "梯子机场评测实验室",
+                "url": "https://tizijichang.cc/"
             },
             "potentialAction": {
                 "@type": "SearchAction",
-                "target": "https://varsha.myndlabs.tech/docs/?q={search_term_string}",
+                "target": "https://tizijichang.cc/brands/?q={search_term_string}",
                 "query-input": "required name=search_term_string"
             }
         }
@@ -381,36 +385,31 @@
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            "name": "varsha",
-            "applicationCategory": "DeveloperApplication",
-            "operatingSystem": "Cross-platform",
-            "description": "A premium website starter template built on Astro 7 and Starlight.",
-            "url": "https://varsha.myndlabs.tech/",
-            "author": {
-                "@type": "Person",
-                "name": "Yethikrishna R",
-                "url": "https://founder.myndlabs.tech"
-            },
-            "publisher": {
-                "@type": "Organization",
-                "name": "myndlabs",
-                "url": "https://myndlabs.tech"
-            },
-            "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
-            }
+            "@type": "ItemList",
+            "name": "2026 梯子机场 Top 10 推荐榜",
+            "itemListOrder": "https://schema.org/ItemListOrderAscending",
+            "numberOfItems": 10,
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "光速云 (IEPL+企业内网双专线 · 2020老牌第一主推)", "url": "https://tizijichang.cc/brands/guangsuyun/" },
+                { "@type": "ListItem", "position": 2, "name": "微风网络 (入门高性价比 IEPL + VLESS)", "url": "https://tizijichang.cc/brands/weifeng/" },
+                { "@type": "ListItem", "position": 3, "name": "暮光加速 (BGP智能调度 + 多设备跨平台)", "url": "https://tizijichang.cc/brands/muguang/" },
+                { "@type": "ListItem", "position": 4, "name": "飞猫云 (专属客户端免配置 · 学生版84元/年)", "url": "https://tizijichang.cc/brands/feimao/" },
+                { "@type": "ListItem", "position": 5, "name": "大佬云 (5.6元/月极限平价 IEPL + VLESS)", "url": "https://tizijichang.cc/brands/dalaoyun/" },
+                { "@type": "ListItem", "position": 6, "name": "星岛梦 (2020老牌 IEPL · 100元永久不限时包)", "url": "https://tizijichang.cc/brands/xingdaomeng/" },
+                { "@type": "ListItem", "position": 7, "name": "二猫云 (全线 IEPL 专线 · 89元/年与99元不限时)", "url": "https://tizijichang.cc/brands/ermao/" },
+                { "@type": "ListItem", "position": 8, "name": "无忧链接 (79元/年超低门槛 · TikTok跨区直连)", "url": "https://tizijichang.cc/brands/wuyou/" },
+                { "@type": "ListItem", "position": 9, "name": "唯兔云 (IPLC专线 · 14.9元月付/160元200G不限时)", "url": "https://tizijichang.cc/brands/weitu/" },
+                { "@type": "ListItem", "position": 10, "name": "Firefly (IPLC 原生IP · 香港547Mbps高速实测)", "url": "https://tizijichang.cc/brands/firefly/" }
+            ]
         }
         </script>
     </head>
     <body>
         <header class="site-header">
             <nav class="nav" aria-label="Primary navigation">
-                <a class="brand" href="/" aria-label="varsha home">
+                <a class="brand" href="/" aria-label="梯子机场 首页">
                     <span class="brand-logo" aria-hidden="true"></span>
-                    <span>varsha</span>
+                    <span>梯子机场</span>
                 </a>
                 <details class="nav-menu">
                     <summary class="nav-menu-button" aria-label="Open navigation">
@@ -419,34 +418,36 @@
                         <span></span>
                     </summary>
                     <div class="nav-menu-panel">
-                        <a href="/">Home</a>
-                        <a href="#features">Features</a>
-                        <a href="#showcase">Showcase</a>
-                        <a href="/docs/">Docs</a>
-                        <a href="/blog/">Blog</a>
-                        <a href="https://github.com/yethikrishna/web-ui-template">GitHub</a>
-                        <a href="https://instagram.com/yethikrishnar">Instagram</a>
+                        <a href="/">首页</a>
+                        <a href="/jichang/">机场推荐</a>
+                        <a href="/vpn/">VPN对比</a>
+                        <a href="/clash/">Clash专区</a>
+                        <a href="/nodes/">节点测速</a>
+                        <a href="/tizi/">梯子指南</a>
+                        <a href="/free/">免费平价</a>
+                        <a href="/tutorial/">使用教程</a>
+                        <a href="/brands/">42家品牌库</a>
+                        <a href="/compare/">测速对比</a>
+                        <a href="/clients/">客户端大全</a>
+                        <a href="/docs/">教程百科</a>
+                        <a href="/blog/">评测专栏</a>
+                        <a href="/brands/guangsuyun/">首选推荐 · 光速云</a>
                     </div>
                 </details>
                 <div class="nav-links">
-                    <a href="/">Home</a>
-                    <a href="#features">Features</a>
-                    <a href="#showcase">Showcase</a>
-                    <a href="/docs/">Docs</a>
-                    <a href="/blog/">Blog</a>
+                    <a href="/">首页</a>
+                    <a href="/jichang/">机场推荐</a>
+                    <a href="/vpn/">VPN</a>
+                    <a href="/clash/">Clash</a>
+                    <a href="/nodes/">节点</a>
+                    <a href="/brands/">品牌库</a>
+                    <a href="/compare/">测速对比</a>
+                    <a href="/clients/">客户端</a>
+                    <a href="/docs/">百科</a>
+                    <a href="/blog/">专栏</a>
                 </div>
                 <div class="nav-tools">
-                    <a class="nav-icon-link" href="https://github.com/yethikrishna/web-ui-template" aria-label="varsha on GitHub">
-                        <svg viewBox="0 0 16 16" aria-hidden="true">
-                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.64 7.64 0 0 1 8 3.87c.68 0 1.36.09 2 .26 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
-                        </svg>
-                    </a>
-                    <a class="nav-icon-link" href="https://instagram.com/yethikrishnar" aria-label="varsha on Instagram">
-                        <svg viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M12 2.163c3.204 0 3.584.012 4.849.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.849.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" fill="currentColor"/>
-                        </svg>
-                    </a>
-                    <a class="nav-cta" href="/docs/install/">Get started</a>
+                    <a class="nav-cta" href="/brands/guangsuyun/">首选推荐 · 光速云</a>
                 </div>
             </nav>
         </header>
@@ -457,59 +458,54 @@
                     <div class="hero-copy">
                     <p class="eyebrow">
                         <span class="status-dot dot-done"></span>
-                        Premium website starter by myndlabs.tech
+                        2026 网络可观测性评测实验室 · 收录 42 家专线品牌
                     </p>
-                    <h1>Launch beautiful websites faster.</h1>
+                    <h1>2026 稳定便宜梯子机场推荐与实测指南。</h1>
                     <p class="hero-lede">
-                        varsha is a premium Astro starter template with a
-                        polished design system, built-in <strong>docs</strong>,
-                        <strong>blog</strong>, and <strong>dark mode</strong> out
-                        of the box. Ship production-ready marketing sites,
-                        documentation portals, and personal pages in minutes
-                        instead of weeks.
+                        <strong>梯子机场 (tizijichang.cc)</strong> 独立整理 <strong>42 家</strong>主流 IEPL / IPLC 专线机场实测档案、套餐价格与最新优惠码。第一主推 2020 年老牌双专线<strong>「光速云」</strong>（轻量版 99 元/年折合 8.25 元/月，或斯诺克 147 元 247GB 永久套餐），助您精准避坑跑路盘，稳定解锁 <strong>ChatGPT / Claude</strong> 与 <strong>Netflix 4K</strong>。
                     </p>
                     <div class="hero-actions">
-                        <a class="button button-primary" href="/docs/install/"
-                            >Get started</a
+                        <a class="button button-primary" href="/brands/guangsuyun/"
+                            >查看 #1 光速云评测</a
                         >
-                        <a class="button button-secondary" href="/docs/"
-                            >View docs</a
+                        <a class="button button-secondary" href="/brands/"
+                            >浏览 42 家品牌库</a
                         >
                     </div>
-                    <div class="install-panel" aria-label="Quick start command">
-                        <div class="install-methods" role="group" aria-label="Install method">
-                            <span class="install-label">Create a new project</span>
+                    <div class="install-panel" aria-label="热门机场专属优惠码快捷复制">
+                        <div class="install-methods" role="group" aria-label="选择品牌优惠码">
+                            <span class="install-label">快捷复制优惠码</span>
                             <button
                                 class="install-method is-active"
                                 type="button"
-                                data-command="npm create varsha@latest"
+                                data-command="AMM"
                                 data-size="compact"
                                 aria-pressed="true"
-                            >npm</button>
+                            >#1 光速云 (AMM)</button>
                             <button
                                 class="install-method"
                                 type="button"
-                                data-command="pnpm create varsha@latest"
+                                data-command="flat888"
                                 data-size="normal"
                                 aria-pressed="false"
-                            >pnpm</button>
+                            >#2 微风 (flat888)</button>
                             <button
                                 class="install-method"
                                 type="button"
-                                data-command="yarn create varsha"
+                                data-command="flycat888"
                                 data-size="normal"
                                 aria-pressed="false"
-                            >yarn</button>
+                            >#4 飞猫 (flycat888)</button>
                         </div>
-                        <div class="install-card" aria-label="Create command">
-                            <span class="prompt">$</span>
+                        <div class="install-card" aria-label="专属优惠码">
+                            <span class="prompt">CODE</span>
                             <code id="install-cmd" class="is-compact"
-                                >npm create varsha@latest</code
+                                >AMM</code
                             >
-                            <button id="copy-btn" type="button" data-copy-target="install-cmd">Copy</button>
+                            <button id="copy-btn" type="button" data-copy-target="install-cmd">复制优惠码</button>
                         </div>
                     </div>
-                    <p class="hero-note">Astro-based · TypeScript-ready · Zero-config dark mode · No lock-in, deploy anywhere</p>
+                    <p class="hero-note">数据分类透明标注（Measured 实测 / Vendor 官方声明 / Historical 历史档案） · 支持按「/」或「T」键切换 18 套主题</p>
                 </div>
                 </div>
 
@@ -519,7 +515,7 @@
                         class="browser-mock"
                         id="site-mock"
                         role="img"
-                        aria-label="Browser preview of a website built with varsha, showing a landing page with hero section, feature cards, and navigation"
+                        aria-label="Dark Network Observatory 实验室监控面板：展示第一主推光速云 IEPL 双专线节点延迟、下载带宽与流媒体解锁状态"
                     >
                         <div class="browser-chrome">
                             <div class="browser-dots">
@@ -527,51 +523,50 @@
                             </div>
                             <div class="browser-url-bar">
                                 <span class="lock">&#128274;</span>
-                                <span class="url-text">founder.myndlabs.tech</span>
+                                <span class="url-text">tizijichang.cc/brands/guangsuyun/</span>
                             </div>
                         </div>
                         <div class="browser-content">
                             <div class="site-preview">
                                 <div class="site-preview-nav">
-                                    <div class="site-preview-brand">varsha</div>
+                                    <div class="site-preview-brand">OBSERVATORY // #1 光速云 (2020老牌)</div>
                                     <div class="site-preview-links">
-                                        <span>Features</span>
-                                        <span>Docs</span>
-                                        <span>Blog</span>
-                                        <span>Pricing</span>
+                                        <span>VLESS</span>
+                                        <span>IEPL+企业内网</span>
+                                        <span>2.5Gbps峰值</span>
                                     </div>
                                 </div>
                                 <div class="site-preview-hero">
-                                    <span class="site-preview-eyebrow">Built with varsha</span>
-                                    <h2 class="site-preview-h1">Ship your next <span class="accent-word">idea</span> in minutes.</h2>
-                                    <p class="site-preview-sub">A production-ready starter with docs, blog, and a beautiful design system baked in.</p>
+                                    <span class="site-preview-eyebrow">TOP 1 FEATURED · 优惠码 AMM</span>
+                                    <h2 class="site-preview-h1">¥99/年 (69G/月) · <span class="accent-word">¥147 享 247G 永久不过期</span></h2>
+                                    <p class="site-preview-sub">香港×20 / 日本×10 / 新加坡×10 / 美国×10 / 台湾×5 等 12+ 国家地区，自研客户端 + Clash/小火箭通用订阅双支持。</p>
                                     <div class="site-preview-ctas">
-                                        <span class="site-preview-btn primary">Get started</span>
-                                        <span class="site-preview-btn secondary">View docs</span>
+                                        <a href="/brands/guangsuyun/" class="site-preview-btn primary">查看光速云完整实测</a>
+                                        <a href="/ranking/" class="site-preview-btn secondary">Top 10 排行榜</a>
                                     </div>
                                 </div>
                                 <div class="site-preview-features">
                                     <div class="site-preview-feature">
                                         <div class="site-preview-feature-icon">&#9889;</div>
-                                        <p class="site-preview-feature-title">Blazing fast</p>
-                                        <p>Astro islands ship zero JS by default.</p>
+                                        <p class="site-preview-feature-title">香港 22ms / 529Mbps</p>
+                                        <p>新加坡 387Mbps · 日本 135Mbps · 全节点 1 倍率不限设备。</p>
                                     </div>
                                     <div class="site-preview-feature">
                                         <div class="site-preview-feature-icon">&#9790;</div>
-                                        <p class="site-preview-feature-title">Dark mode</p>
-                                        <p>18 themes with system preference detection.</p>
+                                        <p class="site-preview-feature-title">AI 与 4K 流媒体</p>
+                                        <p>支持 Claude / Netflix / Disney+ / TikTok，ChatGPT 按节点切换。</p>
                                     </div>
                                     <div class="site-preview-feature">
                                         <div class="site-preview-feature-icon">&#9998;</div>
-                                        <p class="site-preview-feature-title">Blog & Docs</p>
-                                        <p>Content collections ready out of the box.</p>
+                                        <p class="site-preview-feature-title">双模客户端兼容</p>
+                                        <p>小白用官方自研端一键连，进阶导 Clash Verge Rev / 小火箭。</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <figcaption>
-                        A website built with varsha. Your brand, your content, deployed in minutes.
+                        Dark Network Observatory 实测档案：第一主推「光速云」（2020年运营 · 支付宝/微信/USDT · 优惠码 AMM）。
                     </figcaption>
                 </figure>
                 </div>
@@ -580,110 +575,96 @@
             <section class="section" id="features" aria-labelledby="features-title">
                 <div class="section-heading-wide">
                     <div>
-                        <p class="section-kicker"># features</p>
-                        <h2 id="features-title">Everything you need to launch, nothing you don't.</h2>
+                        <p class="section-kicker"># observatory standards</p>
+                        <h2 id="features-title">专业网络可观测性标准，拒绝盲目吹嘘与跑路盘。</h2>
                     </div>
                     <p>
-                        varsha ships with a curated set of features that cover 90% of website
-                        projects out of the box. Focus on your content and product; the boring
-                        infrastructure is already done.
+                        不同于千篇一律复制粘贴的营销软文，本站对全部 42 家机场严格区分「Measured 实测数据」「Vendor 品牌声明」与「Historical 历史档案」，从价格梯度、专线架构、协议抗封锁与客户端兼容四个维度为您提供客观决策依据。
                     </p>
                 </div>
                 <div class="access-grid">
                     <article class="access-card">
-                        <span class="access-label">design</span>
-                        <h3>Beautiful by default</h3>
+                        <span class="access-label">top 1 · 第一主推</span>
+                        <h3>光速云：2020老牌双专线</h3>
                         <p>
-                            A thoughtful design system with 18 hand-picked color palettes,
-                            typography scales, and spacing tokens. Your site looks premium from day one.
+                            IEPL 专线 + 企业级内网双线路架构，VLESS 协议，轻量版 99 元/年（69GB/月），致敬斯诺克 147 元 247GB 永久不过期套餐，自研客户端与 Clash 订阅双支持。
                         </p>
                     </article>
                     <article class="access-card">
-                        <span class="access-label">performance</span>
-                        <h3>Fast, really fast</h3>
+                        <span class="access-label">iepl / iplc</span>
+                        <h3>真物理内网专线优先</h3>
                         <p>
-                            Built on Astro's islands architecture. Ship near-zero JavaScript
-                            by default, with static HTML and small client-side scripts.
+                            重点筛选如光速云、微风网络、星岛梦、二猫云、一翻云、Firefly 等采用 IEPL/IPLC 跨境内网专线的品牌，跨过公网 GFW 拥堵，大幅降低晚高峰丢包与 QoS 限速。
                         </p>
                     </article>
                     <article class="access-card">
-                        <span class="access-label">accessibility</span>
-                        <h3>Accessible</h3>
+                        <span class="access-label">protocols</span>
+                        <h3>VLESS / Hysteria 2 现代协议</h3>
                         <p>
-                            Semantic HTML, keyboard navigation, ARIA attributes, and color
-                            contrast built into every component. WCAG 2.1 AA by default.
+                            全面追踪 VLESS、VLESS-Reality、Hysteria 2 与 Trojan 协议支持情况，相比传统老旧协议具备更强的特征伪装能力与更高的单线程吞吐效率。
                         </p>
                     </article>
                     <article class="access-card">
-                        <span class="access-label">theming</span>
-                        <h3>Customizable</h3>
+                        <span class="access-label">client modes</span>
+                        <h3>通用订阅 vs 专属客户端明晰</h3>
                         <p>
-                            CSS custom properties power the entire theme system. Change two
-                            variables and re-skin your entire site in seconds.
+                            明确区分「支持 Clash/小火箭通用订阅导入」（如光速云、梯子云、一翻云）与「仅限官方专属客户端登录」（如飞猫云、Firefly、SOGO云），避免买错无法上软路由。
                         </p>
                     </article>
                     <article class="access-card">
-                        <span class="access-label">seo</span>
-                        <h3>SEO-ready</h3>
+                        <span class="access-label">ai productivity</span>
+                        <h3>ChatGPT / Claude / Gemini 实测</h3>
                         <p>
-                            Open Graph, Twitter cards, canonical URLs, sitemaps, and structured
-                            metadata all preconfigured. Just add your content.
+                            针对 AI 办公高频痛点，逐一标注各品牌对 ChatGPT、Claude、Gemini 的解锁状态（支持 / 视节点而定 / 待核实），重点推荐速界、光速云、一翻云等原生/住宅 IP 方案。
                         </p>
                     </article>
                     <article class="access-card">
-                        <span class="access-label">dark mode</span>
-                        <h3>Dark mode built-in</h3>
+                        <span class="access-label">4k streaming</span>
+                        <h3>Netflix / Disney+ / TikTok 解锁</h3>
                         <p>
-                            18 themes (9 dark, 9 light) with system preference detection
-                            and a keyboard-accessible theme switcher. No extra setup.
+                            涵盖港台日新美五地流媒体解锁矩阵，针对 TikTok 跨区直连、直播带货与社媒运营需求，提供光速云极速版/定制版、无忧链接等针对性方案。
                         </p>
                     </article>
                     <article class="access-card">
-                        <span class="access-label">content</span>
-                        <h3>Blog included</h3>
+                        <span class="access-label">non-expiring</span>
+                        <h3>永久不限时流量包汇总</h3>
                         <p>
-                            Markdown/MDX blog with content collections, tags, RSS feed,
-                            syntax highlighting, and reading time estimates.
+                            专为轻度用户与备用梯需求整理一次性付费不过期套餐：光速云 147元/247GB、二猫云 99元/100GB、星岛梦 100元/100GB、一翻云 100元/100GB、唯兔云 160元/200GB。
                         </p>
                     </article>
                     <article class="access-card">
-                        <span class="access-label">docs</span>
-                        <h3>Docs included</h3>
+                        <span class="access-label">budget tiers</span>
+                        <h3>5.6元至8元平价年付梯队</h3>
                         <p>
-                            Full documentation site template with sidebar navigation, search,
-                            code blocks, and i18n support.
+                            预算极度敏感可选大佬云/闪电鼠（约5.6元/月 60GB）、无忧链接（79元/年）、飞猫云学生版（84元/年）或灵猫网络（85元/年），主力综合体验首选光速云（99元/年 69GB）。
                         </p>
                     </article>
                     <article class="access-card">
-                        <span class="access-label">i18n</span>
-                        <h3>i18n ready</h3>
+                        <span class="access-label">6 platforms</span>
+                        <h3>全平台代理客户端大全</h3>
                         <p>
-                            Built-in internationalization routing and content organization
-                            for multi-language sites from the start.
+                            完整收录 Windows、Android、iPhone/iPad、macOS、Linux 与 OpenWrt 软路由 22 款主流客户端（Clash Verge Rev、v2rayN、FlClash、Shadowrocket、Hiddify、OpenClash 等）。
                         </p>
                     </article>
                     <article class="access-card">
-                        <span class="access-label">components</span>
-                        <h3>Components library</h3>
+                        <span class="access-label">speedtest</span>
+                        <h3>17 张原始节点测速图归档</h3>
                         <p>
-                            Dozens of pre-built components: hero sections, feature grids,
-                            pricing tables, callouts, code blocks, tabs, and more.
+                            内置 2026-08-11 珠海联通 5Gbps/9Gbps 后端实测 PNG 原始证据与 2026-10-19 五地延迟带宽汇总，保留测试时间戳与真实节点波动，绝不美化修图。
                         </p>
                     </article>
                     <article class="access-card">
-                        <span class="access-label">typescript</span>
-                        <h3>TypeScript-ready</h3>
+                        <span class="access-label">risk control</span>
+                        <h3>防跑路与月付实测原则</h3>
                         <p>
-                            Full TypeScript support with strict types out of the box.
-                            Components, content collections, and APIs all fully typed.
+                            对 2025–2026 新开业品牌及后 14 家历史待核实档案给出醒目风险提示，坚持倡导「先买月付或小额包实测本地晚高峰，稳定后再转年付」的理性消费原则。
                         </p>
                     </article>
                     <article class="access-card">
-                        <span class="access-label">deploy</span>
-                        <h3>Deploy anywhere</h3>
+                        <span class="access-label">transparency</span>
+                        <h3>推广合规与数据边界声明</h3>
                         <p>
-                            Static output deploys to Vercel, Netlify, Cloudflare Pages,
-                            GitHub Pages, or any static host. Add an Astro adapter for SSR if needed.
+                            所有含推广注册链接均统一采用 nofollow sponsored 属性并公开披露利益关系；凡无可靠实测的数据一律标注「待核实」，绝不编造虚假参数。
                         </p>
                     </article>
                 </div>
@@ -692,73 +673,78 @@
             <section class="section community-section" id="showcase" aria-labelledby="showcase-title">
                 <div class="section-heading-wide">
                     <div>
-                        <p class="section-kicker"># showcase</p>
-                        <h2 id="showcase-title">Built with varsha.</h2>
+                        <p class="section-kicker"># top featured brands</p>
+                        <h2 id="showcase-title">2026 核心主推三强实测快照。</h2>
                     </div>
                     <p>
-                        See what ships when you start with varsha. From personal sites
-                        to startup landing pages, the starter gets out of the way and
-                        lets your content and brand take center stage.
+                        从 42 家收录品牌中综合运营年限、专线架构、晚高峰吞吐、客户端自由度与价格梯度选出的前三强代表，点击卡片即可进入独立实验室报告页查看完整套餐与测速图。
                     </p>
                 </div>
-                <div class="showcase-grid" aria-label="Sites built with varsha">
-                    <a class="showcase-card" href="https://founder.myndlabs.tech" target="_blank" rel="noopener">
+                <div class="showcase-grid" aria-label="核心主推机场实测卡片">
+                    <a class="showcase-card" href="/brands/guangsuyun/">
                         <div class="showcase-thumb">
                             <div class="showcase-thumb-inner">
-                                <div class="showcase-thumb-bar accent"></div>
-                                <div class="showcase-thumb-bar muted"></div>
-                                <div class="showcase-thumb-bar short"></div>
-                                <div class="showcase-thumb-grid">
-                                    <div></div><div></div><div></div><div></div>
+                                <div style="display:flex;justify-content:space-between;color:var(--accent);font-weight:700;">
+                                    <span>#1 光速云 (2020老牌)</span>
+                                    <span>IEPL+内网双线</span>
+                                </div>
+                                <div>HK 22ms · 529Mbps ██████████</div>
+                                <div>SG 46ms · 387Mbps ████████░░</div>
+                                <div>JP 57ms · 135Mbps █████░░░░░</div>
+                                <div style="display:flex;justify-content:space-between;opacity:0.75;font-size:10px;">
+                                    <span>优惠码: AMM</span>
+                                    <span>¥99/年 · ¥147永久247G</span>
                                 </div>
                             </div>
                         </div>
                         <div class="showcase-copy">
-                            <div class="showcase-meta">Founder Site</div>
-                            <h3 class="showcase-title">founder.myndlabs.tech</h3>
-                            <p class="showcase-desc">A founder landing page with personal brand, newsletter, and product links, built and launched in an afternoon.</p>
+                            <div class="showcase-meta">TOP 1 第一主推 · 综合全能王</div>
+                            <h3 class="showcase-title">光速云 (GuangSuYun)</h3>
+                            <p class="showcase-desc">2020年运营至今，VLESS 协议 + IEPL 与企业级内网双专线，覆盖 12+ 国家地区，自研客户端与 Clash/小火箭通用订阅双支持，99元/年或147元247GB永久不过期。</p>
                         </div>
                     </a>
-                    <a class="showcase-card" href="/docs/">
+                    <a class="showcase-card" href="/brands/weifeng/">
                         <div class="showcase-thumb">
                             <div class="showcase-thumb-inner">
-                                <div class="showcase-thumb-bar" style="background: var(--accent); width: 35%;"></div>
-                                <div style="display:flex; gap:6px; flex:1;">
-                                    <div style="width:30%; background:var(--bg-elevated); border-radius:4px;"></div>
-                                    <div style="flex:1; display:flex; flex-direction:column; gap:4px;">
-                                        <div class="showcase-thumb-bar muted"></div>
-                                        <div class="showcase-thumb-bar muted" style="width:80%;"></div>
-                                        <div class="showcase-thumb-bar short"></div>
-                                    </div>
+                                <div style="display:flex;justify-content:space-between;color:var(--accent);font-weight:700;">
+                                    <span>#2 微风网络 (2023)</span>
+                                    <span>IEPL + VLESS</span>
+                                </div>
+                                <div>HK 25ms · 546Mbps ██████████</div>
+                                <div>SG 43ms · 384Mbps ████████░░</div>
+                                <div>JP 54ms · 131Mbps █████░░░░░</div>
+                                <div style="display:flex;justify-content:space-between;opacity:0.75;font-size:10px;">
+                                    <span>优惠码: flat888</span>
+                                    <span>¥137/年 · ¥27/月200G</span>
                                 </div>
                             </div>
                         </div>
                         <div class="showcase-copy">
-                            <div class="showcase-meta">Documentation</div>
-                            <h3 class="showcase-title">Docs portal</h3>
-                            <p class="showcase-desc">The varsha documentation itself ships as part of the starter, demonstrating sidebar nav, search, and MDX content.</p>
+                            <div class="showcase-meta">TOP 2 高性价比 IEPL 专线</div>
+                            <h3 class="showcase-title">微风网络 (BreezeNet)</h3>
+                            <p class="showcase-desc">入门级高性价比 IEPL 专线 + VLESS 协议，香港实测高达 546Mbps，支持 ChatGPT/Claude 与主流 4K 流媒体，配备 7×24 小时客服，适合学生党与日常主力。</p>
                         </div>
                     </a>
-                    <a class="showcase-card" href="/blog/">
+                    <a class="showcase-card" href="/brands/muguang/">
                         <div class="showcase-thumb">
                             <div class="showcase-thumb-inner">
-                                <div class="showcase-thumb-bar" style="background: var(--accent); width: 50%;"></div>
-                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; flex:1;">
-                                    <div style="background:var(--bg-elevated); border-radius:4px; display:flex; flex-direction:column; gap:4px; padding:6px;">
-                                        <div style="height:6px; background:var(--bg-elevated); border-radius:2px; width:80%;"></div>
-                                        <div style="height:4px; background:var(--bg-elevated); border-radius:2px; width:100%; opacity:0.5;"></div>
-                                    </div>
-                                    <div style="background:var(--bg-elevated); border-radius:4px; display:flex; flex-direction:column; gap:4px; padding:6px;">
-                                        <div style="height:6px; background:var(--bg-elevated); border-radius:2px; width:70%;"></div>
-                                        <div style="height:4px; background:var(--bg-elevated); border-radius:2px; width:90%; opacity:0.5;"></div>
-                                    </div>
+                                <div style="display:flex;justify-content:space-between;color:var(--accent);font-weight:700;">
+                                    <span>#3 暮光加速 (2023)</span>
+                                    <span>BGP智能专线</span>
+                                </div>
+                                <div>HK 26ms · 509Mbps █████████░</div>
+                                <div>SG 43ms · 419Mbps ████████░░</div>
+                                <div>JP 53ms · 150Mbps ██████░░░░</div>
+                                <div style="display:flex;justify-content:space-between;opacity:0.75;font-size:10px;">
+                                    <span>优惠码: muguang5555</span>
+                                    <span>¥109/年 · ¥20/月120G</span>
                                 </div>
                             </div>
                         </div>
                         <div class="showcase-copy">
-                            <div class="showcase-meta">Blog</div>
-                            <h3 class="showcase-title">Blog template</h3>
-                            <p class="showcase-desc">A full blog with MDX posts, tags, author pages, RSS, and syntax-highlighted code blocks ready for your first post.</p>
+                            <div class="showcase-meta">TOP 3 多设备跨平台首选</div>
+                            <h3 class="showcase-title">暮光加速 (Twilight)</h3>
+                            <p class="showcase-desc">主打 BGP 智能调度与专线级出口，覆盖 Win/Mac/iOS/Android/Linux 全平台多设备同时在线，新加坡实测 419Mbps，提供 70GB 至 1500GB 完整流量梯度。</p>
                         </div>
                     </a>
                 </div>
@@ -767,53 +753,43 @@
             <section class="section access-section why-section" id="why">
                 <div class="section-heading-wide">
                     <div>
-                        <p class="section-kicker"># why varsha</p>
-                        <h2>Skip the scaffolding. Start with a site that's already good.</h2>
+                        <p class="section-kicker"># selection methodology</p>
+                        <h2>按场景三步锁定最适合您的专线机场。</h2>
                     </div>
                     <p>
-                        Most starters give you a blank page and a build tool. varsha gives you
-                        a complete, production-grade foundation you can be proud to ship on day one.
-                        Stop configuring and start creating.
+                        不同用户的预算、设备环境与使用场景截然不同。与其盲目寻找「绝对第一」，不如根据您的客户端习惯与流量特征对号入座。
                     </p>
                 </div>
                 <div class="access-grid">
                     <article class="access-card">
-                        <span class="access-label">zero config</span>
-                        <h3>Works out of the box</h3>
+                        <span class="access-label">场景 A · 全能主力与永久包</span>
+                        <h3>追求老牌稳定 + 通用订阅自由</h3>
                         <p>
-                            No webpack configs, no Tailwind setup debates, no dark mode
-                            hacks to reverse-engineer. Clone, install, run, and you have
-                            a beautiful site.
+                            如果您希望机场运营超过 5 年、既能用官方客户端又能把订阅导入 Clash Verge Rev / 小火箭 / 软路由，且想要 99 元/年或 147 元永久不限时包，直接选<strong>光速云</strong>。
                         </p>
-                        <pre><code>$ npm create varsha@latest
-$ cd my-site && npm run dev</code></pre>
+                        <pre><code>首选：#1 光速云 (优惠码 AMM)
+备选：#6 星岛梦 (2020老牌 / ¥96年付)
+客户端：自研端 + Clash / Shadowrocket</code></pre>
                     </article>
                     <article class="access-card">
-                        <span class="access-label">content first</span>
-                        <h3>Markdown & MDX native</h3>
+                        <span class="access-label">场景 B · 零配置纯新手</span>
+                        <h3>不想折腾订阅，下载登录即连</h3>
                         <p>
-                            Write posts and docs in Markdown or MDX with Astro content
-                            collections. Type-safe frontmatter, automatic slugs, and fast builds.
+                            如果您不想研究什么是 YAML 订阅转换、什么是策略组分流，只想在电脑和手机上装个 App 登录账号一键开关，优先选择<strong>专属客户端机场</strong>。
                         </p>
-                        <pre><code>---
-title: "Hello World"
-date: 2025-01-15
-tags: [intro]
----
-
-# Welcome to my blog...</code></pre>
+                        <pre><code>首选：#4 飞猫云 (¥84/年 学生版)
+进阶：#10 Firefly (IPLC专线 / 8折码 firefly)
+跨区：#8 无忧链接 (¥79/年 TikTok直连)</code></pre>
                     </article>
                     <article class="access-card">
-                        <span class="access-label">portable</span>
-                        <h3>Your site, your data</h3>
+                        <span class="access-label">场景 C · 极客协议与 AI 专精</span>
+                        <h3>Hysteria 2 / 原生住宅 IP / 极限低价</h3>
                         <p>
-                            No vendor lock-in, no SaaS dependency, no platform you can't
-                            leave. Static files deploy anywhere; your content lives in
-                            your repo as plain text.
+                            需要 Hysteria 2 + VLESS-Reality + 原生住宅 IP 可选<strong>一翻云</strong>；专门针对 ChatGPT/Claude/Gemini 办公可选<strong>速界</strong>；预算卡死 5.6 元/月可选<strong>大佬云/闪电鼠</strong>。
                         </p>
-                        <pre><code>$ npm run build
-# output: ./dist/
-# deploy to any static host</code></pre>
+                        <pre><code>协议控：#16 一翻云 (Hysteria2 + 住宅IP)
+AI办公：#19 速界 (25元档主打 AI 工具)
+极限平价：#5 大佬云 / #22 闪电鼠 (¥5.6/月)</code></pre>
                     </article>
                 </div>
             </section>
@@ -821,149 +797,105 @@ tags: [intro]
             <section class="section compare-section">
                 <div class="section-heading-wide">
                     <div>
-                        <p class="section-kicker"># why different</p>
-                        <h2>varsha vs. building from scratch.</h2>
+                        <p class="section-kicker"># architecture comparison</p>
+                        <h2>为什么 IEPL/IPLC 专线机场远胜传统方案？</h2>
                     </div>
                     <p>
-                        Starting from an empty folder means spending weeks on boilerplate
-                        before you write a single word of content. Starting with varsha means
-                        you spend those weeks on your product instead.
+                        很多用户曾尝试自建海外 VPS 或购买廉价公网直连梯子，但在晚高峰（20:00–23:30）及特殊时期频繁遭遇端口阻断、IP 被墙与 AI 封号。以下是四种主流跨境网络方案的架构级对比：
                     </p>
                 </div>
-                <div class="contrast-grid" aria-label="What varsha gives you">
+                <div class="contrast-grid" aria-label="IEPL专线核心优势">
                     <article>
-                        <span>not a blank repo</span>
-                        <p>Dozens of components, layouts, and patterns ready to use.</p>
+                        <span>内网过境 · 免经公网 GFW</span>
+                        <p>国内 BGP 入口收流后通过 IEPL/IPLC 物理内网专线跨境，不触发公网防火墙 QoS 限速。</p>
                     </article>
                     <article>
-                        <span>not a heavy framework</span>
-                        <p>Astro delivers static HTML with optional JS islands.</p>
+                        <span>多国原生 IP · 解锁无忧</span>
+                        <p>单账号即可切换港台日新美英法德等数十个地区原生落地 IP，无需自行维护多台服务器。</p>
                     </article>
                     <article>
-                        <span>more than a theme</span>
-                        <p>Docs, blog, components, i18n, SEO, and theming all integrated.</p>
+                        <span>年均成本不足自建 1/5</span>
+                        <p>光速云轻量年付仅 99 元（8.25元/月），远低于单独租用一台 CN2 GIA VPS 的月租成本。</p>
                     </article>
                 </div>
                 <div class="table-wrap">
                     <table>
                         <thead>
                             <tr>
-                                <th>What you get</th>
-                                <th>From scratch</th>
-                                <th>Basic theme</th>
-                                <th>Heavy framework</th>
-                                <th>varsha</th>
+                                <th>评估维度</th>
+                                <th>廉价公网直连梯子</th>
+                                <th>个人自建海外 VPS</th>
+                                <th>仅限专属客户端机场</th>
+                                <th>光速云 (IEPL+内网双专线)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Production-ready design system</td>
-                                <td>&mdash;</td>
-                                <td>limited</td>
-                                <td>requires setup</td>
-                                <td>&#10003;</td>
+                                <td>跨境传输链路</td>
+                                <td>公网直连 (易丢包)</td>
+                                <td>公网 / 普通线路</td>
+                                <td>IPLC / 中转优化</td>
+                                <td>&#10003; IEPL + 企业级内网双专线</td>
                             </tr>
                             <tr>
-                                <td>Dark mode with theme switcher</td>
-                                <td>&mdash;</td>
-                                <td>basic</td>
-                                <td>requires setup</td>
-                                <td>&#10003;</td>
+                                <td>晚高峰抗封锁与稳定性</td>
+                                <td>差 (频繁断流)</td>
+                                <td>极易被封端口/IP</td>
+                                <td>较好</td>
+                                <td>&#10003; 2020老牌运维 · 峰值2.5Gbps</td>
                             </tr>
                             <tr>
-                                <td>Blog (MDX, RSS, tags)</td>
-                                <td>&mdash;</td>
-                                <td>some</td>
-                                <td>plugin</td>
-                                <td>&#10003;</td>
+                                <td>客户端支持自由度</td>
+                                <td>单一且简陋</td>
+                                <td>需全程手动搭环境</td>
+                                <td>仅限官方App (不支持软路由)</td>
+                                <td>&#10003; 自研客户端 + Clash/小火箭双支持</td>
                             </tr>
                             <tr>
-                                <td>Documentation site template</td>
-                                <td>&mdash;</td>
-                                <td>&mdash;</td>
-                                <td>plugin</td>
-                                <td>&#10003;</td>
+                                <td>多国节点与流媒体解锁</td>
+                                <td>机房广播 IP (易送中)</td>
+                                <td>仅单一国家单 IP</td>
+                                <td>4~5 个常见地区</td>
+                                <td>&#10003; 港×20/日×10/新×10/美×10等12+地区</td>
                             </tr>
                             <tr>
-                                <td>SEO &amp; social metadata</td>
+                                <td>永久不限时流量包选项</td>
                                 <td>&mdash;</td>
-                                <td>partial</td>
-                                <td>plugin</td>
-                                <td>&#10003;</td>
+                                <td>&mdash; (按月硬性扣费)</td>
+                                <td>部分提供</td>
+                                <td>&#10003; 致敬斯诺克147元享247GB不过期</td>
                             </tr>
                             <tr>
-                                <td>Accessibility (WCAG AA)</td>
-                                <td>your job</td>
-                                <td>varies</td>
-                                <td>varies</td>
-                                <td>&#10003;</td>
-                            </tr>
-                            <tr>
-                                <td>i18n routing</td>
-                                <td>&mdash;</td>
-                                <td>&mdash;</td>
-                                <td>plugin</td>
-                                <td>&#10003;</td>
-                            </tr>
-                            <tr>
-                                <td>TypeScript throughout</td>
-                                <td>optional</td>
-                                <td>varies</td>
-                                <td>&#10003;</td>
-                                <td>&#10003;</td>
-                            </tr>
-                            <tr>
-                                <td>Time to first deploy</td>
-                                <td>weeks</td>
-                                <td>days</td>
-                                <td>days</td>
-                                <td>minutes</td>
+                                <td>入门月均成本</td>
+                                <td>5~10 元 (高跑路风险)</td>
+                                <td>35~150 元/月</td>
+                                <td>7~25 元/月</td>
+                                <td>&#10003; 约 8.25 元/月 (¥99/年 69GB/月)</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="compare-cards" aria-label="Mobile comparison">
+                <div class="compare-cards" aria-label="移动端方案对比">
                     <article>
-                        <h3>Production-ready design system</h3>
-                        <span>from scratch <b>&mdash;</b></span>
-                        <span>basic theme <b>limited</b></span>
-                        <span>heavy fwk <b>requires setup</b></span>
-                        <span class="varsha">varsha <b>&#10003;</b></span>
+                        <h3>跨境传输链路</h3>
+                        <span>廉价直连 <b>公网易丢包</b></span>
+                        <span>自建 VPS <b>单IP易被封</b></span>
+                        <span>专属端机场 <b>IPLC/中转</b></span>
+                        <span class="highlight">光速云 <b>IEPL+企业内网双专线 &#10003;</b></span>
                     </article>
                     <article>
-                        <h3>Dark mode with theme switcher</h3>
-                        <span>from scratch <b>&mdash;</b></span>
-                        <span>basic theme <b>basic</b></span>
-                        <span>heavy fwk <b>requires setup</b></span>
-                        <span class="varsha">varsha <b>&#10003;</b></span>
+                        <h3>客户端与软路由支持</h3>
+                        <span>廉价直连 <b>简陋</b></span>
+                        <span>自建 VPS <b>需手动搭建</b></span>
+                        <span>专属端机场 <b>锁死官方App</b></span>
+                        <span class="highlight">光速云 <b>自研端 + Clash通用订阅 &#10003;</b></span>
                     </article>
                     <article>
-                        <h3>Blog (MDX, RSS, tags)</h3>
-                        <span>from scratch <b>&mdash;</b></span>
-                        <span>basic theme <b>some</b></span>
-                        <span>heavy fwk <b>plugin</b></span>
-                        <span class="varsha">varsha <b>&#10003;</b></span>
-                    </article>
-                    <article>
-                        <h3>Documentation site template</h3>
-                        <span>from scratch <b>&mdash;</b></span>
-                        <span>basic theme <b>&mdash;</b></span>
-                        <span>heavy fwk <b>plugin</b></span>
-                        <span class="varsha">varsha <b>&#10003;</b></span>
-                    </article>
-                    <article>
-                        <h3>SEO &amp; social metadata</h3>
-                        <span>from scratch <b>&mdash;</b></span>
-                        <span>basic theme <b>partial</b></span>
-                        <span>heavy fwk <b>plugin</b></span>
-                        <span class="varsha">varsha <b>&#10003;</b></span>
-                    </article>
-                    <article>
-                        <h3>Time to first deploy</h3>
-                        <span>from scratch <b>weeks</b></span>
-                        <span>basic theme <b>days</b></span>
-                        <span>heavy fwk <b>days</b></span>
-                        <span class="varsha">varsha <b>minutes</b></span>
+                        <h3>入门成本与永久套餐</h3>
+                        <span>廉价直连 <b>高跑路风险</b></span>
+                        <span>自建 VPS <b>¥35+/月</b></span>
+                        <span>专属端机场 <b>¥7~25/月</b></span>
+                        <span class="highlight">光速云 <b>¥99/年 或 ¥147永久247G &#10003;</b></span>
                     </article>
                 </div>
             </section>
@@ -971,150 +903,133 @@ tags: [intro]
             <section class="section capability-section">
                 <div class="section-heading-wide">
                     <div>
-                        <p class="section-kicker"># what you get</p>
-                        <h2>Components, content, and code that just works.</h2>
+                        <p class="section-kicker"># client &amp; protocol ecosystem</p>
+                        <h2>全面兼容 6 大操作系统与现代分流规则。</h2>
                     </div>
                     <p>
-                        Drop in pre-built components, create pages in Markdown or Astro,
-                        and customize with CSS variables. The starter is opinionated but
-                        never in your way.
+                        无论您使用的是 Windows 游戏本、Apple Silicon MacBook、iPhone、Android 手机，还是家庭 OpenWrt 软路由网关，本站整理的客户端大全与分流配置都能让您实现国内外流量精准分流与 AI 平台固定原生节点。
                     </p>
                 </div>
                 <div class="capability-body">
                     <div class="capability-cards">
                         <article>
-                            <h3>Page components</h3>
-                            <p>Hero sections, feature grids, CTAs, pricing tables, testimonial cards, and more, all accessible and theme-aware.</p>
+                            <h3>Windows &amp; macOS 桌面主力</h3>
+                            <p>首推基于 Mihomo 内核的 Clash Verge Rev 与 FlClash，或支持 Xray/sing-box 双核心的 v2rayN，开启 TUN 模式即可接管全系统应用。</p>
                         </article>
                         <article>
-                        <h3>Content collections</h3>
-                            <p>Type-safe Markdown/MDX for blog posts and docs with automatic slugs, tags, and build-time validation.</p>
+                            <h3>iOS (iPhone / iPad) 黄金组合</h3>
+                            <p>支持 Shadowrocket（小火箭）、Stash、Quantumult X、Surge 5 以及免费的 Hiddify、Karing，需使用外区 Apple ID 登录下载。</p>
                         </article>
                         <article>
-                            <h3>Theme system</h3>
-                            <p>18 palettes driven by CSS variables. Switch themes with a keystroke; add your own brand colors in minutes.</p>
+                            <h3>Android 与 Linux 全场景</h3>
+                            <p>安卓端主力推荐 v2rayNG、FlClash、Hiddify 与 Karing；Linux 服务器与桌面可选 Clash Verge Rev 或 Web 界面的 v2rayA。</p>
                         </article>
                         <article>
-                            <h3>Astro islands</h3>
-                            <p>Add interactivity only where you need it with Astro's island architecture. Zero JS shipped for static content.</p>
+                            <h3>OpenWrt 软路由透明代理</h3>
+                            <p>涵盖 OpenClash、PassWall2、Nikki（需 OpenWrt 24.10+）与 HomeProxy，需配合支持通用订阅导出的机场（如光速云、星岛梦、一翻云）。</p>
                         </article>
                     </div>
-                    <div class="code-card" aria-label="varsha component and page example">
-                        <pre><code><span class="comment">// src/pages/index.astro</span>
-<span class="cmd">---</span>
-<span class="cmd">import</span> Hero <span class="cmd">from</span> <span class="str">"../components/Hero.astro"</span>;
-<span class="cmd">import</span> Features <span class="cmd">from</span> <span class="str">"../components/Features.astro"</span>;
-<span class="cmd">import</span> CTA <span class="cmd">from</span> <span class="str">"../components/CTA.astro"</span>;
-<span class="cmd">import</span> { getCollection } <span class="cmd">from</span> <span class="str">"astro:content"</span>;
+                    <div class="code-card" aria-label="Clash Mihomo 分流策略组配置示例">
+                        <pre><code><span class="comment"># Clash Verge Rev / Mihomo 核心 AI 与流媒体分流示例</span>
+<span class="cmd">proxy-groups:</span>
+  - <span class="attr">name:</span> <span class="str">"🚀 节点选择"</span>
+    <span class="attr">type:</span> select
+    <span class="attr">proxies:</span> [<span class="str">"⚡ 光速云·香港IEPL-01"</span>, <span class="str">"🇸🇬 光速云·新加坡专线"</span>, <span class="str">"🇯🇵 光速云·日本东京"</span>]
 
-<span class="keyword">const</span> posts = <span class="cmd">await</span> <span class="str">getCollection</span>(<span class="str">"blog"</span>);
-<span class="cmd">---</span>
+  - <span class="attr">name:</span> <span class="str">"🤖 AI 生产力 (ChatGPT/Claude)"</span>
+    <span class="attr">type:</span> select
+    <span class="attr">proxies:</span> [<span class="str">"🇸🇬 光速云·新加坡专线"</span>, <span class="str">"🇯🇵 光速云·日本东京"</span>, <span class="str">"🇺🇸 光速云·美国原生"</span>]
 
-&lt;<span class="tag">Layout</span> title=<span class="str">"My Site"</span>&gt;
-  &lt;<span class="tag">Hero</span>
-    eyebrow=<span class="str">"Welcome"</span>
-    title=<span class="str">"Hello, world."</span>
-    primaryCta={{ <span class="attr">text</span>: <span class="str">"Get started"</span>, <span class="attr">href</span>: <span class="str">"/docs/"</span> }}
-  /&gt;
-  &lt;<span class="tag">Features</span> items={features} /&gt;
-  &lt;<span class="tag">CTA</span> title=<span class="str">"Start building today."</span> /&gt;
-&lt;/<span class="tag">Layout</span>&gt;</code></pre>
+<span class="cmd">rules:</span>
+  - <span class="str">DOMAIN-SUFFIX,openai.com,🤖 AI 生产力 (ChatGPT/Claude)</span>
+  - <span class="str">DOMAIN-SUFFIX,anthropic.com,🤖 AI 生产力 (ChatGPT/Claude)</span>
+  - <span class="str">DOMAIN-SUFFIX,netflix.com,🚀 节点选择</span>
+  - <span class="str">GEOIP,CN,DIRECT</span>
+  - <span class="str">MATCH,🚀 节点选择</span></code></pre>
                     </div>
                 </div>
                 <div class="inline-links">
-                    <a href="/docs/plugins/">Components →</a>
-                    <a href="/docs/session-state/">Content guide →</a>
-                    <a href="/docs/keyboard/">Theming →</a>
+                    <a href="/clients/">6大平台客户端下载大全 →</a>
+                    <a href="/compare/">42家机场测速与解锁横评 →</a>
+                    <a href="/docs/airport-buying-guide/">新手3分钟选机与配置教程 →</a>
                 </div>
             </section>
 
             <section class="section integrations-section">
                 <div class="section-heading">
-                    <p class="section-kicker"># components & templates</p>
-                    <h2>Everything you need, ready to compose.</h2>
+                    <p class="section-kicker"># top 10 brands &amp; 6 client platforms</p>
+                    <h2>一键直达 Top 10 专线机场与 6 大系统客户端。</h2>
                 </div>
-                <div class="component-grid" aria-label="Included components and templates">
-                    <div class="component-card"><span class="component-icon">H</span><span>Hero</span></div>
-                    <div class="component-card"><span class="component-icon">F</span><span>Features</span></div>
-                    <div class="component-card"><span class="component-icon">$</span><span>Pricing</span></div>
-                    <div class="component-card"><span class="component-icon">"</span><span>Testimonials</span></div>
-                    <div class="component-card"><span class="component-icon">C</span><span>Call to Action</span></div>
-                    <div class="component-card"><span class="component-icon">B</span><span>Blog Layout</span></div>
-                    <div class="component-card"><span class="component-icon">D</span><span>Docs Layout</span></div>
-                    <div class="component-card"><span class="component-icon">N</span><span>Navigation</span></div>
-                    <div class="component-card"><span class="component-icon">T</span><span>Tabs</span></div>
-                    <div class="component-card"><span class="component-icon">/</span><span>Code Blocks</span></div>
-                    <div class="component-card"><span class="component-icon">@</span><span>Cards</span></div>
-                    <div class="component-card"><span class="component-icon">#</span><span>Tags</span></div>
-                    <div class="component-card"><span class="component-icon">&#9776;</span><span>Sidebar</span></div>
-                    <div class="component-card"><span class="component-icon">&#9993;</span><span>Newsletter</span></div>
-                    <div class="component-card"><span class="component-icon">&#9733;</span><span>Footer</span></div>
-                    <a class="component-card agent-more" href="/docs/plugins/"><span class="component-icon">+</span><span>more</span></a>
+                <div class="component-grid" aria-label="Top 10 机场与 6 大客户端快捷入口">
+                    <a class="component-card" href="/brands/guangsuyun/"><span class="component-icon">#1</span><span>光速云</span><small>主推 · ¥99/年</small></a>
+                    <a class="component-card" href="/brands/weifeng/"><span class="component-icon">#2</span><span>微风网络</span><small>IEPL · ¥137/年</small></a>
+                    <a class="component-card" href="/brands/muguang/"><span class="component-icon">#3</span><span>暮光加速</span><small>BGP · ¥20/月</small></a>
+                    <a class="component-card" href="/brands/feimao/"><span class="component-icon">#4</span><span>飞猫云</span><small>免配置 · ¥84/年</small></a>
+                    <a class="component-card" href="/brands/dalaoyun/"><span class="component-icon">#5</span><span>大佬云</span><small>平价 · ¥5.6/月</small></a>
+                    <a class="component-card" href="/brands/xingdaomeng/"><span class="component-icon">#6</span><span>星岛梦</span><small>2020老牌 · ¥96/年</small></a>
+                    <a class="component-card" href="/brands/ermao/"><span class="component-icon">#7</span><span>二猫云</span><small>IEPL · ¥89/年</small></a>
+                    <a class="component-card" href="/brands/wuyou/"><span class="component-icon">#8</span><span>无忧链接</span><small>TikTok · ¥79/年</small></a>
+                    <a class="component-card" href="/brands/weitu/"><span class="component-icon">#9</span><span>唯兔云</span><small>IPLC · ¥14.9/月</small></a>
+                    <a class="component-card" href="/brands/firefly/"><span class="component-icon">#10</span><span>Firefly</span><small>原生IP · ¥96/年</small></a>
+                    <a class="component-card" href="/clients/#Windows"><span class="component-icon">Win</span><span>Windows 客户端</span><small>Clash Verge / v2rayN</small></a>
+                    <a class="component-card" href="/clients/#Android"><span class="component-icon">And</span><span>Android 客户端</span><small>v2rayNG / FlClash</small></a>
+                    <a class="component-card" href="/clients/#iOS"><span class="component-icon">iOS</span><span>iPhone 小火箭</span><small>Shadowrocket / Stash</small></a>
+                    <a class="component-card" href="/clients/#macOS"><span class="component-icon">Mac</span><span>macOS 客户端</span><small>M芯片 / Intel 适配</small></a>
+                    <a class="component-card" href="/clients/#OpenWrt"><span class="component-icon">路由</span><span>OpenWrt 软路由</span><small>OpenClash / PassWall2</small></a>
+                    <a class="component-card agent-more" href="/brands/"><span class="component-icon">42</span><span>全部 42 家品牌</span><small>完整评测库 →</small></a>
                 </div>
                 <p class="integration-note">
-                    Every component is accessible, theme-aware, and fully customizable.
-                    <a href="/docs/plugins/">Browse all components</a>
-                    or bring your own.
+                    所有收录品牌均建立独立实测与参数档案页，包含真实套餐表、优惠码与风险提示。
+                    <a href="/brands/">进入 42 家机场品牌库</a>
+                    或查看 <a href="/ranking/">2026 机场推荐排行榜</a>。
                 </p>
             </section>
 
             <section class="final-cta">
-                <p class="section-kicker"># start building</p>
-                <h2>Start building your website today.</h2>
+                <p class="section-kicker"># start with confidence</p>
+                <h2>从经过实测验证的专线机场开始。</h2>
                 <p>
-                    Skip the weeks of boilerplate. Clone the starter, customize your
-                    theme, write your first post, and deploy. Your audience is waiting.
+                    遵循「先看实测数据、优先选择老牌或小额月付验证晚高峰」的选机原则。立即查看第一主推「光速云」完整报告，或在 42 家品牌库中按协议、价格与客户端自由筛选。
                 </p>
                 <div class="hero-actions center">
-                    <a class="button button-primary" href="/docs/install/"
-                        >Get started</a
+                    <a class="button button-primary" href="/brands/guangsuyun/"
+                        >首选推荐：光速云详情</a
                     >
-                    <a class="button button-secondary" href="/docs/"
-                        >Read the docs</a
+                    <a class="button button-secondary" href="/brands/"
+                        >筛选全部 42 家机场</a
                     >
                 </div>
             </section>
         </main>
 
         <footer class="footer">
-            <a class="brand" href="/" aria-label="varsha home">
+            <a class="brand" href="/" aria-label="梯子机场 首页">
                 <span class="brand-logo" aria-hidden="true"></span>
-                <span>varsha</span>
+                <span>梯子机场</span>
             </a>
             <div>
-                <a href="#features">Features</a>
-                <a href="#showcase">Showcase</a>
-                <a href="/docs/">Docs</a>
-                <a href="/blog/">Blog</a>
-                <a href="https://github.com/yethikrishna/web-ui-template">GitHub</a>
-                <a href="https://instagram.com/yethikrishnar">Instagram</a>
-                <a href="mailto:hey@myndlabs.tech">hey@myndlabs.tech</a>
+                <a href="/jichang/">机场推荐</a>
+                <a href="/vpn/">VPN对比</a>
+                <a href="/clash/">Clash专区</a>
+                <a href="/nodes/">节点测速</a>
+                <a href="/tizi/">梯子指南</a>
+                <a href="/free/">免费平价</a>
+                <a href="/tutorial/">使用教程</a>
+                <a href="/brands/">42家品牌库</a>
+                <a href="/compare/">测速对比</a>
+                <a href="/clients/">客户端大全</a>
+                <a href="/docs/">教程百科</a>
+                <a href="/blog/">评测专栏</a>
+                <a href="/about/">关于实验室</a>
+                <a href="/methodology/">评测标准</a>
+                <a href="/rss.xml">RSS</a>
+                <a href="/sitemap.xml">Sitemap</a>
             </div>
-            <nav class="footer-social" aria-label="Social links">
-                <a href="https://github.com/yethikrishna/web-ui-template" aria-label="varsha on GitHub">
-                    <svg viewBox="0 0 16 16" aria-hidden="true">
-                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.64 7.64 0 0 1 8 3.87c.68 0 1.36.09 2 .26 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
-                    </svg>
-                </a>
-                <a href="https://instagram.com/yethikrishnar" aria-label="varsha on Instagram">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.849.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.849.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" fill="currentColor"/>
-                    </svg>
-                </a>
-            </nav>
-            <!-- varsha-builtwith:start -->
-            <a class="builtwith-credit builtwith-credit--footer" href="https://myndlabs.tech" target="_blank" rel="noopener noreferrer" data-builtwith="true" aria-label="Built with varsha · myndlabs">
-                <span class="builtwith-credit__dot"></span>
-                <span class="builtwith-credit__text">Built with varsha</span>
-                <span class="builtwith-credit__sep">·</span>
-                <span class="builtwith-credit__company">myndlabs</span>
-            </a>
-            <!-- varsha-builtwith:end -->
         </footer>
 
         <div class="logo-menu" id="logo-menu" hidden>
-            <a href="/assets/logo.svg" download="varsha-logo.svg">Download SVG</a>
-            <a href="/assets/logo.png" download="varsha-logo.png">Download PNG</a>
+            <a href="/assets/logo.svg" download="tizijichang-logo.svg">Download SVG</a>
+            <a href="/assets/logo.png" download="tizijichang-logo.png">Download PNG</a>
             <button type="button" id="copy-logo-url">Copy SVG URL</button>
         </div>
 
@@ -1168,7 +1083,7 @@ tags: [intro]
 
                 var options = Array.prototype.slice.call(list.querySelectorAll("[role='option']"));
                 var media = window.matchMedia("(prefers-color-scheme: dark)");
-                var saved = localStorage.getItem("varsha-palette") || "";
+                var saved = localStorage.getItem("site-palette") || "";
                 var committed = saved || defaultPalette();
                 var returnFocus = null;
 
@@ -1194,7 +1109,7 @@ tags: [intro]
                     returnFocus = document.activeElement;
                     overlay.hidden = false;
                     document.body.style.overflow = "hidden";
-                    committed = localStorage.getItem("varsha-palette") || defaultPalette();
+                    committed = localStorage.getItem("site-palette") || defaultPalette();
                     updateUI(committed);
                     var active = list.querySelector("[aria-selected='true']") || options[0];
                     if (active) active.focus();
@@ -1220,7 +1135,7 @@ tags: [intro]
 
                 function commit(value) {
                     setPalette(value);
-                    localStorage.setItem("varsha-palette", value);
+                    localStorage.setItem("site-palette", value);
                     updateUI(value);
                     closeOverlay();
                 }
@@ -1232,7 +1147,7 @@ tags: [intro]
                 }
 
                 media.addEventListener("change", function () {
-                    if (!localStorage.getItem("varsha-palette")) {
+                    if (!localStorage.getItem("site-palette")) {
                         setPalette("");
                         updateUI("");
                     }
@@ -1282,11 +1197,11 @@ tags: [intro]
                 });
 
                 var themeHint = document.getElementById("theme-hint");
-                if (localStorage.getItem("varsha-theme-hint-seen") === "1") {
+                if (localStorage.getItem("site-theme-hint-seen") === "1") {
                     themeHint.classList.add("is-seen");
                 }
                 themeHint.addEventListener("mouseenter", function () {
-                    localStorage.setItem("varsha-theme-hint-seen", "1");
+                    localStorage.setItem("site-theme-hint-seen", "1");
                     themeHint.classList.add("is-seen");
                 }, { once: true });
                 themeHint.addEventListener("click", toggleOverlay);
@@ -1294,56 +1209,6 @@ tags: [intro]
 
                 setPalette(saved);
                 updateUI(saved);
-            })();
-
-            (function () {
-                var menu = document.getElementById("logo-menu");
-                var copyButton = document.getElementById("copy-logo-url");
-                var logos = document.querySelectorAll(".brand-logo");
-                if (!menu || !logos.length) return;
-
-                function hideMenu() {
-                    menu.hidden = true;
-                }
-
-                function showMenu(event) {
-                    event.preventDefault();
-                    menu.hidden = false;
-                    var menuWidth = menu.offsetWidth;
-                    var menuHeight = menu.offsetHeight;
-                    var left = Math.min(event.clientX, window.innerWidth - menuWidth - 12);
-                    var top = Math.min(event.clientY, window.innerHeight - menuHeight - 12);
-                    menu.style.left = Math.max(12, left) + "px";
-                    menu.style.top = Math.max(12, top) + "px";
-                }
-
-                logos.forEach(function (logo) {
-                    logo.addEventListener("contextmenu", showMenu);
-                });
-
-                document.addEventListener("click", function (event) {
-                    if (!menu.contains(event.target)) hideMenu();
-                });
-                document.addEventListener("keydown", function (event) {
-                    if (event.key === "Escape") hideMenu();
-                });
-                window.addEventListener("scroll", hideMenu, { passive: true });
-                window.addEventListener("resize", hideMenu);
-
-                if (copyButton) {
-                    copyButton.addEventListener("click", async function () {
-                        var url = new URL("/assets/logo.svg", window.location.href).href;
-                        try {
-                            await navigator.clipboard.writeText(url);
-                            copyButton.textContent = "Copied";
-                            setTimeout(function () {
-                                copyButton.textContent = "Copy SVG URL";
-                            }, 1500);
-                        } catch (error) {
-                            window.prompt("Copy logo URL", url);
-                        }
-                    });
-                }
             })();
 
             (function () {
@@ -1366,7 +1231,7 @@ tags: [intro]
                             "is-compact",
                             method.dataset.size === "compact",
                         );
-                        copyButton.textContent = "Copy";
+                        copyButton.textContent = "复制优惠码";
                     });
                 });
 
@@ -1379,59 +1244,16 @@ tags: [intro]
                             await navigator.clipboard.writeText(
                                 target.textContent.trim(),
                             );
-                            button.textContent = "Copied";
+                            button.textContent = "已复制";
                             setTimeout(function () {
-                                button.textContent = "Copy";
+                                button.textContent = "复制优惠码";
                             }, 1500);
                         } catch (error) {
-                            button.textContent = "Select";
+                            button.textContent = "请手动复制";
                         }
                     });
                 });
             })();
         </script>
-
-        <!-- varsha-builtwith:start -->
-        <script>
-            (function () {
-                'use strict';
-                var HOOK = 'data-builtwith';
-                function createCredit() {
-                    var a = document.createElement('a');
-                    a.setAttribute(HOOK, 'true');
-                    a.href = 'https://myndlabs.tech';
-                    a.target = '_blank';
-                    a.rel = 'noopener noreferrer';
-                    a.setAttribute('aria-label', 'Built with varsha \u00b7 myndlabs');
-                    a.className = 'builtwith-credit builtwith-credit--corner';
-                    a.innerHTML = '<span class="builtwith-credit__dot"></span>' +
-                        '<span class="builtwith-credit__text">Built with varsha</span>' +
-                        '<span class="builtwith-credit__sep">\u00b7</span>' +
-                        '<span class="builtwith-credit__company">myndlabs</span>';
-                    return a;
-                }
-                function ensureCredit() {
-                    var el = document.querySelector('[' + HOOK + ']');
-                    if (!el || !document.body.contains(el)) {
-                        document.body.appendChild(createCredit());
-                        return;
-                    }
-                    var cs = window.getComputedStyle(el);
-                    if (cs.display === 'none' || cs.visibility === 'hidden' || cs.opacity === '0' || parseFloat(cs.opacity) < 0.1) {
-                        el.removeAttribute('style');
-                        el.style.cssText = '';
-                    }
-                }
-                function init() { ensureCredit(); }
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', init);
-                } else { init(); }
-                setInterval(ensureCredit, 2500);
-                if (typeof MutationObserver !== 'undefined') {
-                    new MutationObserver(ensureCredit).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
-                }
-            })();
-        </script>
-        <!-- varsha-builtwith:end -->
     </body>
 </html>

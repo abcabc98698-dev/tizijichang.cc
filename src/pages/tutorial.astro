@@ -1,0 +1,168 @@
+---
+import MarketingLayout from '../components/MarketingLayout.astro';
+import { SITE_CONFIG } from '../config/site';
+
+const title = `全平台科学上网客户端使用教程大全 (Windows/macOS/iOS/Android/软路由) — ${SITE_CONFIG.name}`;
+const description = `梯子机场为您整理最系统、无套路的跨平台代理客户端配置教程：涵盖 Clash Verge Rev、Shadowrocket 小火箭、v2rayN、FlClash、Hiddify 及 OpenWrt 软路由一键配置。`;
+
+const tutorials = [
+  {
+    platform: 'Windows 系统',
+    tools: 'Clash Verge Rev / v2rayN',
+    docUrl: '/docs/windows-setup/',
+    desc: '推荐使用现代 Clash Verge Rev（内置 Mihomo 内核），支持开机自启、TUN 虚拟网卡接管全系统流量与规则分流。',
+  },
+  {
+    platform: 'macOS 苹果系统',
+    tools: 'Clash Verge Rev / FlClash',
+    docUrl: '/docs/macos-setup/',
+    desc: '完美适配 Apple Silicon M 系列芯片与 Intel 架构，原生深色模式，详解首次运行安全提示绕过与系统权限配置。',
+  },
+  {
+    platform: 'iOS (iPhone / iPad)',
+    tools: 'Shadowrocket（小火箭） / Hiddify',
+    docUrl: '/docs/ios-setup/',
+    desc: '详解外区 Apple ID 注册避坑、小火箭订阅导入、节点延迟测速、按需求自动分流与后台持续连接保活设置。',
+  },
+  {
+    platform: 'Android 安卓系统',
+    tools: 'FlClash / v2rayNG / CMFA',
+    docUrl: '/docs/android-setup/',
+    desc: '支持 APK 直装，分应用代理设置（国内微信支付宝直连，YouTube与X走专线），电量管理与电池白名单优化。',
+  },
+  {
+    platform: 'OpenWrt 软路由',
+    tools: 'OpenClash / PassWall2 / Nikki',
+    docUrl: '/docs/openwrt-router/',
+    desc: '家庭全屋设备（Apple TV、PS5、Switch、智能电视）无感科学上网，透明代理与 DNS 智能防污染实战。',
+  },
+  {
+    platform: '协议与进阶选型',
+    tools: 'Shadowsocks / VLESS / Hysteria 2',
+    docUrl: '/docs/protocols-guide/',
+    desc: '深入剖析主流代理协议的加密混淆原理，晚高峰抗封锁性能差异，助您挑选最适合本地宽带的技术架构。',
+  },
+];
+
+const tutorialJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: title,
+  description,
+  url: `${SITE_CONFIG.url}/tutorial/`,
+  mainEntity: {
+    '@type': 'ItemList',
+    name: '全平台代理客户端配置教程指南',
+    numberOfItems: tutorials.length,
+    itemListElement: tutorials.map((t, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      name: `${t.platform} — ${t.tools}`,
+      description: t.desc,
+      url: `${SITE_CONFIG.url}${t.docUrl}`,
+    })),
+  },
+};
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  canonicalPath="/tutorial/"
+  activeNav="tutorial"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(tutorialJsonLd)} />
+
+  <section class="compare-hero">
+    <div class="container">
+      <a href="/" class="back-link">&larr; 返回网站首页</a>
+      <span class="page-overline">Client Tutorials & Setup Guide · 教程栏目</span>
+      <h1>全平台科学上网客户端使用教程大全</h1>
+      <p class="hero-sub">
+        买了机场订阅却不知道怎么配置？本栏目为您系统汇总主流 Windows、macOS、iOS、Android 及路由器软路由的客户端官方下载与保姆级实战步骤，轻松实现国内外流量智能分流。
+      </p>
+    </div>
+  </section>
+
+  <section class="compare-summary">
+    <div class="container">
+
+      <!-- 教程快速索引大卡片 -->
+      <div style="margin-bottom: 3.5rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">一、按操作系统选择配置教程</h2>
+        <div class="compare-cards">
+          {tutorials.map((item) => (
+            <div class="compare-card highlight">
+              <span class="compare-card-tag">{item.platform}</span>
+              <h3 style="margin:0.25rem 0;">{item.tools}</h3>
+              <p style="color:var(--text-secondary);font-size:0.86rem;line-height:1.5;margin:0.4rem 0 0.8rem;">{item.desc}</p>
+              <div style="margin-top:auto;">
+                <a href={item.docUrl} class="btn btn-primary btn-sm" style="width:100%;justify-content:center;">查阅完整配置步骤 &rarr;</a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- 核心概念普及 -->
+      <div style="margin-bottom: 3.5rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">二、新手必须搞懂的 3 大客户端核心概念</h2>
+        <div class="compare-cards">
+          <div class="compare-card">
+            <span class="compare-card-tag">概念 01</span>
+            <h3>规则模式 (Rule) vs 全局模式 (Global)</h3>
+            <p style="color:var(--text-secondary);font-size:0.86rem;line-height:1.5;">日常使用强烈建议开启<strong>规则模式</strong>：国内百度、微信直连不消耗专线流量；海外 Google、YouTube 自动走专线。全局模式会导致所有流量绕道境外，访问国内网站大幅降速。</p>
+          </div>
+          <div class="compare-card">
+            <span class="compare-card-tag">概念 02</span>
+            <h3>系统代理 (System Proxy) vs TUN 虚拟网卡</h3>
+            <p style="color:var(--text-secondary);font-size:0.86rem;line-height:1.5;">系统代理仅对遵循系统环境变量的浏览器生效；<strong>TUN 模式</strong>则创建虚拟网卡接管全机网络包，可代理终端命令行、UWP 应用、游戏及无法单独设置代理的桌面软件。</p>
+          </div>
+          <div class="compare-card">
+            <span class="compare-card-tag">概念 03</span>
+            <h3>DNS 泄漏与防污染</h3>
+            <p style="color:var(--text-secondary);font-size:0.86rem;line-height:1.5;">若 DNS 请求直接发往国内运营商，会导致域名解析被劫持污染。现代客户端通过 Fake-IP 或远程 DNS 转发，确保海外域名解析 100% 在专线对端完成。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 常见故障速查 -->
+      <div style="margin-bottom: 3.5rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">三、客户端配置排错速查表 (FAQ)</h2>
+        <div style="background:var(--card-bg, #161b22);border:1px solid var(--border-color, #30363d);border-radius:8px;padding:1.5rem;line-height:1.7;color:var(--text-secondary);font-size:0.92rem;">
+          <ul style="margin:0;padding-left:1.25rem;">
+            <li><strong>问题 1：连接节点延迟显示超时（Timeout）？</strong><br>检查本地电脑/手机系统时间是否精准到秒（TLS 握手要求时钟误差 &lt; 90秒），或尝试在机场后台更新订阅链接。</li>
+            <li><strong>问题 2：节点测速正常但打不开网页？</strong><br>检查是否开启了杀毒软件网络保护拦截，或检查客户端是否卡在“TUN 模式”而驱动未正确安装。可尝试关闭系统代理后重新开启。</li>
+            <li><strong>问题 3：ChatGPT 提示 “Access Denied” 或不支持该地区？</strong><br>说明当前节点属于机房大段广播 IP 或已被风控。请切换至新加坡、美国等原生住宅 IP 节点，并清理浏览器 Cookie。</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 推荐机场 -->
+      <div>
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">四、搭配教程使用的高速专线机场精选</h2>
+        <div class="compare-cards">
+          <div class="compare-card highlight">
+            <span class="compare-card-tag">综合第一主推</span>
+            <h3>光速云 (GuangSuYun)</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">2020 老牌，IEPL 专线，支持自研端 + Clash/小火箭通用订阅，99元/年轻量包与147永久包。</p>
+            <a href="/brands/guangsuyun/" class="card-link" style="margin-top:0.5rem;">查看评测详情 &rarr;</a>
+          </div>
+          <div class="compare-card">
+            <span class="compare-card-tag">纯新手傻瓜端</span>
+            <h3>飞猫云 (FlyCat Cloud)</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">专属客户端登录账号密码一键连网，免除导入订阅与规则配置步骤，学生版年付仅 84 元。</p>
+            <a href="/brands/feimao/" class="card-link" style="margin-top:0.5rem;">查看评测详情 &rarr;</a>
+          </div>
+          <div class="compare-card">
+            <span class="compare-card-tag">全平台客户端大全</span>
+            <h3>6 大系统 21 款客户端大全</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">涵盖 Clash、v2rayN、小火箭、Stash、Quantumult X、sing-box 官方 GitHub 与 App Store 下载。</p>
+            <a href="/clients/" class="card-link" style="margin-top:0.5rem;">进入客户端下载中台 &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</MarketingLayout>

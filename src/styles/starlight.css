@@ -81,8 +81,8 @@
   position: absolute;
   inset: 2px;
   background: var(--sl-color-white);
-  -webkit-mask: url("/assets/agent-icons/varsha-mask.svg") center / contain no-repeat;
-  mask: url("/assets/agent-icons/varsha-mask.svg") center / contain no-repeat;
+  -webkit-mask: url("/assets/brand-mask.svg") center / contain no-repeat;
+  mask: url("/assets/brand-mask.svg") center / contain no-repeat;
 }
 
 .docs-hero-logo {
@@ -90,8 +90,8 @@
   width: min(20rem, 62vw);
   aspect-ratio: 1;
   background: var(--sl-color-white);
-  -webkit-mask: url("/assets/agent-icons/varsha-mask.svg") center / contain no-repeat;
-  mask: url("/assets/agent-icons/varsha-mask.svg") center / contain no-repeat;
+  -webkit-mask: url("/assets/brand-mask.svg") center / contain no-repeat;
+  mask: url("/assets/brand-mask.svg") center / contain no-repeat;
 }
 
 .sl-markdown-content {
@@ -221,98 +221,8 @@
   border-radius: 4px;
 }
 
-/* ===== varsha built-with attribution (persistent credit) ===== */
-/* varsha-builtwith:start */
-.builtwith-credit {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-family: var(--sl-font-mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  text-decoration: none;
-  color: var(--sl-color-gray-3, rgba(255, 255, 255, 0.35));
-  line-height: 1;
-  padding: 0.35rem 0.55rem;
-  border-radius: 4px;
-  transition: color 140ms ease, background-color 140ms ease;
-  white-space: nowrap;
-  user-select: none;
-  -webkit-user-select: none;
-}
+/* ===== TiziUI built-with attribution (persistent credit) ===== */
 
-.builtwith-credit:hover {
-  color: var(--sl-color-accent, #7aa2f7);
-  background-color: color-mix(in srgb, var(--sl-color-accent, #7aa2f7) 8%, transparent);
-}
-
-.builtwith-credit__dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--sl-color-accent, #7aa2f7);
-  opacity: 0.7;
-  flex-shrink: 0;
-}
-
-.builtwith-credit__text {
-  color: var(--sl-color-gray-2, rgba(255, 255, 255, 0.5));
-}
-
-.builtwith-credit__sep {
-  color: var(--sl-color-gray-5, rgba(255, 255, 255, 0.2));
-  margin: 0 0.1rem;
-}
-
-.builtwith-credit__company {
-  color: var(--sl-color-accent-high, var(--sl-color-accent, #7aa2f7));
-  font-weight: 600;
-}
-
-.builtwith-credit--footer {
-  margin-left: auto;
-}
-
-.builtwith-credit--corner {
-  position: fixed;
-  bottom: 0.75rem;
-  right: 0.75rem;
-  z-index: 9000;
-  background: color-mix(in srgb, var(--sl-color-bg-nav, #1a1b26) 85%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--sl-color-hairline, rgba(255, 255, 255, 0.08));
-  font-size: 0.68rem;
-  padding: 0.3rem 0.5rem;
-}
-
-.builtwith-credit--docs {
-  display: inline-flex;
-  justify-content: center;
-  font-size: 0.75rem;
-}
-
-.builtwith-docs-wrapper {
-  display: block;
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--sl-color-hairline);
-  text-align: center;
-}
-
-@media (max-width: 48rem) {
-  .builtwith-credit--footer {
-    margin-left: 0;
-    margin-top: 0.75rem;
-  }
-  .builtwith-credit--corner {
-    bottom: 0.5rem;
-    right: 0.5rem;
-    font-size: 0.64rem;
-  }
-}
-/* varsha-builtwith:end */
 
 /* Light-palette code tokens: every Shiki light color that sat near 4.2:1 on the code
    background is darkened just enough to clear AA (4.5:1). Dark mode uses --0 and is untouched. */

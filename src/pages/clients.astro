@@ -1,0 +1,537 @@
+---
+import MarketingLayout from '../components/MarketingLayout.astro';
+import { SITE_CONFIG } from '../config/site';
+import { PLATFORM_GUIDES, PROXY_CLIENTS } from '../data/clients';
+import { AIRPORT_BRANDS } from '../data/brands';
+
+const title = `2026 机场代理客户端下载与配置大全 (Windows/Android/iOS/Mac/Linux/OpenWrt) — ${SITE_CONFIG.name}`;
+const description = `全面汇总 6 大操作系统 21 款主流代理客户端：涵盖 Clash Verge Rev、FlClash、v2rayN、v2rayNG、Shadowrocket 小火箭、Quantumult X、Hiddify、Karing 及 OpenWrt 软路由插件，附 42 家机场订阅兼容性双向映射表。`;
+
+const bothSupportBrands = AIRPORT_BRANDS.filter((b) => b.clientSupport === 'both' && b.tier !== 'historical');
+const thirdPartyBrands = AIRPORT_BRANDS.filter((b) => b.clientSupport === 'third-party' && b.tier !== 'historical');
+const exclusiveBrands = AIRPORT_BRANDS.filter((b) => b.clientSupport === 'exclusive' && b.tier !== 'historical');
+
+const clientsJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: '2026 跨平台代理客户端与软路由工具大全',
+  description,
+  numberOfItems: PROXY_CLIENTS.length,
+  itemListElement: PROXY_CLIENTS.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: `${c.name} (${c.platforms.join('/')})`,
+    url: c.sourceUrl,
+  })),
+};
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  canonicalPath="/clients/"
+  activeNav="clients"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(clientsJsonLd)} />
+
+  <header class="page-hero-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="overline">Cross-Platform Proxy Clients Hub · 6大系统全覆盖</span>
+        <h1>2026 机场代理客户端大全与订阅兼容指南</h1>
+        <p class="section-desc">
+          收录 Windows、Android、iPhone/iPad (iOS)、macOS、Linux 与 OpenWrt 软路由 6 大平台共 <strong>{PROXY_CLIENTS.length} 款</strong>经过核验的开源及主流代理工具。同时为您梳理 42 家机场的「通用订阅导入」与「官方专属客户端免配置」双向兼容关系。
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <div style="padding: 2.5rem 0 4rem;">
+    <div class="container">
+
+      <!-- 6 大系统平台选型速览卡片 -->
+      <div class="compare-cards" style="margin-bottom: 2rem;">
+        {PLATFORM_GUIDES.map((plat) => (
+          <div class="compare-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+              <span style="font-size:1.5rem;">{plat.icon}</span>
+              <span class="blog-tag">{plat.id} 平台</span>
+            </div>
+            <h2 style="font-size:1.15rem;margin:0.2rem 0 0.5rem;">{plat.name}</h2>
+            <p style="font-size:0.86rem;color:var(--text-secondary);line-height:1.6;margin:0 0 0.75rem;">
+              {plat.summary}
+            </p>
+            <div class="plat-tip-box">
+              <strong>⚠️ 平台必读提示：</strong>
+              <span>{plat.tip}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- 客户端搜索与系统筛选工具栏 -->
+      <div class="plugins-toolbar" role="region" aria-label="按操作系统筛选客户端">
+        <div class="search-box" style="width:100%;margin-bottom:0.75rem;">
+          <input
+            type="search"
+            id="client-search"
+            placeholder="搜索客户端名称 (如 Clash Verge Rev、Shadowrocket、v2rayN、Hiddify)、内核 (Mihomo/sing-box)、协议..."
+            aria-label="搜索代理客户端"
+            class="plugin-search-input"
+          />
+        </div>
+        <div class="filter-pills" id="client-platform-pills">
+          <button class="pill active" data-platform="all">全部客户端 ({PROXY_CLIENTS.length})</button>
+          <button class="pill" data-platform="Windows">💻 Windows</button>
+          <button class="pill" data-platform="Android">📱 Android 安卓</button>
+          <button class="pill" data-platform="iOS">🍎 iPhone / iPad (iOS)</button>
+          <button class="pill" data-platform="macOS">🖥️ macOS 苹果电脑</button>
+          <button class="pill" data-platform="Linux">🐧 Linux</button>
+          <button class="pill" data-platform="OpenWrt">📡 OpenWrt 软路由</button>
+        </div>
+      </div>
+
+      <!-- 21 款客户端卡片网格 -->
+      <div class="compare-cards" id="clients-grid" style="margin-top: 1.5rem;">
+        {PROXY_CLIENTS.map((client) => {
+          const searchStr = `${client.name} ${client.platforms.join(' ')} ${client.kernel} ${client.protocols.join(' ')} ${client.features} ${client.pricing}`.toLowerCase();
+          return (
+            <article
+              class="compare-card client-card"
+              data-platforms={client.platforms.join(' ')}
+              data-search={searchStr}
+            >
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+                <span class="blog-tag">{client.beginnerFriendly}</span>
+                <span class={client.pricing === '免费开源' ? 'yes' : 'partial'} style="font-size:0.76rem;">
+                  {client.pricing}
+                </span>
+              </div>
+
+              <h3 style="font-size:1.2rem;margin:0 0 0.35rem;">{client.name}</h3>
+
+              <div class="client-meta-rows">
+                <div><strong>支持平台：</strong>{client.platforms.join(' · ')}</div>
+                <div><strong>底层内核：</strong>{client.kernel}</div>
+                <div><strong>兼容协议：</strong>{client.protocols.join(' / ')}</div>
+                <div><strong>官方渠道：</strong>{client.sourceLabel}</div>
+              </div>
+
+              <p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.6;margin:0.65rem 0;">
+                {client.features}
+              </p>
+
+              {client.archNote && (
+                <div class="arch-note-box">
+                  <strong>📦 安装包/架构提示：</strong>{client.archNote}
+                </div>
+              )}
+
+              {client.caution && (
+                <div class="caution-note-box">
+                  <strong>🛡️ 安全与费用提醒：</strong>{client.caution}
+                </div>
+              )}
+
+              <div class="client-card-footer">
+                <a
+                  href={client.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-primary btn-sm client-download-btn"
+                >
+                  前往官方下载 ↗
+                </a>
+                <a href="/docs/" class="btn btn-ghost btn-sm client-docs-btn">配置教程 &rarr;</a>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+
+  <!-- 机场与客户端双向兼容映射模块 -->
+  <section class="compare-summary">
+    <div class="container">
+      <div class="section-header">
+        <span class="overline">Bidirectional Compatibility Matrix · 机场与客户端双向映射</span>
+        <h2>哪家机场支持 Clash / 小火箭订阅？哪家自带免配置专属客户端？</h2>
+        <p class="section-desc">
+          购买机场前请务必确认其客户端支持模式：部分机场仅支持官方专属客户端账号密码登录，无法导出订阅链接到软路由或 Shadowrocket；而榜首 <strong>#1 光速云</strong> 则同时提供两种方式。
+        </p>
+      </div>
+
+      <div class="compat-three-cols">
+        <!-- 模式 1：双栖支持 -->
+        <div class="compat-col highlight">
+          <span class="compat-badge badge-mode-a">
+            🌟 模式 A · 双模全兼容（{bothSupportBrands.length} 家 · 最推荐）
+          </span>
+          <h3>官方自研客户端 + 通用订阅双栖支持</h3>
+          <p class="compat-desc">
+            既提供新手免配置自研端（登录即连），又完整开放 Clash / 小火箭 / 软路由通用订阅，兼顾省心与进阶。
+          </p>
+
+          <div class="compat-featured-top">
+            <a href="/brands/guangsuyun/" class="compat-top-banner banner-mode-a">
+              <span class="top-tag">👑 2026 年度第一主推 · 综合实力王</span>
+              <div class="top-title">#1 光速云 (GuangSuYun) &rarr;</div>
+              <div class="top-sub">自研专属端 + Clash/小火箭双栖 · ¥99/年 或 ¥147永久</div>
+            </a>
+          </div>
+
+          <div class="compat-tags-label">更多双栖兼容品牌（共 {bothSupportBrands.length - 1} 家）：</div>
+          <div class="compat-brand-tags">
+            {bothSupportBrands.filter((b) => b.slug !== 'guangsuyun').map((b) => (
+              <a href={`/brands/${b.slug}/`} class="compat-brand-link" title={`查看 #${b.rank} ${b.name} 评测`}>
+                #{b.rank} {b.name}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <!-- 模式 2：通用订阅导入 -->
+        <div class="compat-col">
+          <span class="compat-badge badge-mode-b">
+            🔄 模式 B · 标准通用订阅（{thirdPartyBrands.length} 家 · 极客自选）
+          </span>
+          <h3>支持 Clash / 小火箭 / v2rayN 订阅</h3>
+          <p class="compat-desc">
+            通过复制订阅链接导入第三方软件使用，支持自定义规则分流、TUN 虚拟网卡及 OpenWrt 软路由透明代理。
+          </p>
+
+          <div class="compat-featured-top">
+            <a href="/brands/xingdaomeng/" class="compat-top-banner banner-mode-b">
+              <span class="top-tag">⚡ 专线订阅代表品牌</span>
+              <div class="top-title">#6 星岛梦 (XingDaoMeng) &rarr;</div>
+              <div class="top-sub">IEPL 专线 · Trojan 协议 · 自由导入第三方客户端</div>
+            </a>
+          </div>
+
+          <div class="compat-tags-label">更多通用订阅品牌（共 {thirdPartyBrands.length - 1} 家）：</div>
+          <div class="compat-brand-tags">
+            {thirdPartyBrands.filter((b) => b.slug !== 'xingdaomeng').map((b) => (
+              <a href={`/brands/${b.slug}/`} class="compat-brand-link" title={`查看 #${b.rank} ${b.name} 评测`}>
+                #{b.rank} {b.name}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <!-- 模式 3：专属客户端免配置 -->
+        <div class="compat-col">
+          <span class="compat-badge badge-mode-c">
+            🛡️ 模式 C · 纯官方专属端（{exclusiveBrands.length} 家 · 新手免配置）
+          </span>
+          <h3>下载官方客户端登录即连 (无第三方订阅)</h3>
+          <p class="compat-desc">
+            纯傻瓜式一键开关，防订阅泄露能力强，适合不想折腾配置的新手；但<strong>不支持</strong>导入第三方软件或路由器。
+          </p>
+
+          <div class="compat-featured-top">
+            <a href="/brands/feimao/" class="compat-top-banner banner-mode-c">
+              <span class="top-tag">🎈 新手一键开箱代表</span>
+              <div class="top-title">#4 飞猫云 (FlyCat Cloud) &rarr;</div>
+              <div class="top-sub">官方客户端输入账号即连 · 学生版 ¥7/月</div>
+            </a>
+          </div>
+
+          <div class="compat-tags-label">更多专属端品牌（共 {exclusiveBrands.length - 1} 家）：</div>
+          <div class="compat-brand-tags">
+            {exclusiveBrands.filter((b) => b.slug !== 'feimao').map((b) => (
+              <a href={`/brands/${b.slug}/`} class="compat-brand-link" title={`查看 #${b.rank} ${b.name} 评测`}>
+                #{b.rank} {b.name}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5大安全与架构避坑铁律 -->
+  <section class="compare-matrix" style="padding-top:0;">
+    <div class="container">
+      <h2>三、客户端下载与安装 5 大防踩坑核验清单</h2>
+      <div class="matrix-wrap">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>核验维度</th>
+              <th>常见误区 / 踩坑现象</th>
+              <th class="col-highlight">正确操作规范（2026 核验标准）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. iOS 客户端购买与平替</strong></td>
+              <td>误以为大陆区 App Store 可搜到或全部免费，甚至轻信第三方共享账号直接登录 iCloud</td>
+              <td class="col-highlight">
+                需使用美区/港区等非国区 Apple ID 登录 <strong>App Store 商店</strong>（切勿登录 iCloud 设置）。Shadowrocket、Stash、Quantumult X 为付费买断制；若需免费方案可选 <strong>Hiddify、Karing、Clash Mi、Streisand 或 sing-box</strong>。
+              </td>
+            </tr>
+            <tr>
+              <td><strong>2. Android NekoBox 渠道风险</strong></td>
+              <td>在 Google Play 商店或不明下载站搜索下载同名 NekoBox</td>
+              <td class="col-highlight">
+                NekoBox 官方仓库已提示维护资源有限，且<strong>严禁下载 Google Play 上已被第三方控制的同名版本</strong>。安卓用户优先推荐 <strong>v2rayNG、FlClash、Hiddify 或 Karing</strong> GitHub 官方 APK。
+              </td>
+            </tr>
+            <tr>
+              <td><strong>3. macOS 芯片架构区分</strong></td>
+              <td>Apple M1/M2/M3/M4 电脑下载了 x64 安装包导致无法打开或性能下降</td>
+              <td class="col-highlight">
+                Apple Silicon 芯片（M1～M4）请下载标有 <code>arm64</code> 或 <code>aarch64</code> 的 DMG/PKG；老款 Intel 芯片 Mac 请下载 <code>x64</code> 或 <code>x86_64</code> 版本。
+              </td>
+            </tr>
+            <tr>
+              <td><strong>4. Linux 发行版与无桌面环境</strong></td>
+              <td>在无图形界面的 Ubuntu/Debian 服务器上强行安装桌面 GUI 客户端</td>
+              <td class="col-highlight">
+                桌面版按发行版选择 <code>.deb</code> (Debian/Ubuntu)、<code>.rpm</code> (Fedora/RHEL) 或 <code>.AppImage</code>；无桌面主机或旁路由强烈推荐使用 Web 控制台管理的 <strong>v2rayA</strong>。
+              </td>
+            </tr>
+            <tr>
+              <td><strong>5. OpenWrt 软路由固件依赖</strong></td>
+              <td>不看固件版本直接强刷 ipk 插件导致内核模块或防火墙冲突断网</td>
+              <td class="col-highlight">
+                安装前先核对 CPU 架构与防火墙框架（iptables vs nftables / fw4）。例如 <strong>Nikki</strong> 明确要求 <strong>OpenWrt 24.10 及以上版本</strong>；老版本固件可评估 OpenClash 或 PassWall2。
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      const searchInput = document.getElementById('client-search');
+      const pills = document.querySelectorAll('#client-platform-pills .pill');
+      const cards = document.querySelectorAll('#clients-grid .client-card');
+      let currentPlatform = 'all';
+
+      function filterClients() {
+        const q = (searchInput ? searchInput.value : '').trim().toLowerCase();
+        cards.forEach((card) => {
+          const plats = (card.getAttribute('data-platforms') || '').split(' ');
+          const blob = card.getAttribute('data-search') || '';
+          const matchPlat = currentPlatform === 'all' || plats.includes(currentPlatform);
+          const matchQ = !q || blob.includes(q);
+          card.style.display = matchPlat && matchQ ? '' : 'none';
+        });
+      }
+
+      pills.forEach((pill) => {
+        pill.addEventListener('click', () => {
+          pills.forEach((p) => p.classList.remove('active'));
+          pill.classList.add('active');
+          currentPlatform = pill.getAttribute('data-platform') || 'all';
+          filterClients();
+        });
+      });
+
+      if (searchInput) searchInput.addEventListener('input', filterClients);
+    })();
+  </script>
+
+  <style>
+    .plat-tip-box {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.65rem 0.75rem;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      margin-top: auto;
+    }
+    .client-card {
+      display: flex;
+      flex-direction: column;
+    }
+    .client-card-footer {
+      margin-top: auto;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .client-download-btn {
+      flex: 1 1 auto;
+      justify-content: center;
+      white-space: nowrap;
+      text-align: center;
+    }
+    .client-docs-btn {
+      flex: 0 0 auto;
+      white-space: nowrap;
+      justify-content: center;
+      text-align: center;
+    }
+    .client-meta-rows {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0.55rem 0;
+    }
+    .arch-note-box {
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 8px;
+      padding: 0.55rem 0.75rem;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      margin-bottom: 0.5rem;
+    }
+    .caution-note-box {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: 8px;
+      padding: 0.55rem 0.75rem;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      margin-bottom: 0.5rem;
+    }
+    .compat-three-cols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+      align-items: stretch;
+    }
+    @media (max-width: 920px) {
+      .compat-three-cols {
+        grid-template-columns: 1fr;
+      }
+    }
+    .compat-col {
+      background: var(--bg-elevated);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md, 4px);
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .compat-col.highlight {
+      border-color: #22d3ee;
+    }
+    .compat-badge {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      margin-bottom: 0.6rem;
+    }
+    .badge-mode-a {
+      background: rgba(34, 211, 238, 0.16);
+      color: #22d3ee;
+    }
+    .badge-mode-b {
+      background: rgba(16, 185, 129, 0.16);
+      color: #10b981;
+    }
+    .badge-mode-c {
+      background: rgba(245, 158, 11, 0.16);
+      color: #f59e0b;
+    }
+    .compat-col h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.12rem;
+      color: var(--ink);
+    }
+    .compat-desc {
+      font-size: 0.86rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0 0 1rem;
+    }
+    .compat-featured-top {
+      margin-bottom: 0.85rem;
+    }
+    .compat-top-banner {
+      display: block;
+      background: var(--bg);
+      border: 1.5px solid var(--line-strong);
+      border-radius: var(--radius-sm, 2px);
+      padding: 0.75rem 0.9rem;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .compat-top-banner:hover {
+      background: var(--accent-soft);
+      transform: translateY(-1px);
+    }
+    .compat-top-banner.banner-mode-a {
+      border-color: #22d3ee;
+    }
+    .compat-top-banner.banner-mode-a .top-tag {
+      color: #22d3ee;
+    }
+    .compat-top-banner.banner-mode-b {
+      border-color: #10b981;
+    }
+    .compat-top-banner.banner-mode-b .top-tag {
+      color: #10b981;
+    }
+    .compat-top-banner.banner-mode-c {
+      border-color: #f59e0b;
+    }
+    .compat-top-banner.banner-mode-c .top-tag {
+      color: #f59e0b;
+    }
+    .compat-top-banner .top-tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+    .compat-top-banner .top-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .compat-top-banner .top-sub {
+      font-size: 0.76rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+      line-height: 1.4;
+    }
+    .compat-tags-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 600;
+      margin: 0.45rem 0 0.5rem;
+    }
+    .compat-brand-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+    .compat-brand-link {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm, 2px);
+      padding: 0.3rem 0.6rem;
+      font-size: 0.78rem;
+      color: var(--ink);
+      font-family: var(--mono);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.12s ease;
+      white-space: nowrap;
+    }
+    .compat-brand-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+  </style>
+</MarketingLayout>

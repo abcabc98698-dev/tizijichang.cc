@@ -1,0 +1,678 @@
+---
+import MarketingLayout from '../../components/MarketingLayout.astro';
+import { SITE_CONFIG } from '../../config/site';
+import { AIRPORT_BRANDS, TOP10_BRANDS, ACTIVE_BRANDS, HISTORICAL_BRANDS } from '../../data/brands';
+
+const title = `2026 梯子机场 42 家品牌大全与实测索引库 (IEPL专线/优惠码/客户端筛选) — ${SITE_CONFIG.name}`;
+const description = `收录 42 家梯子机场完整数据库：以 #1 光速云（IEPL+企业内网双专线、斯诺克147永久套餐、99元/年轻量版）为首，支持按线路类型、价格区间、Clash/小火箭通用订阅、专属客户端及实测状态多维筛选。`;
+
+const itemListJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: '2026 梯子机场 42 家品牌库与评测索引',
+  description,
+  numberOfItems: AIRPORT_BRANDS.length,
+  itemListElement: AIRPORT_BRANDS.map((brand) => ({
+    '@type': 'ListItem',
+    position: brand.rank,
+    name: `${brand.name} (${brand.enName})`,
+    url: `${SITE_CONFIG.url}/brands/${brand.slug}/`,
+  })),
+};
+
+const statusLabelMap = {
+  measured: { text: 'Measured · 近期实测', cls: 'status-measured' },
+  vendor: { text: 'Vendor · 官方参数', cls: 'status-vendor' },
+  historical: { text: 'Historical · 历史档案', cls: 'status-historical' },
+  unverified: { text: 'Unverified · 待核实', cls: 'status-unverified' },
+};
+
+const clientLabelMap = {
+  both: '自研客户端 + 通用订阅 (Clash/小火箭)',
+  'third-party': '通用订阅导入 (Clash/小火箭/v2rayN)',
+  exclusive: '官方专属客户端免配置登录',
+  unverified: '客户端支持方式待核实',
+};
+
+const hasUnlimitedPlan = (b: typeof AIRPORT_BRANDS[number]) =>
+  b.plans.some((p) => p.cycle.includes('一次性') || p.cycle.includes('不限时') || p.period.includes('永久') || p.period.includes('不限时')) ||
+  b.entryTraffic.includes('永久') ||
+  b.entryTraffic.includes('不限时');
+
+const guangsuyun = AIRPORT_BRANDS[0];
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  canonicalPath="/brands/"
+  activeNav="brands"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(itemListJsonLd)} />
+
+  <header class="page-hero-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="overline">42 Airport Brands Observatory · 全量品牌数据库</span>
+        <h1>42 家梯子机场品牌库与多维检索中心</h1>
+        <p class="section-desc">
+          严格区分「实测数据 (Measured)」、「品牌官方参数 (Vendor)」、「历史归档 (Historical)」与「待核实 (Unverified)」。榜首第一主推 <strong>#1 光速云</strong>，前 28 家为当期主力与细分优选，第 29～42 家为历史记录归档置于末尾供老用户核验。
+        </p>
+      </div>
+
+      <!-- 合规推广披露与数据状态图例 -->
+      <div class="compliance-bar" role="note" aria-label="推广披露与数据核验说明">
+        <div class="compliance-text">
+          <strong>透明评测与推广披露：</strong>本站部分机场官网入口含推广链接（均标注 <code>rel="nofollow sponsored noopener"</code>），通过链接注册可能为本站带来佣金，但<strong>绝不影响用户支付价格</strong>，结合专属优惠码还可享受额外折扣。所有套餐价格与节点表现具有时效性，请以各品牌官网实时公布为准。
+        </div>
+        <div class="status-legend">
+          <span class="legend-badge status-measured">● Measured 近期实测 (17家含测速图)</span>
+          <span class="legend-badge status-vendor">● Vendor 品牌官方资料</span>
+          <span class="legend-badge status-historical">● Historical 历史记录 (后置归档)</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div style="padding: 2.5rem 0 4rem;">
+    <div class="container">
+      <!-- 榜首首选主推：#1 光速云旗舰横幅 -->
+      <div class="featured-spotlight">
+        <div class="featured-spotlight-badge">👑 2026 年度综合排名 #1 · 全站首选主力机场</div>
+        <div class="featured-spotlight-grid">
+          <div class="featured-spotlight-main">
+            <h2>
+              <a href={`/brands/${guangsuyun.slug}/`}>#1 {guangsuyun.name} ({guangsuyun.enName})</a>
+              <span class="promo-pill">新人优惠码：{guangsuyun.promoCode}</span>
+            </h2>
+            <p class="featured-usp">{guangsuyun.uniqueSellingPoint}</p>
+            <p class="featured-summary">{guangsuyun.summary}</p>
+            <div class="featured-metrics">
+              <div class="metric-chip">
+                <span class="metric-k">起步折算价</span>
+                <span class="metric-v">¥8.25/月 (年付¥99)</span>
+              </div>
+              <div class="metric-chip">
+                <span class="metric-k">永久流量王牌</span>
+                <span class="metric-v">¥147 / 247GB 不过期</span>
+              </div>
+              <div class="metric-chip">
+                <span class="metric-k">线路与协议</span>
+                <span class="metric-v">IEPL + 企业内网双专线 · VLESS</span>
+              </div>
+              <div class="metric-chip">
+                <span class="metric-k">客户端兼容</span>
+                <span class="metric-v">自研端 + Clash / 小火箭全支持</span>
+              </div>
+            </div>
+          </div>
+          <div class="featured-spotlight-actions">
+            <a href={`/brands/${guangsuyun.slug}/`} class="btn btn-primary" style="width:100%;justify-content:center;">
+              查看光速云深度评测与测速图 &rarr;
+            </a>
+            {guangsuyun.registerUrl && (
+              <a
+                href={guangsuyun.registerUrl}
+                target="_blank"
+                rel="nofollow sponsored noopener"
+                class="btn btn-ghost"
+                style="width:100%;justify-content:center;"
+              >
+                访问光速云官网 (优惠码 AMM) ↗
+              </a>
+            )}
+            <span class="featured-Verify">最近核验：{guangsuyun.verifiedAt} · 不限设备数 · 支付宝/微信/USDT</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 搜索、排序與多維篩選工具欄 -->
+      <div class="plugins-toolbar" role="region" aria-label="筛选与搜索机场品牌">
+        <div class="toolbar-top-row">
+          <div class="search-box" style="flex:1;min-width:240px;">
+            <input
+              type="search"
+              id="brand-search"
+              placeholder="搜索机场名称、英文名、优惠码 (如 AMM)、协议 (VLESS/Trojan/Hysteria2)、地区..."
+              aria-label="搜索 42 家机场品牌"
+              class="plugin-search-input"
+            />
+          </div>
+          <div class="sort-box">
+            <label for="brand-sort" class="sort-label">排序方式：</label>
+            <select id="brand-sort" class="sort-select" aria-label="选择品牌排序方式">
+              <option value="rank">默认：综合推荐排名 (#1 → #42)</option>
+              <option value="price-asc">月均起步价：从低到高 (¥5.6 起)</option>
+              <option value="measured-first">数据完整度：含实测测速图优先</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filter-pills" id="brand-filter-pills">
+          <button class="pill active" data-filter="all">全部品牌 ({AIRPORT_BRANDS.length})</button>
+          <button class="pill" data-filter="top10">🏆 Top 10 主力推荐 ({TOP10_BRANDS.length})</button>
+          <button class="pill" data-filter="active">⚡ 当期活跃可用 ({ACTIVE_BRANDS.length})</button>
+          <button class="pill" data-filter="measured">📊 含实测测速图 (17)</button>
+          <button class="pill" data-filter="third-party">🔄 支持 Clash/小火箭订阅</button>
+          <button class="pill" data-filter="exclusive">🛡️ 免配置专属客户端</button>
+          <button class="pill" data-filter="unlimited">♾️ 含永久/不限时流量包</button>
+          <button class="pill" data-filter="budget">💰 ≤10元/月 平价入门</button>
+          <button class="pill" data-filter="historical">📁 历史档案/待核实 ({HISTORICAL_BRANDS.length})</button>
+        </div>
+      </div>
+
+      <p id="filter-count-status" style="color:var(--text-secondary);font-size:0.9rem;margin:1rem 0 0.5rem;">
+        当前显示全部 <strong>{AIRPORT_BRANDS.length}</strong> 家机场品牌（#1 光速云领衔，#29～#42 历史档案置于列表后段）。
+      </p>
+
+      <!-- 42家品牌卡片网格 -->
+      <div class="compare-cards brand-grid" id="brands-grid" style="margin-top: 1.25rem;">
+        {AIRPORT_BRANDS.map((brand) => {
+          const unlimited = hasUnlimitedPlan(brand);
+          const budget = brand.minMonthlyNum <= 10.5;
+          const supportsThirdParty = brand.clientSupport === 'both' || brand.clientSupport === 'third-party';
+          const isExclusive = brand.clientSupport === 'exclusive' || brand.clientSupport === 'both';
+          const hasScreenshot = Boolean(brand.speedtest.screenshot);
+          const statusInfo = statusLabelMap[brand.speedtest.dataStatus];
+
+          const filterTags = [
+            brand.tier,
+            brand.tier !== 'historical' ? 'active' : '',
+            hasScreenshot ? 'measured' : '',
+            supportsThirdParty ? 'third-party' : '',
+            isExclusive ? 'exclusive' : '',
+            unlimited ? 'unlimited' : '',
+            budget ? 'budget' : '',
+          ]
+            .filter(Boolean)
+            .join(' ');
+
+          const searchBlob = `${brand.name} ${brand.enName} ${brand.promoCode || ''} ${brand.lineType} ${brand.protocols.join(' ')} ${brand.regions.join(' ')} ${brand.uniqueSellingPoint} ${brand.summary}`.toLowerCase();
+
+          return (
+            <article
+              class={`compare-card brand-card ${brand.isFeatured ? 'highlight brand-featured' : ''} ${brand.tier === 'historical' ? 'brand-historical' : ''}`}
+               style={`border-top: 3px solid ${brand.accentColor};`}
+              data-rank={brand.rank}
+              data-price={brand.minMonthlyNum}
+              data-measured={hasScreenshot ? '1' : '0'}
+              data-filters={filterTags}
+              data-search={searchBlob}
+            >
+              <div class="brand-card-top">
+                <div class="brand-rank-wrap">
+                  <span class="brand-rank-badge" style={`background:${brand.accentColor}22;color:${brand.accentColor};border:1px solid ${brand.accentColor}55;`}>
+                    #{brand.rank}
+                  </span>
+                  <span class={`data-badge ${statusInfo.cls}`}>{statusInfo.text}</span>
+                </div>
+                {brand.promoCode ? (
+                  <span class="promo-tag" title={brand.promoNote}>优惠码: {brand.promoCode}</span>
+                ) : (
+                  <span class="founded-tag">{brand.foundedYear}</span>
+                )}
+              </div>
+
+              <h2 class="brand-card-title">
+                <a href={`/brands/${brand.slug}/`}>
+                  {brand.name} <small>({brand.enName})</small>
+                </a>
+              </h2>
+
+              <p class="brand-card-usp">{brand.uniqueSellingPoint}</p>
+
+              <div class="brand-specs-list">
+                <div class="spec-row">
+                  <span class="spec-k">起步价格</span>
+                  <strong class="spec-v price-highlight">{brand.startingPrice}</strong>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-k">入门流量</span>
+                  <span class="spec-v">{brand.entryTraffic}</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-k">线路架构</span>
+                  <span class="spec-v">{brand.lineType}</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-k">支持协议</span>
+                  <span class="spec-v">{brand.protocols.join(' / ')}</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-k">客户端兼容</span>
+                  <span class="spec-v">{clientLabelMap[brand.clientSupport]}</span>
+                </div>
+              </div>
+
+              <div class="brand-tags-row">
+                {hasScreenshot && <span class="blog-tag">📸 含实测测速图</span>}
+                {unlimited && <span class="blog-tag">♾️ 含不限时/永久流量包</span>}
+                {brand.unlock.chatgpt === 'Supported' && <span class="blog-tag">🤖 ChatGPT 解锁</span>}
+                {brand.unlock.netflix === 'Supported' && <span class="blog-tag">🎬 Netflix 4K</span>}
+              </div>
+
+              <div class="brand-card-footer">
+                <a href={`/brands/${brand.slug}/`} class="btn btn-primary btn-sm">
+                  评测详情与测速表 &rarr;
+                </a>
+                {brand.registerUrl ? (
+                  <a
+                    href={brand.registerUrl}
+                    target="_blank"
+                    rel="nofollow sponsored noopener"
+                    class="btn btn-ghost btn-sm"
+                  >
+                    官网注册 ↗
+                  </a>
+                ) : (
+                  <a href="/brands/guangsuyun/" class="btn btn-ghost btn-sm" title="该品牌暂无有效独立入口，推荐前往榜首 #1 光速云">
+                    替代首选: 光速云 &rarr;
+                  </a>
+                )}
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+
+  <!-- 选型方法论与内链导航模块 -->
+  <section class="compare-summary" style="padding-top:1rem;">
+    <div class="container">
+      <div class="section-header">
+        <span class="overline">Selection Methodology · 科学选型矩阵</span>
+        <h2>如何从 42 家机场中快速锁定最适合你的主力梯子？</h2>
+        <p class="section-desc">
+          不同预算、设备环境与使用场景对应的最优解截然不同。如果您不想逐一比对 42 家参数，可直接按以下 4 条黄金准则对号入座：
+        </p>
+      </div>
+      <div class="compare-cards">
+        <div class="compare-card highlight">
+          <h3>1. 全能主力与永久流量包首选</h3>
+          <p class="compare-card-tag">推荐：#1 光速云 (GuangSuYun)</p>
+          <p style="color:var(--text-secondary);font-size:0.92rem;line-height:1.6;">
+            2020 年老牌运营，IEPL + 企业级内网双专线架构。既提供折合 <strong>¥8.25/月（¥99/年 69GB/月）</strong>的高性价比轻量年付，又独创 <strong>¥147 一次性 247GB 永久不过期</strong>的「致敬斯诺克147永久套餐」，同时兼容自研客户端与 Clash/Shadowrocket，适合 90% 以上用户作为主力或永不失联备用梯。
+          </p>
+          <a href="/brands/guangsuyun/" class="card-link">查看 #1 光速云完整评测 &rarr;</a>
+        </div>
+        <div class="compare-card">
+          <h3>2. 零配置新手与免折腾专属客户端</h3>
+          <p class="compare-card-tag">推荐：#1 光速云 / #4 飞猫云 / #6 无忧链接</p>
+          <p style="color:var(--text-secondary);font-size:0.92rem;line-height:1.6;">
+            不想研究订阅转换、规则分流或外区 Apple ID 的新手用户，可优先选择提供官方自研客户端的品牌。其中<strong>光速云</strong>兼顾自研端与第三方订阅，而<strong>飞猫云、无忧链接、Firefly、灵猫网络</strong>采用纯专属客户端登录即连。
+          </p>
+          <a href="/clients/" class="card-link">查看 6 大系统客户端兼容指南 &rarr;</a>
+        </div>
+        <div class="compare-card">
+          <h3>3. 5～9 元/月极限平价与学生党备用</h3>
+          <p class="compare-card-tag">推荐：#11 优云 / #9 龙猫云 / #13 极连云</p>
+          <p style="color:var(--text-secondary);font-size:0.92rem;line-height:1.6;">
+            预算控制在每月 10 元以内、主要用于日常网页查阅与轻度视频的用户，可对比 <strong>优云（¥5.6/月 60G）</strong>、<strong>极连云（¥6/月 60G 含实测图）</strong>、<strong>青云梯（¥8/月年付）</strong>以及<strong>光速云 ¥99/年轻量版（¥8.25/月）</strong>。
+          </p>
+          <a href="/compare/" class="card-link">进入 42 家价格与带宽横评表 &rarr;</a>
+        </div>
+        <div class="compare-card">
+          <h3>4. 历史品牌老用户避坑与平替指南</h3>
+          <p class="compare-card-tag">编号 #29～#42 历史档案区</p>
+          <p style="color:var(--text-secondary);font-size:0.92rem;line-height:1.6;">
+            编号 #29（隐形人、暴风骤雨、闪连、快猫、飞鸟、极速云等）至 #42（SSLAR）源自 2026-08 历史测评档案或当前缺少独立可用入口。本站将其统一后置并标注风险提示，建议原用户直接平滑迁移至 <strong>#1 光速云</strong> 或 Top 10 活跃品牌。
+          </p>
+          <a href="/ranking/" class="card-link">查看 2026 Top 10 权威推荐榜 &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      const searchInput = document.getElementById('brand-search');
+      const sortSelect = document.getElementById('brand-sort');
+      const pills = document.querySelectorAll('#brand-filter-pills .pill');
+      const grid = document.getElementById('brands-grid');
+      const statusEl = document.getElementById('filter-count-status');
+      if (!grid) return;
+
+      const cards = Array.from(grid.querySelectorAll('.brand-card'));
+      let currentFilter = 'all';
+
+      function updateView() {
+        const query = (searchInput ? searchInput.value : '').trim().toLowerCase();
+        const sortBy = sortSelect ? sortSelect.value : 'rank';
+
+        let visibleCount = 0;
+        cards.forEach((card) => {
+          const filters = (card.getAttribute('data-filters') || '').split(' ');
+          const searchBlob = card.getAttribute('data-search') || '';
+          const matchesFilter = currentFilter === 'all' || filters.includes(currentFilter);
+          const matchesSearch = !query || searchBlob.includes(query);
+
+          if (matchesFilter && matchesSearch) {
+            card.style.display = '';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        const sorted = [...cards].sort((a, b) => {
+          const rankA = Number(a.getAttribute('data-rank') || 999);
+          const rankB = Number(b.getAttribute('data-rank') || 999);
+          if (sortBy === 'price-asc') {
+            const priceA = Number(a.getAttribute('data-price') || 999);
+            const priceB = Number(b.getAttribute('data-price') || 999);
+            return priceA !== priceB ? priceA - priceB : rankA - rankB;
+          }
+          if (sortBy === 'measured-first') {
+            const mA = Number(a.getAttribute('data-measured') || 0);
+            const mB = Number(b.getAttribute('data-measured') || 0);
+            return mB !== mA ? mB - mA : rankA - rankB;
+          }
+          return rankA - rankB;
+        });
+
+        sorted.forEach((c) => grid.appendChild(c));
+
+        if (statusEl) {
+          statusEl.innerHTML = `当前筛选条件下共匹配 <strong>${visibleCount}</strong> 家机场品牌（总库 42 家）。`;
+        }
+      }
+
+      pills.forEach((pill) => {
+        pill.addEventListener('click', () => {
+          pills.forEach((p) => p.classList.remove('active'));
+          pill.classList.add('active');
+          currentFilter = pill.getAttribute('data-filter') || 'all';
+          updateView();
+        });
+      });
+
+      if (searchInput) searchInput.addEventListener('input', updateView);
+      if (sortSelect) sortSelect.addEventListener('change', updateView);
+    })();
+  </script>
+
+  <style>
+    .compliance-bar {
+      background: var(--bg-secondary, rgba(17, 22, 34, 0.6));
+      border: 1px solid var(--border, rgba(148, 163, 184, 0.2));
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .compliance-text {
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .status-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+    }
+    .legend-badge,
+    .data-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 600;
+    }
+    .status-measured {
+      background: rgba(16, 185, 129, 0.14);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+    .status-vendor {
+      background: rgba(56, 189, 248, 0.14);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+    .status-historical {
+      background: rgba(245, 158, 11, 0.14);
+      color: #f59e0b;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+    .status-unverified {
+      background: rgba(148, 163, 184, 0.14);
+      color: #94a3b8;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+    }
+    .featured-spotlight {
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.1), rgba(59, 130, 246, 0.06));
+      border: 2px solid rgba(34, 211, 238, 0.45);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.75rem;
+    }
+    .featured-spotlight-badge {
+      display: inline-block;
+      background: rgba(34, 211, 238, 0.18);
+      color: #22d3ee;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+    .featured-spotlight-grid {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    @media (max-width: 860px) {
+      .featured-spotlight-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .featured-spotlight-main h2 {
+      margin: 0 0 0.4rem;
+      font-size: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .featured-spotlight-main h2 a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .promo-pill {
+      font-size: 0.8rem;
+      background: rgba(16, 185, 129, 0.18);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+    }
+    .featured-usp {
+      color: var(--accent);
+      font-weight: 600;
+      margin: 0.25rem 0 0.5rem;
+      font-size: 0.95rem;
+    }
+    .featured-summary {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin: 0 0 1rem;
+    }
+    .featured-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 0.65rem;
+    }
+    .metric-chip {
+      background: var(--bg-primary, rgba(15, 23, 42, 0.5));
+      border: 1px solid var(--border);
+      padding: 0.55rem 0.75rem;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    .metric-k {
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+    }
+    .metric-v {
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+    .featured-spotlight-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .featured-Verify {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+    .toolbar-top-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 0.85rem;
+    }
+    .sort-box {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .sort-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .sort-select {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.88rem;
+    }
+    .brand-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .brand-card:hover {
+      transform: translateY(-2px);
+    }
+    .brand-historical {
+      opacity: 0.88;
+    }
+    .brand-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+    .brand-rank-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .brand-rank-badge {
+      font-family: var(--font-mono, monospace);
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+    }
+    .promo-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(16, 185, 129, 0.14);
+      color: #10b981;
+      padding: 0.18rem 0.55rem;
+      border-radius: 6px;
+    }
+    .founded-tag {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+    .brand-card-title {
+      font-size: 1.2rem;
+      margin: 0 0 0.35rem;
+    }
+    .brand-card-title a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .brand-card-title small {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+    .brand-card-usp {
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin: 0 0 0.75rem;
+      line-height: 1.45;
+    }
+    .brand-specs-list {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0.65rem 0;
+      margin-bottom: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.38rem;
+    }
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+      font-size: 0.83rem;
+    }
+    .spec-k {
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .spec-v {
+      text-align: right;
+      font-weight: 500;
+    }
+    .price-highlight {
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .brand-tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 0.9rem;
+    }
+    .brand-card-footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: auto;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--line);
+    }
+    .brand-card-footer .btn-sm {
+      padding: 0.45rem 0.75rem;
+      font-size: 0.82rem;
+      flex: 1 1 120px;
+      text-align: center;
+      justify-content: center;
+      white-space: nowrap;
+    }
+  </style>
+</MarketingLayout>

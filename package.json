@@ -1,17 +1,16 @@
 {
-  "name": "varsha-starter",
+  "name": "tiziui-web",
   "version": "1.0.0",
-  "description": "varsha — a premium website starter template by myndlabs. Built with Astro + Starlight.",
+  "description": "TiziUI — Modern static web architecture built with Astro and Starlight.",
   "private": true,
   "type": "module",
   "scripts": {
     "prepare-docs": "node scripts/prepare-docs.mjs",
-    "rebrand": "node scripts/rebrand.mjs",
-    "clean": "node -e \"const fs=require('fs');['.vercel','dist','build','src/content/docs/preview'].forEach(d=>fs.rmSync(d,{recursive:true,force:true}))\"",
-    "predev": "node scripts/rebrand.mjs",
+    "clean": "node -e \"const fs=require('fs');['.vercel','dist','build'].forEach(d=>fs.rmSync(d,{recursive:true,force:true}))\"",
     "dev": "node scripts/prepare-docs.mjs && astro dev",
-    "prebuild": "node scripts/rebrand.mjs && node -e \"const fs=require('fs');['.vercel','dist','build','src/content/docs/preview'].forEach(d=>fs.rmSync(d,{recursive:true,force:true}))\"",
+    "prebuild": "node -e \"const fs=require('fs');['.vercel','dist','build'].forEach(d=>fs.rmSync(d,{recursive:true,force:true}))\"",
     "build": "node scripts/prepare-docs.mjs && astro build",
+    "postbuild": "node -e \"const fs=require('fs');if(fs.existsSync('dist/sitemap-index.xml'))fs.copyFileSync('dist/sitemap-index.xml','dist/sitemap.xml');\"",
     "preview": "astro preview"
   },
   "dependencies": {

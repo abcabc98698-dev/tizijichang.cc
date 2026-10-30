@@ -7,30 +7,17 @@ const repoRoot = resolve(scriptsDir, '..');
 const publicDir = resolve(repoRoot, 'public');
 const docsDir = resolve(repoRoot, 'src/content/docs');
 
-const SITE = 'https://varsha.myndlabs.tech';
-const PRODUCT = 'varsha';
+const SITE = 'https://tizijichang.cc';
+const PRODUCT = 'TiziUI';
 
 await preparePublicAssets();
-await cleanStaleDirs();
 await generateAgentContext();
-
-async function cleanStaleDirs() {
-  const previewDir = resolve(docsDir, 'preview');
-  await rm(previewDir, { recursive: true, force: true });
-}
 
 async function preparePublicAssets() {
   await rm(publicDir, { recursive: true, force: true });
   await mkdir(publicDir, { recursive: true });
 
-  for (const file of [
-    'install.sh',
-    'install.ps1',
-    'agent-guide.md',
-    'latest.json',
-    'preview.json',
-    'robots.txt',
-  ]) {
+  for (const file of ['robots.txt']) {
     const source = resolve(repoRoot, file);
     try {
       await cp(source, resolve(publicDir, file));
@@ -50,10 +37,6 @@ async function preparePublicAssets() {
   }
 }
 
-// Generate machine-readable context bundles for LLM coding agents and crawlers.
-// llms.txt   -> short index (~40k token budget): titles, links, summaries.
-// llms-full.txt -> long bundle (~320k token budget): full doc bodies.
-// Token budgets are approximated at ~4 characters per token.
 async function generateAgentContext() {
   const CHARS_PER_TOKEN = 4;
   const SHORT_BUDGET = 40_000 * CHARS_PER_TOKEN;
@@ -67,7 +50,7 @@ async function generateAgentContext() {
   const header = [
     `# ${PRODUCT}`,
     '',
-    `> Documentation bundle for LLM coding agents. Canonical docs: ${SITE}/docs/`,
+    `> Documentation bundle for LLM coding agents and search indexers. Canonical docs: ${SITE}/docs/`,
     '',
   ].join('\n');
 
@@ -85,9 +68,6 @@ async function generateAgentContext() {
     .join('\n\n---\n\n');
   const longText = clamp(`${header}${longBody}\n`, LONG_BUDGET);
   await writeFile(resolve(publicDir, 'llms-full.txt'), longText, 'utf8');
-
-  const skill = await readFile(resolve(repoRoot, 'SKILL.md'), 'utf8').catch(() => null);
-  if (skill) await writeFile(resolve(publicDir, 'SKILL.md'), skill, 'utf8');
 }
 
 async function collectDocs(dir, base = dir) {

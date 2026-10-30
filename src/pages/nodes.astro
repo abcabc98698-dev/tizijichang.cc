@@ -1,0 +1,179 @@
+---
+import MarketingLayout from '../components/MarketingLayout.astro';
+import { SITE_CONFIG } from '../config/site';
+import { TOP10_BRANDS } from '../data/brands';
+
+const title = `全球加速节点测速与分布矩阵 (香港/日本/新加坡/美国/台湾) — ${SITE_CONFIG.name}`;
+const description = `梯子机场 42 家服务商常用加速节点（香港、日本、新加坡、美国、台湾）五地延迟与下行带宽实测矩阵，详解原生住宅 IP、流媒体 4K 与 ChatGPT 解锁表现。`;
+
+const nodeRegions = [
+  {
+    region: '香港 (Hong Kong)',
+    code: 'HK',
+    avgLatency: '18ms ~ 35ms',
+    bandwidth: '500Mbps ~ 2.5Gbps',
+    bestFor: '日常主力浏览、YouTube 4K、网页秒开、低延迟游戏',
+    feature: '距离大陆最近，内网专线直连，物理延迟极低，为绝大多数用户首选主力节点。',
+  },
+  {
+    region: '日本 (Japan)',
+    code: 'JP',
+    avgLatency: '45ms ~ 65ms',
+    bandwidth: '400Mbps ~ 1.5Gbps',
+    bestFor: '日服手游/Steam、DMM、二次元网站、Twitter/X 访问',
+    feature: '亚太网络关键枢纽，出口冗余极其充足，晚高峰极度稳定抗抖动。',
+  },
+  {
+    region: '新加坡 (Singapore)',
+    code: 'SG',
+    avgLatency: '40ms ~ 55ms',
+    bandwidth: '350Mbps ~ 1.0Gbps',
+    bestFor: 'ChatGPT / Claude 稳定对话、TikTok 跨区、东南亚流媒体',
+    feature: '东南亚骨干中心，对 OpenAI、Anthropic 等风控模型极其友好，IP 纯净度高。',
+  },
+  {
+    region: '美国 (United States)',
+    code: 'US',
+    avgLatency: '130ms ~ 160ms',
+    bandwidth: '200Mbps ~ 800Mbps',
+    bestFor: '美区 Apple ID、原生流媒体全解锁、海淘购物、学术文献',
+    feature: '内容资源与 AI 模型发源地，适合大流量下载与要求纯正美区原生 IP 的服务。',
+  },
+  {
+    region: '台湾 (Taiwan)',
+    code: 'TW',
+    avgLatency: '35ms ~ 50ms',
+    bandwidth: '300Mbps ~ 1.0Gbps',
+    bestFor: '动画疯 (巴哈姆特)、繁体中文流媒体、LINE 办公',
+    feature: '华语本土流媒体首选，无语言与字幕门槛，直连体验极佳。',
+  },
+];
+
+const nodesJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: title,
+  description,
+  url: `${SITE_CONFIG.url}/nodes/`,
+  mainEntity: {
+    '@type': 'ItemList',
+    name: '常用全球跨境加速节点区域',
+    numberOfItems: nodeRegions.length,
+    itemListElement: nodeRegions.map((n, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      name: `${n.region} — ${n.bestFor}`,
+      description: n.feature,
+    })),
+  },
+};
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  canonicalPath="/nodes/"
+  activeNav="nodes"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(nodesJsonLd)} />
+
+  <section class="compare-hero">
+    <div class="container">
+      <a href="/" class="back-link">&larr; 返回网站首页</a>
+      <span class="page-overline">Global Node Observatory · 节点栏目</span>
+      <h1>全球跨境加速节点分布与五地测速矩阵</h1>
+      <p class="hero-sub">
+        节点不仅决定了网络连接的物理延迟，更与目标服务（ChatGPT、Netflix、Disney+、TikTok）的风控封锁机制密切相关。本栏目为您系统拆解五大主流热门地区的网络特性与最优场景选择。
+      </p>
+    </div>
+  </section>
+
+  <section class="compare-summary">
+    <div class="container">
+
+      <!-- 节点特性卡片 -->
+      <div style="margin-bottom: 3.5rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">一、五大核心加速节点区域性能与场景矩阵</h2>
+        <div class="compare-cards">
+          {nodeRegions.map((node) => (
+            <div class="compare-card highlight">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                <span class="compare-card-tag">{node.code} 节点</span>
+                <strong style="color:var(--accent);font-size:0.86rem;">延迟：{node.avgLatency}</strong>
+              </div>
+              <h3 style="margin:0.25rem 0;">{node.region}</h3>
+              <p style="color:var(--text-secondary);font-size:0.86rem;line-height:1.5;margin:0.4rem 0 0.8rem;">{node.feature}</p>
+              
+              <div style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:0.8rem;background:rgba(0,0,0,0.15);padding:0.6rem;border-radius:6px;">
+                <div>🎯 <strong>最优适用：</strong>{node.bestFor}</div>
+                <div>⚡ <strong>实测带宽：</strong>{node.bandwidth}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- 节点选型决策 -->
+      <div style="margin-bottom: 3.5rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">二、按需选择：如何为您的应用匹配最佳节点？</h2>
+        <div style="background:var(--card-bg, #161b22);border:1px solid var(--border-color, #30363d);border-radius:8px;padding:1.5rem;line-height:1.7;color:var(--text-secondary);font-size:0.92rem;">
+          <ul style="margin:0;padding-left:1.25rem;">
+            <li><strong>追求极速秒开与日常办公：</strong>直接选择 <strong>香港 IEPL 专线</strong>，国内大部分地区延迟仅 20~35ms，体验如本地局域网；</li>
+            <li><strong>ChatGPT、Claude 与生成式 AI：</strong>推荐固定使用 <strong>新加坡或美国专线原生 IP 节点</strong>，避免因频繁跨国漂移引发账号封控；</li>
+            <li><strong>看巴哈姆特动画疯或台区 Netflix：</strong>选择 <strong>台湾节点</strong>，原生繁体中文字幕且版权资源丰富；</li>
+            <li><strong>海淘购物与海外银行账户：</strong>使用 <strong>美国独享原生住宅 IP 节点</strong>（如 <a href="/brands/guangsuyun/" style="color:var(--accent);">光速云定制专线</a>），杜绝欺诈风控被砍单。</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 拥有最丰富节点覆盖的机场推荐 -->
+      <div style="margin-bottom: 3.5rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <h2 style="font-size:1.75rem;margin:0;color:var(--text-primary);">三、节点覆盖最全的专线机场精选</h2>
+          <a href="/compare/" class="btn btn-ghost btn-sm">查看 42 家实测横评 &rarr;</a>
+        </div>
+
+        <div class="compare-cards">
+          {TOP10_BRANDS.slice(0, 3).map((brand) => (
+            <div class={`compare-card ${brand.rank === 1 ? 'highlight' : ''}`}>
+              <span class="compare-card-tag">#{brand.rank} {brand.lineType.split('（')[0]}</span>
+              <h3>{brand.name} ({brand.enName})</h3>
+              <p style="color:var(--text-secondary);font-size:0.86rem;line-height:1.5;margin:0.4rem 0;">{brand.uniqueSellingPoint}</p>
+              <div style="font-size:0.82rem;color:var(--text-secondary);margin:0.5rem 0;">
+                <div>📍 覆盖区域：香港/日本/新加坡/美国/台湾/英法德等 12+ 地区</div>
+                <div>💰 起步价格：{brand.startingPrice}</div>
+              </div>
+              <div style="margin-top:auto;display:flex;gap:0.5rem;">
+                <a href={`/brands/${brand.slug}/`} class="btn btn-ghost btn-sm" style="flex:1;justify-content:center;">节点实测详情</a>
+                <a href={brand.affLink} target="_blank" rel="nofollow sponsored noopener" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">直达官网 ↗</a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- 更多工具入口 -->
+      <div>
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">四、测速与流媒体解锁深度参考</h2>
+        <div class="compare-cards">
+          <div class="compare-card">
+            <h3>📊 42 家机场测速与跑分矩阵</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">查阅五大核心地区实机测速下行吞吐量与单节点最高 2.5Gbps 表现。</p>
+            <a href="/compare/" class="card-link" style="margin-top:0.5rem;">查阅测速大表 &rarr;</a>
+          </div>
+          <div class="compare-card">
+            <h3>🤖 AI 与流媒体解锁深度实测</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">详解机房广播 IP、原生住宅 IP 与 DNS 污染防范关键。</p>
+            <a href="/blog/ai-and-streaming-unlock-deep-dive/" class="card-link" style="margin-top:0.5rem;">阅读解锁专栏 &rarr;</a>
+          </div>
+          <div class="compare-card">
+            <h3>🌐 42 家机场全量品牌库</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">按支持节点地区实时筛选，找到包含冷门欧亚小众节点的专属品牌。</p>
+            <a href="/brands/" class="card-link" style="margin-top:0.5rem;">浏览品牌库 &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</MarketingLayout>

@@ -1,0 +1,140 @@
+---
+import MarketingLayout from '../components/MarketingLayout.astro';
+import { SITE_CONFIG } from '../config/site';
+import { PROXY_CLIENTS } from '../data/clients';
+
+const title = `Clash 客户端下载与配置中心 (Clash Verge Rev / Mihomo / 订阅导入) — ${SITE_CONFIG.name}`;
+const description = `2026 Clash 代理客户端选型与配置大全：详解主流 Clash Verge Rev、FlClash、Mihomo 内核官方下载、订阅链接导入、分流规则配置与 TUN 虚拟网卡避坑实录。`;
+
+const clashClients = PROXY_CLIENTS.filter((c) =>
+  ['clash-verge-rev', 'flclash', 'clash-meta-android', 'clash-nyanpasu'].includes(c.id),
+);
+
+const clashJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: title,
+  description,
+  url: `${SITE_CONFIG.url}/clash/`,
+  mainEntity: {
+    '@type': 'ItemList',
+    name: '2026 推荐主流 Clash 体系代理客户端',
+    numberOfItems: clashClients.length,
+    itemListElement: clashClients.map((c, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      name: `${c.name} — ${c.kernel}`,
+      url: c.sourceUrl || `${SITE_CONFIG.url}/clients/`,
+    })),
+  },
+};
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  canonicalPath="/clash/"
+  activeNav="clash"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(clashJsonLd)} />
+
+  <section class="compare-hero">
+    <div class="container">
+      <a href="/" class="back-link">&larr; 返回网站首页</a>
+      <span class="page-overline">Clash Ecosystem Hub · 专区栏目</span>
+      <h1>Clash 代理客户端下载、订阅与配置中心</h1>
+      <p class="hero-sub">
+        原版 Clash 核心停更后，基于开源 Mihomo (Clash.Meta) 内核的客户端生态全面繁荣。本栏目为您梳理目前最稳定、安全的正版开源 Clash 工具，以及订阅导入与规则分流避坑全教程。
+      </p>
+    </div>
+  </section>
+
+  <section class="compare-summary">
+    <div class="container">
+
+      <!-- 栏目说明 -->
+      <div style="margin-bottom: 3rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">一、2026 年为什么首选 Clash Verge Rev？</h2>
+        <div style="background:var(--card-bg, #161b22);border:1px solid var(--border-color, #30363d);border-radius:8px;padding:1.5rem;line-height:1.7;color:var(--text-secondary);font-size:0.92rem;">
+          <p style="margin-top:0;">
+            在过去，很多用户习惯使用老旧的 Clash for Windows。但由于该项目早已停止维护，存在未修补的内核漏洞，且不支持最新的 VLESS Reality、Hysteria 2 等高效抗封锁协议。
+          </p>
+          <p style="margin-bottom:0;">
+            <strong>Clash Verge Rev 已成为当之无愧的桌面端接班主力：</strong>由活跃开源社区维护，基于高性能 Tauri 框架重构，原生内置最新版 Mihomo 内核，支持一键切换 TUN 虚拟网卡模式（接管全系统流量，让无法设置代理的终端与游戏顺畅联网），并自带可视化的节点延迟测试与规则组切换界面。
+          </p>
+        </div>
+      </div>
+
+      <!-- 推荐 Clash 客户端列表 -->
+      <div style="margin-bottom: 3.5rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">二、推荐主流开源 Clash 客户端精选</h2>
+        <div class="compare-cards">
+          {clashClients.map((client) => (
+            <div class="compare-card highlight">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                <span class="blog-tag">{client.platforms.join(' / ')}</span>
+                <span style="font-size:0.75rem;color:var(--text-secondary);">{client.pricing}</span>
+              </div>
+              <h3 style="margin:0.25rem 0;">{client.name}</h3>
+              <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;margin:0.4rem 0 0.8rem;">{client.features}</p>
+              
+              <div style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:0.8rem;">
+                <div>⚙️ 核心架构：{client.kernel}</div>
+                <div>✨ 类型：{client.type} · 新手友好度：{client.beginnerFriendly}</div>
+              </div>
+
+              <div style="margin-top:auto;display:flex;gap:0.5rem;">
+                <a href={client.sourceUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">官方 {client.sourceLabel} ↗</a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Clash 订阅避坑与三步快速上手 -->
+      <div style="margin-bottom: 3.5rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">三、Clash 导入机场订阅三步极速上手</h2>
+        <div class="compare-cards">
+          <div class="compare-card">
+            <span class="compare-card-tag">STEP 01</span>
+            <h3>获取通用订阅 URL</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">登录机场后台（如 <a href="/brands/guangsuyun/" style="color:var(--accent);">#1 光速云</a>），点击「一键导入 Clash」或「复制通用订阅链接」。</p>
+          </div>
+          <div class="compare-card">
+            <span class="compare-card-tag">STEP 02</span>
+            <h3>导入并下载配置文件</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">打开 Clash Verge Rev，进入「订阅 (Profiles)」，粘贴链接并点击「保存 (Save)」，等待配置下载成功。</p>
+          </div>
+          <div class="compare-card">
+            <span class="compare-card-tag">STEP 03</span>
+            <h3>开启系统代理或 TUN</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">在「代理 (Proxies)」选择「规则模式 (Rule)」，点击右下角或侧边栏「系统代理 (System Proxy)」开关即可顺畅上网。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 相关专栏与教程 -->
+      <div>
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">四、Clash 进阶教程与相关资源</h2>
+        <div class="compare-cards">
+          <div class="compare-card">
+            <h3>🪟 Windows 配置 Clash Verge Rev 全教程</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">包含内核选择、开机自启、TUN 模式网卡安装及分流规则实战配置。</p>
+            <a href="/docs/windows-setup/" class="card-link" style="margin-top:0.5rem;">阅读 Windows 教程 &rarr;</a>
+          </div>
+          <div class="compare-card">
+            <h3>🍎 macOS 配置 Clash Verge Rev 全教程</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">详解 Apple Silicon M 系列芯片原生运行、系统授权与开机守护进程。</p>
+            <a href="/docs/macos-setup/" class="card-link" style="margin-top:0.5rem;">阅读 macOS 教程 &rarr;</a>
+          </div>
+          <div class="compare-card">
+            <h3>📶 OpenWrt 软路由透明代理全攻略</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">通过 OpenClash 或 PassWall2 实现全屋智能设备无感科学上网与智能分流。</p>
+            <a href="/docs/openwrt-router/" class="card-link" style="margin-top:0.5rem;">阅读软路由教程 &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</MarketingLayout>

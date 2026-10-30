@@ -1,0 +1,66 @@
+---
+title: macOS 代理客户端下载与配置教程：Clash Verge Rev 与苹果系统权限优化
+description: 全面指导 macOS 苹果电脑用户配置科学上网：涵盖 Apple Silicon (M 系列芯片) 与 Intel 架构选型、Clash Verge Rev 导入订阅、增强模式配置及解决安全提示问题。
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+macOS 凭借 UNIX 底层的强健网络栈，在搭配现代化代理客户端时能提供极为丝滑的科学上网体验。本篇将指导您在 Mac 电脑（无论是 MacBook Air、Pro 还是 Mac mini/Studio）上快速配置。
+
+## 一、客户端架构选型（极为重要）
+
+在下载任何 macOS 客户端安装包（`.dmg`）前，请务必确认您的 Mac 处理器架构：
+- **Apple Silicon (M1 / M2 / M3 / M4 / M5 系列芯片)**：下载带有 `aarch64` 或 `arm64` 标识的安装包（如 `Clash.Verge_x.x.x_aarch64.dmg`），可原生运行、能效极佳。
+- **Intel 处理器（老款 Mac）**：下载带有 `x64` 标识的安装包。
+
+---
+
+## 二、使用 Clash Verge Rev for Mac
+
+**Clash Verge Rev** 同样是 macOS 上体验最完善的开源图形化工具，界面优美并与 macOS 深色模式完美契合。
+
+### 1. 安装与绕过安全拦截
+1. 从我们的 [客户端大全专区](/clients/) 下载对应芯片架构的 `.dmg` 镜像文件；
+2. 双击打开并将应用拖拽至 `Applications (应用程序)` 文件夹；
+3. **初次打开常见提示**：“已损坏，无法打开” 或 “来自未受信任的开发者”：
+   - 打开 Mac **「系统设置」 &rarr; 「隐私与安全性」**，向下拉动找到并点击 **「仍要打开」**；
+   - 或打开终端 (Terminal)，执行以下签名修复命令后按回车：
+     ```bash
+     sudo xattr -r -d com.apple.quarantine /Applications/Clash\ Verge.app
+     ```
+
+### 2. 导入订阅与开启代理
+1. 在机场控制台（如 **[#1 光速云](/brands/guangsuyun/)**）复制通用订阅链接；
+2. 打开 Clash Verge Rev，进入左侧 **「订阅 (Profiles)」**，粘贴链接并点击 **「导入 (Import)」**；
+3. 导入成功后选中该配置文件；
+4. 进入 **「设置 (Settings)」**，开启 **「系统代理 (System Proxy)」**；
+5. 进入 **「代理 (Proxies)」**，在策略组中选择心仪的节点（推荐首选香港或日本低延迟专线）。
+
+---
+
+## 三、开启增强模式 (TUN Mode) 接管终端与 Xcode
+
+在 Mac 上进行编程开发（如 `brew install`、`git clone`、`npm install`、`docker pull`）时，终端默认不走系统代理。
+
+### 开启内置 TUN 模式：
+1. 打开 Clash Verge Rev 设置；
+2. 找到 **「服务模式」**，点击安装并输入 Mac 开机密码完成提权；
+3. 开启 **「TUN 模式」** 开关；
+4. 此时打开终端输入 `curl cip.cc`，即可验证当前终端公网出口已变为境外专线 IP。
+
+---
+
+## 四、免配置替代方案：光速云 Mac 自研客户端
+
+对于不希望接触任何技术名词的用户，光速云针对 macOS 提供了专版专属客户端：
+- 前往光速云后台下载官方 DMG 安装包；
+- 拖入应用程序直接登录账号；
+- 软件内置驱动级自适应路由分流，开机自动静默守护连接，零配置门槛。
+
+---
+
+## 下一步教程
+
+- [查看 iOS 苹果手机配置教程 &rarr;](/docs/ios-setup/)
+- [查看 Android 安卓配置教程 &rarr;](/docs/android-setup/)
+- [查看全站 2026 机场推荐榜单 &rarr;](/ranking/)

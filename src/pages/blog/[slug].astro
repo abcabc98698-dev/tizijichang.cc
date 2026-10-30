@@ -2,100 +2,373 @@
 import { getCollection, render } from 'astro:content';
 import MarketingLayout from '../../components/MarketingLayout.astro';
 import AuthorCard from '../../components/AuthorCard.astro';
+import { SITE_CONFIG } from '../../config/site';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts
-    .filter((post) => !post.data.draft)
-    .map((post) => {
-      const slug = post.id.replace(/\.(md|mdx)$/i, '');
-      return {
-        params: { slug },
-        props: { post, slug },
-      };
-    });
+  const posts = (await getCollection('blog')).filter((post) => !post.data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
 }
 
-const { post, slug } = Astro.props;
-const { Content, headings } = await render(post);
-const sectionHeadings = headings.filter((heading) => heading.depth === 2);
+const { post } = Astro.props;
+const { Content } = await render(post);
 
-// Estimate reading time from the raw post body (~200 words per minute).
-// `post.body` holds the unrendered Markdown/MDX source, which gives a rough
-// but good-enough word count for a reading-time estimate.
-const wordsPerMinute = 200;
-const wordCount = post.body.split(/\s+/).filter(Boolean).length;
-const readingTime = Math.max(1, Math.ceil(wordCount / wordsPerMinute));
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('zh-CN', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
+}
+
+function readingTime(body: string | undefined): number {
+  if (!body) return 1;
+  const chars = body.replace(/\s+/g, '').length;
+  return Math.max(1, Math.round(chars / 400));
+}
+
+function authorSlug(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9\u4e00-\u9fa5]+/g, '-').replace(/^-|-$/g, '');
+}
+
+const blogPostingJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  image: [new URL(post.data.image || SITE_CONFIG.ogImage, SITE_CONFIG.url).toString()],
+  datePublished: post.data.date.toISOString(),
+  author: {
+    '@type': 'Organization',
+    name: post.data.author,
+    url: `${SITE_CONFIG.url}/blog/author/${authorSlug(post.data.author)}/`,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: SITE_CONFIG.name,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${SITE_CONFIG.url}${SITE_CONFIG.logoPng}`,
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': `${SITE_CONFIG.url}/blog/${post.id}/`,
+  },
+};
 ---
 
 <MarketingLayout
-  title={`${post.data.title} — varsha blog`}
+  title={`${post.data.title} — ${SITE_CONFIG.name} 专栏`}
   description={post.data.description}
-  canonicalPath={`/blog/${slug}/`}
+  canonicalPath={`/blog/${post.id}/`}
   ogType="article"
-  ogImage={post.data.ogImage}
-  ogImageAlt={post.data.ogImage ? post.data.title : undefined}
+  publishedTime={post.data.date.toISOString()}
+  activeNav="blog"
 >
-  <main class="content-shell">
-    <div class="article-layout section">
-      <aside class="article-toc" aria-label="Article sections">
-        <p>Sections</p>
-        <nav>
-          {sectionHeadings.map((heading) => (
-            <a href={`#${heading.slug}`} data-heading-link={heading.slug}>{heading.text}</a>
-          ))}
-        </nav>
-      </aside>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(blogPostingJsonLd)} />
+  </Fragment>
 
-      <article class="article-shell">
-        <header class="article-header">
-          <p class="post-meta">
-            <a href="/blog/">Blog</a>
-            <time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString('en', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}</time>
-            <span>·</span>
-            <span>{readingTime} min read</span>
-          </p>
-          <h1>{post.data.title}</h1>
-          <p>{post.data.description}</p>
+  <article class="blog-post-section">
+    <div class="container">
+      <div class="blog-post-shell">
+        <a href="/blog/" class="blog-back-btn">&larr; 返回所有专栏文章</a>
+
+        <header class="blog-article-header">
+          <div class="blog-meta-bar">
+            <span class="meta-item">📅 <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time></span>
+            <span class="meta-sep">/</span>
+            <span class="meta-item">⏱️ 约 {readingTime(post.body)} 分钟深度阅读</span>
+            <span class="meta-sep">/</span>
+            <span class="meta-item">
+              ✍️ <a href={`/blog/author/${authorSlug(post.data.author)}/`} class="author-tag-link">{post.data.author}</a>
+            </span>
+          </div>
+
+          <h1 class="article-headline">{post.data.title}</h1>
+
+          {post.data.tags.length > 0 && (
+            <div class="article-tags-wrap">
+              {post.data.tags.map((tag) => (
+                <span class="blog-tag">{tag}</span>
+              ))}
+            </div>
+          )}
         </header>
-        <div class="article-prose">
+
+        <div class="blog-prose-body">
           <Content />
         </div>
-        <AuthorCard />
-      </article>
+
+        <div class="author-card-wrap">
+          <AuthorCard />
+        </div>
+
+        <footer class="blog-article-footer">
+          <div class="article-cta-box">
+            <span class="cta-overline">Airport Directory Hub · 权威中台</span>
+            <h3>探索 {SITE_CONFIG.name} 核心选型工具</h3>
+            <p>基于全网 42 家机场真实晚高峰测速、双专线物理拓扑、客户端兼容性矩阵与优惠折扣。</p>
+            <div class="cta-actions">
+              <a href="/brands/guangsuyun/" class="btn btn-primary">
+                👑 榜首推荐 · 光速云深度评测 &rarr;
+              </a>
+              <a href="/ranking/" class="btn btn-ghost">
+                🏆 2026 Top 10 推荐榜
+              </a>
+              <a href="/compare/" class="btn btn-ghost">
+                📊 42 家参数横评大表
+              </a>
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
-  </main>
+  </article>
 
-  <script>
-    const headings = Array.from(document.querySelectorAll('.article-prose h2[id]'));
-    const links = new Map(
-      Array.from(document.querySelectorAll('[data-heading-link]')).map((link) => [
-        link.getAttribute('data-heading-link'),
-        link,
-      ]),
-    );
-
-    function setActive(id) {
-      for (const link of links.values()) link.removeAttribute('aria-current');
-      links.get(id)?.setAttribute('aria-current', 'true');
+  <style>
+    .blog-post-section {
+      padding: 2rem 0 5rem;
     }
 
-    if (headings.length > 0 && links.size > 0) {
-      setActive(headings[0].id);
-      const observer = new IntersectionObserver(
-        (entries) => {
-          const visible = entries
-            .filter((entry) => entry.isIntersecting)
-            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-          if (visible?.target instanceof HTMLElement) setActive(visible.target.id);
-        },
-        { rootMargin: '-18% 0px -68% 0px', threshold: 0 },
-      );
-      for (const heading of headings) observer.observe(heading);
+    .blog-post-shell {
+      max-width: 820px;
+      margin: 0 auto;
     }
-  </script>
+
+    .blog-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      transition: transform 0.15s ease;
+    }
+
+    .blog-back-btn:hover {
+      transform: translateX(-2px);
+    }
+
+    .blog-article-header {
+      margin-bottom: 2.25rem;
+      padding-bottom: 1.75rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .blog-meta-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-family: var(--mono);
+      margin-bottom: 0.75rem;
+    }
+
+    .meta-sep {
+      color: var(--line-strong);
+      opacity: 0.6;
+    }
+
+    .author-tag-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .author-tag-link:hover {
+      color: var(--accent);
+    }
+
+    .article-headline {
+      font-size: clamp(1.65rem, 3.5vw, 2.25rem);
+      line-height: 1.35;
+      color: var(--ink);
+      margin: 0 0 1rem;
+      letter-spacing: -0.025em;
+    }
+
+    .article-tags-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .blog-tag {
+      background: var(--bg-elevated);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm, 2px);
+      padding: 0.2rem 0.55rem;
+      font-size: 0.74rem;
+      font-family: var(--mono);
+      color: var(--muted);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    /* Article Prose Typography */
+    .blog-prose-body {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: var(--ink);
+    }
+
+    .blog-prose-body h2 {
+      font-size: 1.55rem;
+      line-height: 1.35;
+      margin: 2.25rem 0 0.85rem;
+      padding-bottom: 0.45rem;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink);
+    }
+
+    .blog-prose-body h3 {
+      font-size: 1.25rem;
+      line-height: 1.4;
+      margin: 1.85rem 0 0.65rem;
+      color: var(--ink);
+    }
+
+    .blog-prose-body p {
+      margin: 1rem 0;
+      color: var(--ink-soft);
+    }
+
+    .blog-prose-body strong {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .blog-prose-body ul,
+    .blog-prose-body ol {
+      margin: 1rem 0;
+      padding-left: 1.4rem;
+      color: var(--ink-soft);
+    }
+
+    .blog-prose-body li {
+      margin-bottom: 0.4rem;
+    }
+
+    .blog-prose-body blockquote {
+      margin: 1.5rem 0;
+      padding: 0.85rem 1.25rem;
+      background: var(--accent-soft);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius-sm, 2px);
+      color: var(--ink);
+    }
+
+    .blog-prose-body blockquote p {
+      margin: 0;
+    }
+
+    .blog-prose-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.92rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm, 2px);
+      overflow: hidden;
+    }
+
+    .blog-prose-body th {
+      background: var(--bg-elevated);
+      border: 1px solid var(--line);
+      padding: 0.65rem 0.95rem;
+      font-weight: 700;
+      color: var(--ink);
+      text-align: left;
+    }
+
+    .blog-prose-body td {
+      border: 1px solid var(--line);
+      padding: 0.65rem 0.95rem;
+      color: var(--ink-soft);
+    }
+
+    .blog-prose-body pre {
+      background: #111622;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm, 2px);
+      padding: 1rem;
+      margin: 1.35rem 0;
+      overflow-x: auto;
+    }
+
+    .blog-prose-body code {
+      font-family: var(--mono);
+      font-size: 0.88em;
+      background: var(--bg-elevated);
+      border: 1px solid var(--line);
+      padding: 0.15rem 0.35rem;
+      border-radius: var(--radius-sm, 2px);
+    }
+
+    .blog-prose-body pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      color: #e2e8f0;
+    }
+
+    .author-card-wrap {
+      margin-top: 3.5rem;
+    }
+
+    .blog-article-footer {
+      margin-top: 2.5rem;
+    }
+
+    .article-cta-box {
+      background: var(--bg-elevated);
+      border: 1.5px solid var(--line-strong);
+      border-radius: var(--radius-md, 4px);
+      padding: 2.25rem 2rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .cta-overline {
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .article-cta-box h3 {
+      font-size: 1.4rem;
+      margin: 0;
+      color: var(--ink);
+    }
+
+    .article-cta-box p {
+      font-size: 0.94rem;
+      color: var(--muted);
+      max-width: 580px;
+      margin: 0 0 0.85rem;
+      line-height: 1.6;
+    }
+
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.85rem;
+    }
+  </style>
 </MarketingLayout>

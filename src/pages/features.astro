@@ -1,0 +1,158 @@
+---
+import MarketingLayout from '../components/MarketingLayout.astro';
+import { SITE_CONFIG } from '../config/site';
+
+const title = `平台架构与核心特性对比 — ${SITE_CONFIG.name}`;
+const description = `梯子机场 (tizijichang.cc) 与传统机场博客、野鸡导航站与营销号的底层能力全面横向比对：涵盖 18 款主题色系、42 家结构化品牌数据库、暗黑网络观测台与 100% 独立原创架构。`;
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  canonicalPath="/features/"
+  activeNav="features"
+>
+  <section class="compare-hero">
+    <div class="container">
+      <a href="/" class="back-link">&larr; 返回网站首页</a>
+      <h1>平台架构与核心特性对比</h1>
+      <p class="hero-sub">
+        深入了解 {SITE_CONFIG.name} 在数据结构化、实测可视化、跨平台客户端兼容及 SEO/GEO 体验方面的核心工程实现。
+      </p>
+    </div>
+  </section>
+
+  <section class="compare-summary">
+    <div class="container">
+      <div class="compare-cards">
+        <div class="compare-card highlight">
+          <h3>{SITE_CONFIG.name}</h3>
+          <p class="compare-card-tag">全栈现代专线网络评测中台</p>
+          <ul>
+            <li>全库 42 家机场结构化数据支持多维实时检索与排序</li>
+            <li>内置 Dark Network Observatory（暗黑网络观测台）三重视效面板</li>
+            <li>18 款精选极客调色盘（12 暗黑 + 6 浅色），零闪烁无感知换肤</li>
+            <li>覆盖 6 大操作系统 21 款客户端下载与双向兼容性映射</li>
+            <li>严格标注实测 (Measured)、官方 (Vendor) 与历史 (Historical) 状态</li>
+            <li>完整遵循 Schema.org Article / ItemList / FAQPage 结构化图谱</li>
+          </ul>
+        </div>
+        <div class="compare-card">
+          <h3>传统 WordPress 机场博客</h3>
+          <p class="compare-card-tag">臃肿缓慢、套话泛滥</p>
+          <ul>
+            <li>加载几十个广告脚本与庞大插件，首屏等待时间常达 3~5 秒</li>
+            <li>缺乏统一参数模型，每篇文章内容格式混乱、时效性严重脱节</li>
+            <li>充斥虚假营销文案，将劣质直连包装为“企业级专线”</li>
+            <li>不支持按价格、协议、地区、客户端类型进行即时多维筛选</li>
+          </ul>
+        </div>
+        <div class="compare-card">
+          <h3>简陋第三方导航页</h3>
+          <p class="compare-card-tag">无深度实测、链接易失效</p>
+          <ul>
+            <li>仅罗列几个官网外链与简单介绍，无真实网络延迟与带宽数据</li>
+            <li>不区分客户端兼容模式，新手用户购买后无法导入软路由</li>
+            <li>缺乏风险提示与替代方案，跑路品牌未能及时下线或归档</li>
+            <li>页面粗糙缺乏美感，充斥弹窗与不透明返佣诱导</li>
+          </ul>
+        </div>
+        <div class="compare-card">
+          <h3>单向营销号矩阵</h3>
+          <p class="compare-card-tag">偏袒推广、缺乏客观准则</p>
+          <ul>
+            <li>通常只推荐 2~3 家佣金最高的服务商，隐藏其他优质高性价比方案</li>
+            <li>避谈流量倍率陷阱、节点限速与退款规则</li>
+            <li>无静态化代码资产，抗封锁与跨区访问能力薄弱</li>
+            <li>无法为用户提供长期的备用防失联解决方案</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="compare-matrix">
+    <div class="container">
+      <h2>核心功能与能力逐项比对</h2>
+      <p class="section-sub">核验 {SITE_CONFIG.name} 提供的全套评测工具与数据服务。</p>
+
+      <div class="matrix-wrap">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>核心能力维度</th>
+              <th class="col-highlight">{SITE_CONFIG.name}</th>
+              <th>传统博客</th>
+              <th>简易导航</th>
+              <th>营销号文章</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="matrix-cat"><td colspan="5">数据化与选型能力</td></tr>
+            <tr>
+              <td>42 家全量品牌库与即时多维筛选</td>
+              <td class="col-highlight"><span class="yes">支持</span> — <a href="/brands/">/brands/</a></td>
+              <td><span class="no">不支持</span></td>
+              <td><span class="partial">仅简单分类</span></td>
+              <td><span class="no">不支持</span></td>
+            </tr>
+            <tr>
+              <td>五地晚高峰实测延迟与带宽横评大表</td>
+              <td class="col-highlight"><span class="yes">支持</span> — <a href="/compare/">/compare/</a></td>
+              <td><span class="partial">偶尔单项</span></td>
+              <td><span class="no">无数据</span></td>
+              <td><span class="no">无数据</span></td>
+            </tr>
+            <tr>
+              <td>17 家机场自动化测速原图档案库</td>
+              <td class="col-highlight"><span class="yes">完整收录</span> (2026-10 实测)</td>
+              <td><span class="no">无统一归档</span></td>
+              <td><span class="no">无</span></td>
+              <td><span class="partial">个别截图</span></td>
+            </tr>
+            <tr>
+              <td>6 大系统 21 款代理客户端全集</td>
+              <td class="col-highlight"><span class="yes">支持</span> — <a href="/clients/">/clients/</a></td>
+              <td><span class="partial">零散介绍</span></td>
+              <td><span class="no">无</span></td>
+              <td><span class="no">无</span></td>
+            </tr>
+            <tr>
+              <td>历史品牌归档与安全迁移建议</td>
+              <td class="col-highlight"><span class="yes">前28活跃 + 14历史归档</span></td>
+              <td><span class="no">不归档</span></td>
+              <td><span class="no">死链频出</span></td>
+              <td><span class="no">无</span></td>
+            </tr>
+            <tr class="matrix-cat"><td colspan="5">用户体验与视觉工程</td></tr>
+            <tr>
+              <td>18 款极客调色盘 (12暗黑+6浅色)</td>
+              <td class="col-highlight"><span class="yes">原生支持</span> (无白屏抖动)</td>
+              <td><span class="no">不支持</span></td>
+              <td><span class="no">不支持</span></td>
+              <td><span class="no">不支持</span></td>
+            </tr>
+            <tr>
+              <td>暗黑网络观测台视效组件</td>
+              <td class="col-highlight"><span class="yes">进度条/3列矩阵/拓扑图</span></td>
+              <td><span class="no">纯文字</span></td>
+              <td><span class="no">无</span></td>
+              <td><span class="no">无</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="compare-cta">
+    <div class="container">
+      <h2>即刻体验全方位的梯子机场专业数据中台</h2>
+      <p>为您精选 2026 最稳定的专线方案与高性价比流量包。</p>
+      <div class="hero-ctas" style="justify-content:center;gap:1rem;">
+        <a href="/ranking/" class="btn btn-primary">进入 2026 机场推荐榜</a>
+        <a href="/brands/guangsuyun/" class="btn btn-ghost">查阅首选 #1 光速云评测</a>
+      </div>
+    </div>
+  </section>
+</MarketingLayout>

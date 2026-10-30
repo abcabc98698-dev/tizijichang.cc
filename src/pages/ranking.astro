@@ -1,0 +1,919 @@
+---
+import MarketingLayout from '../components/MarketingLayout.astro';
+import { SITE_CONFIG } from '../config/site';
+import { AIRPORT_BRANDS, TOP10_BRANDS, getBrandBySlug } from '../data/brands';
+
+const title = `2026 梯子机场推荐排行榜 Top 10 与 6 大场景选型指南 (IEPL专线/永久套餐/平价首选) — ${SITE_CONFIG.name}`;
+const description = `2026年10月最新梯子机场推荐榜单：榜首第一主推 #1 光速云（IEPL+企业内网双专线、斯诺克147元247GB永久套餐、99元/年轻量版），同步揭晓 Top 10 核心评测与 6 大细分场景（永久流量包、免配置客户端、5.6元平价、AI生产力、流媒体4K、软路由）最优解。`;
+
+const guangsuyun = AIRPORT_BRANDS[0];
+
+const scenarioGroups = [
+  {
+    id: 'unlimited',
+    badge: '场景 01 · 永久/不限时流量包',
+    title: '主力全能与永久有效流量包首选',
+    desc: '适合讨厌每月流量被清零、需要长期稳定备用或高频主力加速的用户。首选 #1 光速云「致敬斯诺克147永久套餐」（¥147 一次性 247GB 永久不过期，单节点最高 2.5Gbps 峰值）。',
+    slugs: ['guangsuyun', 'mojie', 'weifeng', 'xingdaomeng'],
+  },
+  {
+    id: 'beginner',
+    badge: '场景 02 · 零门槛一键连接',
+    title: '新手免配置（官方专属客户端）首选',
+    desc: '无需学习分流规则或购买外区 Apple ID，下载官方客户端输入账号密码即可一键连接。其中 #1 光速云同时保留了第三方通用订阅自由度。',
+    slugs: ['guangsuyun', 'feimao', 'wuyou', 'lingmao'],
+  },
+  {
+    id: 'budget',
+    badge: '场景 03 · 极致平价性价比',
+    title: '5.6～10 元/月 学生党日常平价首选',
+    desc: '月均预算控制在 10 元以内，兼顾日常查阅文献、网页检索与 1080P/4K 流媒体播放的高性价比中转与专线。',
+    slugs: ['guangsuyun', 'youyun', 'jilian', 'qingyunti'],
+  },
+  {
+    id: 'ai-work',
+    badge: '场景 04 · AI 生产力与跨境研发',
+    title: 'ChatGPT / Claude / Gemini 生产力首选',
+    desc: '针对 OpenAI、Anthropic Claude、GitHub Copilot 及海外 SSH 研发办公优化，注重海外原生/住宅 IP 纯净度与低抖动。',
+    slugs: ['guangsuyun', 'ermao', 'weitu', 'u1s1'],
+  },
+  {
+    id: 'streaming',
+    badge: '场景 05 · 4K 影音娱乐',
+    title: 'Netflix / Disney+ / YouTube 4K / TikTok 跨区首选',
+    desc: '晚高峰黄金时段带宽冗余充足，支持港澳台、新加坡、日本、美区 Netflix 非自制剧与 TikTok 跨区直播。',
+    slugs: ['guangsuyun', 'weifeng', 'muguang', 'yuzhou'],
+  },
+  {
+    id: 'router',
+    badge: '场景 06 · 软路由与全屋共享',
+    title: 'OpenWrt 软路由与多设备家庭共享首选',
+    desc: '不限制同时在线设备数，完整兼容 Clash.Meta (Mihomo) 与 sing-box 通用订阅，满足 Apple TV、PS5 与全屋智能加速。',
+    slugs: ['guangsuyun', 'ermao', 'yifan', 'feimaoyun'],
+  },
+];
+
+const rankingJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: '2026 梯子机场推荐排行榜 Top 10',
+  description,
+  numberOfItems: TOP10_BRANDS.length,
+  itemListElement: TOP10_BRANDS.map((b) => ({
+    '@type': 'ListItem',
+    position: b.rank,
+    name: `${b.name} (${b.enName}) — ${b.uniqueSellingPoint}`,
+    url: `${SITE_CONFIG.url}/brands/${b.slug}/`,
+  })),
+};
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  canonicalPath="/ranking/"
+  activeNav="ranking"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(rankingJsonLd)} />
+
+  <!-- 页面顶部 Hero 区 -->
+  <header class="page-hero-section">
+    <div class="container">
+      <span class="page-overline">2026 Airport Editorial Ranking · 权威选型榜单</span>
+      <h1>2026 梯子机场推荐排行榜 Top 10 与场景选型指南</h1>
+      <p class="hero-sub">
+        基于「专线架构含金量、晚高峰实测吞吐量、套餐诚意度（含永久不限时与低门槛年付）、客户端生态兼容性及运营稳定性」五大维度综合评定。<strong>#1 光速云 (GuangSuYun)</strong> 蝉联本年度全场景综合第一主推。
+      </p>
+
+      <div class="compliance-note-box">
+        <strong>透明评测与推广声明：</strong>本榜所列官网按钮含推广链接（标注 <code>rel="nofollow sponsored noopener"</code>），通过链接注册可能为本站带来推荐佣金，但<strong>绝不影响您的购买价格</strong>，结账时使用专属优惠码还可享受额外折扣。所有价格与实测数据均标注核验状态与时间。
+      </div>
+    </div>
+  </header>
+
+  <div class="ranking-body-wrap">
+    <div class="container">
+      
+      <!-- =========================================================
+           年度总冠军 #1 光速云 旗舰解析大卡
+           ========================================================= -->
+      <section class="champion-section" aria-label="年度第一主推品牌">
+        <div class="champion-card">
+          <div class="champion-header-bar">
+            <div class="champion-badge">👑 2026 年度总榜 TOP 1 · 编辑部全场景第一主推</div>
+            <div class="champion-meta-tags">
+              <span class="badge-pill">运营资历: {guangsuyun.foundedYear}</span>
+              <span class="badge-pill promo-badge">新人优惠码: {guangsuyun.promoCode}</span>
+            </div>
+          </div>
+
+          <div class="champion-content-grid">
+            <div class="champion-main-info">
+              <h2 class="champion-title">
+                <a href="/brands/guangsuyun/">#1 {guangsuyun.name} <small>({guangsuyun.enName})</small></a>
+              </h2>
+              <p class="champion-usp">{guangsuyun.uniqueSellingPoint}</p>
+              <p class="champion-summary">{guangsuyun.summary}</p>
+
+              <div class="champion-reasons-box">
+                <h3>🏆 为什么光速云蝉联全站综合第一主推？</h3>
+                <ul>
+                  <li>
+                    <strong>双王牌套餐覆盖全人群：</strong>既提供折合仅 <strong>¥8.25/月（¥99/年 · 69GB/月）</strong>的高性价比轻量年付，又独创 <strong>¥147 一次性 247GB 永久有效不过期</strong>的「致敬斯诺克147永久套餐」（单节点峰值高达 2.5Gbps）。
+                  </li>
+                  <li>
+                    <strong>真双专线抗封锁底座：</strong>采用 <strong>IEPL 专线 + 企业级内网专线</strong>双线路架构，全节点 1 倍率不虚标，覆盖港×20、日×10、新×10、美×10、台×5 及欧亚南美 12+ 地区。
+                  </li>
+                  <li>
+                    <strong>自研客户端 + 通用订阅双栖支持：</strong>新手可直接下载官方自研客户端一键登录；进阶用户可无缝导入 Clash Verge Rev、Shadowrocket、v2rayN 与 OpenWrt 软路由，且<strong>不限设备同时在线</strong>。
+                  </li>
+                  <li>
+                    <strong>专属优惠折扣：</strong>结账输入优惠码 <code>AMM</code>，极速版及定制版享半年 9 折、年付 8 折、两年 75 折、三年 7 折（支持支付宝 / 微信 / USDT）。
+                  </li>
+                </ul>
+              </div>
+
+              <div class="champion-actions-row">
+                <a href="/brands/guangsuyun/" class="btn btn-primary">
+                  阅读光速云完整评测与7档套餐表 &rarr;
+                </a>
+                <a
+                  href={guangsuyun.registerUrl!}
+                  target="_blank"
+                  rel="nofollow sponsored noopener"
+                  class="btn btn-ghost"
+                >
+                  直达光速云官网 (优惠码 AMM) ↗
+                </a>
+              </div>
+            </div>
+
+            <!-- 右侧核心套餐卡片列表与测速缩略图 -->
+            <div class="champion-side-panel">
+              <div class="mini-plans-card">
+                <h4>光速云核心热门套餐速览</h4>
+                <div class="mini-plans-list">
+                  <div class="mini-plan-item">
+                    <div class="mini-plan-row-top">
+                      <strong class="mini-plan-name">轻量版 (年付)</strong>
+                      <strong class="mini-plan-price" style="color:var(--accent);">¥99/年</strong>
+                    </div>
+                    <div class="mini-plan-row-sub">69GB/月 (折合 ¥8.25/月 · 入门首选)</div>
+                  </div>
+
+                  <div class="mini-plan-item featured-plan-item">
+                    <div class="mini-plan-row-top">
+                      <strong class="mini-plan-name">👑 致敬斯诺克 147 永久套餐</strong>
+                      <strong class="mini-plan-price" style="color:#10b981;">¥147</strong>
+                    </div>
+                    <div class="mini-plan-row-sub">一次性付费 · <strong>247GB 永久不过期</strong> (峰值 2.5Gbps)</div>
+                  </div>
+
+                  <div class="mini-plan-item">
+                    <div class="mini-plan-row-top">
+                      <strong class="mini-plan-name">极速版 (月付)</strong>
+                      <strong class="mini-plan-price">¥25/月</strong>
+                    </div>
+                    <div class="mini-plan-row-sub">168GB/月 · 全专线 1 倍率扣费</div>
+                  </div>
+
+                  <div class="mini-plan-item">
+                    <div class="mini-plan-row-top">
+                      <strong class="mini-plan-name">极速 PLUS 版 (月付)</strong>
+                      <strong class="mini-plan-price">¥40/月</strong>
+                    </div>
+                    <div class="mini-plan-row-sub">300GB/月 · 7×24 运维保障与峰值提速</div>
+                  </div>
+                </div>
+              </div>
+
+              {guangsuyun.speedtest.screenshot && (
+                <a href="/brands/guangsuyun/" class="mini-shot-card" title="查看光速云晚高峰节点测速原图">
+                  <div class="shot-card-header">
+                    <span>📸 2026-10 实测报告原图快照</span>
+                    <span class="shot-arrow">&rarr;</span>
+                  </div>
+                  <img
+                    src={guangsuyun.speedtest.screenshot}
+                    alt="光速云节点测速与拓扑图"
+                    loading="lazy"
+                  />
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           Top 2 ~ Top 10 完整评测榜单列表
+           ========================================================= -->
+      <section class="top-list-section">
+        <div class="section-title-wrap">
+          <span class="page-overline">Top 10 Lineup · 权威推荐梯队</span>
+          <h2>2026 年度 Top 10 核心推荐机场完整榜单</h2>
+          <p class="section-subtitle">
+            严格从全库 42 家机场中综合筛选。每家均配有独立的评测详情页、实测测速数据及优惠码。
+          </p>
+        </div>
+
+        <div class="top-cards-stack">
+          {TOP10_BRANDS.map((brand) => (
+            <article class={`top-brand-card ${brand.rank === 1 ? 'is-first-brand' : ''}`} style={`--card-accent: ${brand.accentColor};`}>
+              <div class="top-card-header">
+                <div class="top-card-title-group">
+                  <span class="brand-rank-pill" style={`background: ${brand.accentColor};`}>
+                    TOP #{brand.rank}
+                  </span>
+                  <h3 class="brand-title">
+                    <a href={`/brands/${brand.slug}/`}>
+                      {brand.name} <small>({brand.enName})</small>
+                    </a>
+                  </h3>
+                  {brand.promoCode && (
+                    <span class="promo-pill-code" title={brand.promoNote}>
+                      优惠码: <code>{brand.promoCode}</code>
+                    </span>
+                  )}
+                  {brand.speedtest.screenshot && (
+                    <span class="measured-pill">● 含实测图 ({brand.speedtest.screenshotTestedAt || brand.speedtest.date})</span>
+                  )}
+                </div>
+
+                <div class="top-card-price-badge">
+                  <span class="price-lbl">起步参考价</span>
+                  <strong class="price-val">{brand.startingPrice}</strong>
+                </div>
+              </div>
+
+              <p class="top-card-usp">{brand.uniqueSellingPoint}</p>
+              <p class="top-card-summary">{brand.summary}</p>
+
+              <!-- 规格参数药丸网格 -->
+              <div class="top-card-specs-grid">
+                <div class="spec-pill-item">
+                  <span class="spec-lbl">入门流量</span>
+                  <span class="spec-txt">{brand.entryTraffic}</span>
+                </div>
+                <div class="spec-pill-item">
+                  <span class="spec-lbl">骨干线路</span>
+                  <span class="spec-txt">{brand.lineType}</span>
+                </div>
+                <div class="spec-pill-item">
+                  <span class="spec-lbl">支持协议</span>
+                  <span class="spec-txt">{brand.protocols.join(' / ')}</span>
+                </div>
+                <div class="spec-pill-item">
+                  <span class="spec-lbl">设备限制</span>
+                  <span class="spec-txt">{brand.deviceLimit}</span>
+                </div>
+              </div>
+
+              <!-- 卡片底部动作栏 -->
+              <div class="top-card-footer">
+                <div class="top-card-footer-tags">
+                  <span class="badge-pill">覆盖: {brand.regions.slice(0, 4).join(' · ')}</span>
+                  {brand.unlock.chatgpt === 'Supported' && <span class="badge-pill">🤖 ChatGPT 解锁</span>}
+                  {brand.unlock.netflix === 'Supported' && <span class="badge-pill">🎬 Netflix 4K</span>}
+                </div>
+
+                <div class="top-card-footer-buttons">
+                  <a href={`/brands/${brand.slug}/`} class="btn btn-primary btn-sm">
+                    查看 {brand.name} 评测与测速 &rarr;
+                  </a>
+                  {brand.registerUrl ? (
+                    <a
+                      href={brand.registerUrl}
+                      target="_blank"
+                      rel="nofollow sponsored noopener"
+                      class="btn btn-ghost btn-sm"
+                    >
+                      访问官网 ↗
+                    </a>
+                  ) : (
+                    <a href="/brands/guangsuyun/" class="btn btn-ghost btn-sm" title="推荐前往榜首光速云">
+                      首选替代: 光速云 &rarr;
+                    </a>
+                  )}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- =========================================================
+           6 大细分高频场景矩阵
+           ========================================================= -->
+      <section class="scenario-section">
+        <div class="section-title-wrap">
+          <span class="page-overline">Scenario Recommendations · 场景精准匹配</span>
+          <h2>按需求对号入座：6 大高频使用场景专项推荐榜</h2>
+          <p class="section-subtitle">
+            无论您是追求永久流量包的低频备用党，还是需要解锁 ChatGPT / Netflix 4K 的重度用户，直接参考对应场景最优解：
+          </p>
+        </div>
+
+        <div class="scenario-grid">
+          {scenarioGroups.map((group) => {
+            const items = group.slugs.map((s) => getBrandBySlug(s)).filter(Boolean);
+            return (
+              <div class="scenario-box">
+                <span class="scenario-badge">{group.badge}</span>
+                <h3 class="scenario-title">{group.title}</h3>
+                <p class="scenario-desc">{group.desc}</p>
+
+                <div class="scenario-brands-list">
+                  {items.map((item, idx) => item && (
+                    <div class={`scenario-item-row ${idx === 0 ? 'is-top-pick' : ''}`}>
+                      <div class="scenario-row-info">
+                        <span class="scenario-rank-tag">{idx === 0 ? '👑 首选' : `推荐 #${idx + 1}`}</span>
+                        <a href={`/brands/${item.slug}/`} class="scenario-link">
+                          {item.name}
+                        </a>
+                        <span class="scenario-price-tag">{item.startingPrice}</span>
+                      </div>
+                      <div class="scenario-row-links">
+                        <a href={`/brands/${item.slug}/`} class="scenario-btn-text">评测 &rarr;</a>
+                        {item.registerUrl && (
+                          <a
+                            href={item.registerUrl}
+                            target="_blank"
+                            rel="nofollow sponsored noopener"
+                            class="scenario-btn-text secondary"
+                          >
+                            官网 ↗
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div class="ranking-bottom-cta">
+          <a href="/brands/" class="btn btn-primary">浏览全部 42 家机场品牌库 &rarr;</a>
+          <a href="/compare/" class="btn btn-ghost">查阅 42 家五地测速横评大表 &rarr;</a>
+          <a href="/clients/" class="btn btn-ghost">下载 6 大系统代理客户端 &rarr;</a>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <style>
+    .ranking-body-wrap {
+      padding: 2.5rem 0 4rem;
+    }
+
+    .compliance-note-box {
+      margin-top: 1.25rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md, 4px);
+      padding: 0.85rem 1.15rem;
+      font-size: 0.84rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* Champion Card */
+    .champion-section {
+      margin-bottom: 3.5rem;
+    }
+
+    .champion-card {
+      background: var(--bg-elevated);
+      border: 2px solid var(--accent);
+      border-radius: var(--radius-lg, 6px);
+      padding: 1.75rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    .champion-header-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.85rem;
+    }
+
+    .champion-badge {
+      display: inline-flex;
+      align-items: center;
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.84rem;
+      padding: 0.3rem 0.85rem;
+      border-radius: var(--radius-sm, 2px);
+      font-family: var(--mono);
+    }
+
+    .champion-meta-tags {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .promo-badge {
+      background: rgba(16, 185, 129, 0.12);
+      border-color: rgba(16, 185, 129, 0.35);
+      color: #10b981;
+    }
+
+    .champion-content-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 1.75rem;
+      align-items: start;
+    }
+
+    @media (max-width: 960px) {
+      .champion-content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .champion-title {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin: 0 0 0.4rem;
+      line-height: 1.2;
+    }
+
+    .champion-title a {
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .champion-title small {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .champion-usp {
+      font-size: 1.02rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 0 0 0.75rem;
+    }
+
+    .champion-summary {
+      font-size: 0.92rem;
+      line-height: 1.65;
+      color: var(--ink-soft);
+      margin: 0 0 1.25rem;
+    }
+
+    .champion-reasons-box {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md, 4px);
+      padding: 1.15rem 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .champion-reasons-box h3 {
+      font-size: 0.96rem;
+      margin: 0 0 0.65rem;
+      color: var(--ink);
+    }
+
+    .champion-reasons-box ul {
+      margin: 0;
+      padding-left: 1.2rem;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: var(--ink-soft);
+    }
+
+    .champion-reasons-box li + li {
+      margin-top: 0.4rem;
+    }
+
+    .champion-actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+    }
+
+    .champion-side-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .mini-plans-card {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md, 4px);
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+
+    .mini-plans-card h4 {
+      font-size: 0.88rem;
+      margin: 0 0 0.75rem;
+      color: var(--ink);
+    }
+
+    .mini-plans-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .mini-plan-item {
+      background: var(--bg-elevated);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm, 2px);
+      padding: 0.55rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      box-sizing: border-box;
+    }
+
+    .mini-plan-item.featured-plan-item {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+    }
+
+    .mini-plan-row-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.84rem;
+    }
+
+    .mini-plan-name {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .mini-plan-price {
+      font-family: var(--mono);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .mini-plan-row-sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .mini-shot-card {
+      display: block;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md, 4px);
+      padding: 0.65rem;
+      text-decoration: none;
+      color: var(--ink);
+      transition: border-color 0.15s ease;
+    }
+
+    .mini-shot-card:hover {
+      border-color: var(--accent);
+    }
+
+    .shot-card-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 0.45rem;
+      color: var(--muted);
+    }
+
+    .mini-shot-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      object-position: top;
+      border-radius: var(--radius-sm, 2px);
+      display: block;
+    }
+
+    /* Top Cards Stack */
+    .top-list-section {
+      margin-bottom: 3.5rem;
+    }
+
+    .section-title-wrap {
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title-wrap h2 {
+      font-size: 1.6rem;
+      margin: 0.35rem 0 0.5rem;
+      color: var(--ink);
+    }
+
+    .section-subtitle {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .top-cards-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .top-brand-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--card-accent, var(--line-strong));
+      border-radius: var(--radius-md, 4px);
+      padding: 1.35rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .top-brand-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    }
+
+    .top-card-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .top-card-title-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .brand-rank-pill {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 0.76rem;
+      color: #0c0c0b;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-sm, 2px);
+    }
+
+    .brand-title {
+      font-size: 1.25rem;
+      margin: 0;
+    }
+
+    .brand-title a {
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .brand-title small {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .promo-pill-code {
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #10b981;
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-sm, 2px);
+      font-weight: 600;
+    }
+
+    .promo-pill-code code {
+      font-weight: 700;
+    }
+
+    .measured-pill {
+      font-size: 0.74rem;
+      color: var(--accent);
+      font-family: var(--mono);
+    }
+
+    .top-card-price-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.1rem;
+    }
+
+    .price-lbl {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    .price-val {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .top-card-usp {
+      font-size: 0.94rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    .top-card-summary {
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--ink-soft);
+      margin: 0;
+    }
+
+    .top-card-specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.6rem;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm, 2px);
+      padding: 0.65rem 0.85rem;
+    }
+
+    .spec-pill-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .spec-lbl {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    .spec-txt {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .top-card-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.85rem;
+      margin-top: 0.25rem;
+      padding-top: 0.75rem;
+      border-top: 1px dashed var(--line);
+    }
+
+    .top-card-footer-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .top-card-footer-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .top-card-footer-buttons .btn {
+      white-space: nowrap;
+    }
+
+    /* Scenario Grid */
+    .scenario-section {
+      margin-bottom: 2rem;
+    }
+
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+
+    .scenario-box {
+      background: var(--bg-elevated);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md, 4px);
+      padding: 1.35rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .scenario-badge {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.35rem;
+    }
+
+    .scenario-title {
+      font-size: 1.12rem;
+      margin: 0 0 0.45rem;
+      color: var(--ink);
+    }
+
+    .scenario-desc {
+      font-size: 0.84rem;
+      color: var(--muted);
+      line-height: 1.55;
+      margin: 0 0 1rem;
+    }
+
+    .scenario-brands-list {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .scenario-item-row {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm, 2px);
+      padding: 0.45rem 0.65rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+    }
+
+    .scenario-item-row.is-top-pick {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .scenario-row-info {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    .scenario-rank-tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .scenario-link {
+      font-weight: 700;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .scenario-price-tag {
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    .scenario-row-links {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+    }
+
+    .scenario-btn-text {
+      font-size: 0.78rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .scenario-btn-text.secondary {
+      color: var(--muted);
+    }
+
+    .ranking-bottom-cta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.85rem;
+      margin-top: 2.5rem;
+    }
+  </style>
+</MarketingLayout>

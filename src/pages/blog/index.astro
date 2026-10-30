@@ -1,45 +1,324 @@
 ---
 import { getCollection } from 'astro:content';
 import MarketingLayout from '../../components/MarketingLayout.astro';
+import { SITE_CONFIG } from '../../config/site';
 
 const posts = (await getCollection('blog'))
   .filter((post) => !post.data.draft)
-  .map((post) => ({ ...post, slug: post.id.replace(/\.(md|mdx)$/i, '') }))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('zh-CN', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
+}
+
+function readingTime(body: string | undefined): number {
+  if (!body) return 1;
+  const chars = body.replace(/\s+/g, '').length;
+  return Math.max(1, Math.round(chars / 400));
+}
+
+function authorSlug(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9\u4e00-\u9fa5]+/g, '-').replace(/^-|-$/g, '');
+}
 ---
 
 <MarketingLayout
-  title="varsha blog"
-  description="Tips, tutorials, and updates for building websites with the varsha starter."
+  title={`评测专栏与技术指南 — ${SITE_CONFIG.name}`}
+  description={`梯子机场测评组专栏：专线机场深度测评、跨平台代理客户端配置、ChatGPT 与 Netflix 4K 解锁实战。`}
   canonicalPath="/blog/"
+  activeNav="blog"
 >
-  <main class="content-shell">
-    <section class="page-hero page-hero-compact">
-      <p class="eyebrow"><span class="status-dot dot-working"></span>Blog</p>
-      <h1>varsha blog.</h1>
-      <p class="hero-lede">
-        Tips, tutorials, and updates for building websites with the varsha starter.
-      </p>
-    </section>
-
-    <section class="section section-narrow" aria-label="Blog posts">
-      <div class="post-list">
-        {posts.map((post) => (
-          <article class="post-card">
-            <a class="post-card-link" href={`/blog/${post.slug}/`}>
-              <h2>{post.data.title}</h2>
-              <span aria-hidden="true">→</span>
-            </a>
-            {post.data.tags && post.data.tags.length > 0 && (
-              <div class="post-tags">
-                {post.data.tags.map((tag) => (
-                  <a class="tag-pill" href={`/blog/?tag=${encodeURIComponent(tag)}`}>{tag}</a>
-                ))}
-              </div>
-            )}
-          </article>
-        ))}
+  <header class="page-hero-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="overline">Observatory Insights · 梯子机场深度专栏</span>
+        <h1>2026 梯子机场深度评测与选型指南</h1>
+        <p class="section-desc">
+          由梯子机场网络工程实验室与评测组联合呈现。基于晚高峰真实测速、IEPL 物理专线拓扑、客户端兼容性实测与流媒体解锁深度分析。
+        </p>
       </div>
-    </section>
-  </main>
+    </div>
+  </header>
+
+  <div class="blog-body-wrap">
+    <div class="container">
+      <div class="blog-toolbar">
+        <div class="toolbar-stats">
+          共收录 <strong>{posts.length}</strong> 篇深度实测与技术指南
+        </div>
+        <a href="/rss.xml" class="rss-link-btn" title="订阅 RSS 文章更新">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+          <span>RSS 订阅源</span>
+        </a>
+      </div>
+
+      {posts.length === 0 ? (
+        <div class="blog-empty-box">暂无文章，敬请期待更新。</div>
+      ) : (
+        <div class="blog-cards-stack">
+          {posts.map((post, idx) => {
+            const isFeatured = idx === 0 || post.id.includes('guangsuyun');
+            return (
+              <article class={`blog-article-card ${isFeatured ? 'is-featured' : ''}`}>
+                {isFeatured && (
+                  <div class="featured-ribbon">
+                    <span>👑 2026 年度第一主推精选 · 深度测评</span>
+                  </div>
+                )}
+
+                <div class="blog-card-meta">
+                  <span class="meta-item">
+                    <time datetime={post.data.date.toISOString()}>📅 {formatDate(post.data.date)}</time>
+                  </span>
+                  <span class="meta-sep">/</span>
+                  <span class="meta-item">⏱️ 约 {readingTime(post.body)} 分钟阅读</span>
+                  <span class="meta-sep">/</span>
+                  <span class="meta-item">
+                    ✍️ <a href={`/blog/author/${authorSlug(post.data.author)}/`} class="author-link">{post.data.author}</a>
+                  </span>
+                </div>
+
+                <h2 class="blog-card-title">
+                  <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+                </h2>
+
+                <p class="blog-card-desc">{post.data.description}</p>
+
+                <div class="blog-card-footer">
+                  <div class="blog-tags">
+                    {post.data.tags.map((tag) => (
+                      <span class="blog-tag">{tag}</span>
+                    ))}
+                  </div>
+
+                  <a href={`/blog/${post.id}/`} class="blog-read-btn">
+                    阅读深度全文 &rarr;
+                  </a>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  </div>
+
+  <style>
+    .blog-body-wrap {
+      padding: 1.5rem 0 4.5rem;
+    }
+
+    .blog-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .toolbar-stats {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    .toolbar-stats strong {
+      color: var(--accent);
+    }
+
+    .rss-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm, 2px);
+      padding: 0.35rem 0.75rem;
+      font-size: 0.8rem;
+      font-family: var(--mono);
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .rss-link-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .blog-cards-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .blog-article-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--line-strong);
+      border-radius: var(--radius-md, 4px);
+      padding: 1.65rem 1.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+      position: relative;
+    }
+
+    .blog-article-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+      border-color: var(--line-strong);
+      border-left-color: var(--accent);
+    }
+
+    .blog-article-card.is-featured {
+      border-left-color: #22d3ee;
+      background: color-mix(in srgb, var(--accent) 3%, var(--bg-elevated));
+    }
+
+    .featured-ribbon {
+      margin-bottom: 0.25rem;
+    }
+
+    .featured-ribbon span {
+      display: inline-block;
+      background: rgba(34, 211, 238, 0.12);
+      border: 1px solid rgba(34, 211, 238, 0.35);
+      color: #22d3ee;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 0.18rem 0.6rem;
+      border-radius: var(--radius-sm, 2px);
+      font-family: var(--mono);
+    }
+
+    .blog-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    .meta-sep {
+      color: var(--line-strong);
+      opacity: 0.6;
+    }
+
+    .author-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.15s ease;
+    }
+
+    .author-link:hover {
+      color: var(--accent);
+    }
+
+    .blog-card-title {
+      font-size: clamp(1.2rem, 2.5vw, 1.45rem);
+      font-weight: 700;
+      margin: 0.15rem 0 0.35rem;
+      line-height: 1.42;
+      letter-spacing: -0.02em;
+    }
+
+    .blog-card-title a {
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .blog-card-title a:hover {
+      color: var(--accent);
+    }
+
+    .blog-card-desc {
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      line-height: 1.65;
+      margin: 0 0 0.5rem;
+    }
+
+    .blog-card-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 0.5rem;
+      padding-top: 0.95rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .blog-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .blog-tag {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm, 2px);
+      padding: 0.2rem 0.55rem;
+      font-size: 0.74rem;
+      font-family: var(--mono);
+      color: var(--muted);
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .blog-tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .blog-read-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+      padding: 0.42rem 0.9rem;
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-sm, 2px);
+      background: var(--accent-soft);
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .blog-read-btn:hover {
+      background: var(--accent);
+      color: #0c0c0b;
+      transform: translateX(2px);
+    }
+
+    .blog-empty-box {
+      background: var(--bg-elevated);
+      border: 1px dashed var(--line);
+      border-radius: var(--radius-md, 4px);
+      padding: 3rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+  </style>
 </MarketingLayout>

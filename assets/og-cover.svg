@@ -1,0 +1,26 @@
+<svg role="img" aria-label="TiziUI Open Graph Card" xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="og-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#141622"/>
+      <stop offset="100%" stop-color="#1f2335"/>
+    </linearGradient>
+    <linearGradient id="og-accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4a9eff"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#og-bg)"/>
+  <g stroke="#292e42" stroke-width="1">
+    <line x1="0" y1="120" x2="1200" y2="120"/>
+    <line x1="0" y1="510" x2="1200" y2="510"/>
+    <line x1="120" y1="0" x2="120" y2="630"/>
+    <line x1="1080" y1="0" x2="1080" y2="630"/>
+  </g>
+  <g transform="translate(180, 195)">
+    <polygon points="120,0 224,60 224,180 120,240 16,180 16,60" fill="none" stroke="url(#og-accent)" stroke-width="20" stroke-linejoin="round"/>
+    <polygon points="120,64 172,94 172,146 120,176 68,146 68,94" fill="url(#og-accent)"/>
+  </g>
+  <text x="460" y="290" fill="#f0ece0" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="68" font-weight="700" letter-spacing="-2">tizijichang.cc</text>
+  <text x="460" y="355" fill="#9aa5ce" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="30" font-weight="400">Next-Gen Static Web Architecture &amp; Design System</text>
+  <text x="460" y="410" fill="#7aa2f7" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="22" font-weight="600">Astro Islands · Design Tokens · Docs · MDX Blog · SEO 100</text>
+</svg>

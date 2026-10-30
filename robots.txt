@@ -1,4 +1,18 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://varsha.myndlabs.tech/sitemap-index.xml
+# 主流海外与国内搜索引擎蜘蛛友好抓取声明
+User-agent: Googlebot
+Allow: /
+
+User-agent: bingbot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: yisouspider
+Allow: /
+
+Sitemap: https://tizijichang.cc/sitemap-index.xml
+Sitemap: https://tizijichang.cc/sitemap.xml

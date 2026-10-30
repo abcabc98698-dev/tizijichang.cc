@@ -1,0 +1,12 @@
+<svg role="img" aria-label="Author avatar" xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="avatar-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4a9eff"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="128" fill="#1a1b26"/>
+  <circle cx="128" cy="128" r="120" fill="none" stroke="url(#avatar-grad)" stroke-width="6"/>
+  <polygon points="128,52 194,90 194,166 128,204 62,166 62,90" fill="none" stroke="url(#avatar-grad)" stroke-width="14" stroke-linejoin="round"/>
+  <polygon points="128,92 160,110 160,146 128,164 96,146 96,110" fill="url(#avatar-grad)"/>
+</svg>

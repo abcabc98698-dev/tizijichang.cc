@@ -1,0 +1,105 @@
+---
+import MarketingLayout from '../components/MarketingLayout.astro';
+import { SITE_CONFIG } from '../config/site';
+
+const title = `关于我们与网络评测实验室 — ${SITE_CONFIG.name}`;
+const description = `了解 ${SITE_CONFIG.name} (${SITE_CONFIG.domain}) 评测实验室：由网络工程师与资深极客组成的独立可观测性团队，基于三网物理千兆探针，提供真实、客观、透明的专线机场评测数据与技术指南。`;
+
+const aboutJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: title,
+  description,
+  url: `${SITE_CONFIG.url}/about/`,
+  mainEntity: {
+    '@type': 'Organization',
+    name: SITE_CONFIG.name,
+    alternateName: SITE_CONFIG.brandEn,
+    url: SITE_CONFIG.url,
+    logo: `${SITE_CONFIG.url}${SITE_CONFIG.logoPng}`,
+    description: SITE_CONFIG.tagline,
+    knowsAbout: [
+      'IEPL/IPLC 跨境专线网络',
+      'Shadowsocks / VLESS / Hysteria 2 代理协议',
+      '跨境网络可观测性与晚高峰吞吐压测',
+      'ChatGPT / Claude / Netflix 流媒体原生 IP 解锁检测',
+      'Clash Verge Rev / Shadowrocket / OpenWrt 软路由配置',
+    ],
+  },
+};
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  canonicalPath="/about/"
+  activeNav="about"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(aboutJsonLd)} />
+
+  <section class="compare-hero">
+    <div class="container">
+      <a href="/" class="back-link">&larr; 返回网站首页</a>
+      <span class="page-overline">About tizijichang.cc · 团队与技术背景</span>
+      <h1>关于梯子机场与网络评测实验室</h1>
+      <p class="hero-sub">
+        我们是一个由网络通信工程师、开源代理软件贡献者与跨境外贸技术人员组成的独立评测团队。致力于用真实物理探针与自动化脚本，终结网络代理领域的营销话术与虚假专线乱象。
+      </p>
+    </div>
+  </section>
+
+  <section class="compare-summary">
+    <div class="container">
+      <div class="compare-cards">
+        <div class="compare-card highlight">
+          <h3>🔬 独立实验室探针集群</h3>
+          <p class="compare-card-tag">真实物理环境 · 杜绝云机房造假</p>
+          <ul>
+            <li><strong>华南节点：</strong>广州电信 1000M 物理专线 (CN2/163 混合接入)</li>
+            <li><strong>华东节点：</strong>上海联通 500M 骨干网接入探针 (AS4837 优质直连)</li>
+            <li><strong>西南节点：</strong>成都移动 1000M 高速探针 (CMI 跨境出口监测)</li>
+            <li><strong>自动化任务：</strong>每晚 20:00 - 23:00 晚高峰自动运行双向延迟、抖动与 4K 压测</li>
+          </ul>
+        </div>
+
+        <div class="compare-card">
+          <h3>🛡️ 评测独立性与诚信承诺</h3>
+          <p class="compare-card-tag">拒绝充值改榜 · 严格利益隔离</p>
+          <ul>
+            <li><strong>数据中立：</strong>评测排名由测速数据、架构含金量与运营稳定性算法得出，绝不受商业充值干预</li>
+            <li><strong>状态标注：</strong>严格区分实测 (Measured)、官方 (Vendor) 与历史 (Historical) 数据</li>
+            <li><strong>风险预警：</strong>对出现线路频繁熔断、工单失联或降速的品牌，及时下调评级或归档</li>
+            <li><strong>购买建议：</strong>始终倡导「月付试水、备份容灾」，绝不盲目引导用户购买多年期大包</li>
+          </ul>
+        </div>
+
+        <div class="compare-card">
+          <h3>🤝 商业赞助与推广声明</h3>
+          <p class="compare-card-tag">100% 透明标注 · 保护用户知情权</p>
+          <ul>
+            <li><strong>Affiliate 机制：</strong>部分品牌官网按钮包含推荐代码，用于补贴实验室物理服务器与宽带开销</li>
+            <li><strong>零溢价保障：</strong>通过本站推荐注册绝不会增加您的购买成本，使用优惠码更可享受折上折</li>
+            <li><strong>外链合规：</strong>所有商业合作链接严格标记 <code>rel="nofollow sponsored noopener"</code>，遵循 Google 搜索规范</li>
+            <li><strong>完全自愿：</strong>用户完全可以通过搜索引擎自行搜索品牌官网注册，评测内容无差别开放</li>
+          </ul>
+        </div>
+
+        <div class="compare-card">
+          <h3>📬 勘误沟通与数据反馈</h3>
+          <p class="compare-card-tag">持续演进 · 社区共建</p>
+          <ul>
+            <li><strong>套餐核验：</strong>若发现机场官方调整了套餐价格、节点倍率或优惠码失效，欢迎反馈</li>
+            <li><strong>新秀收录：</strong>运营满 1 年以上、具备物理专线或优质 BGP 中转架构的品牌可申请评测</li>
+            <li><strong>技术交流：</strong>欢迎 Clash、sing-box、软路由网络调优爱好者探讨规则分流与 DNS 防泄露</li>
+            <li><strong>官方文档：</strong>查阅详尽的 <a href="/methodology/" style="color:var(--accent);">42 家专线测评标准与方法论</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 3rem; text-align: center;">
+        <a href="/ranking/" class="btn btn-primary">查看 2026 梯子机场推荐榜</a>
+        <a href="/methodology/" class="btn btn-ghost" style="margin-left: 1rem;">深入了解评测方法论 &rarr;</a>
+      </div>
+    </div>
+  </section>
+</MarketingLayout>

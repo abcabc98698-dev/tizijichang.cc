@@ -1,0 +1,31 @@
+---
+import MarketingLayout from '../components/MarketingLayout.astro';
+import { SITE_CONFIG } from '../config/site';
+
+const title = `页面未找到 (404) — ${SITE_CONFIG.name}`;
+const description = `您访问的页面不存在或已被迁移至更规范的语义化网址。请通过导航栏查阅 42 家机场品牌库与测速评测。`;
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  canonicalPath="/404/"
+  robots="noindex, follow"
+>
+  <section class="compare-hero" style="padding: 6rem 0; text-align: center;">
+    <div class="container">
+      <span class="overline">Error 404</span>
+      <h1 style="margin-top: 0.75rem;">抱歉，您访问的页面不存在</h1>
+      <p class="hero-sub" style="max-width: 34rem; margin: 1rem auto 2rem;">
+        您访问的链接可能已失效或迁移。您可以使用以下快捷入口继续浏览 {SITE_CONFIG.name} 的核心内容：
+      </p>
+      <div class="hero-ctas" style="justify-content: center; flex-wrap: wrap; gap: 0.75rem;">
+        <a href="/" class="btn btn-primary">返回网站首页</a>
+        <a href="/ranking/" class="btn btn-ghost">2026 机场推荐榜</a>
+        <a href="/brands/" class="btn btn-ghost">42 家品牌大全</a>
+        <a href="/clients/" class="btn btn-ghost">客户端大全</a>
+        <a href="/compare/" class="btn btn-ghost">测速横评大表</a>
+      </div>
+    </div>
+  </section>
+</MarketingLayout>

@@ -1,0 +1,159 @@
+---
+import MarketingLayout from '../components/MarketingLayout.astro';
+import { SITE_CONFIG } from '../config/site';
+import { TOP10_BRANDS } from '../data/brands';
+
+const title = `2026 VPN与专线机场对比推荐：传统VPN与IEPL专线核心区别解析 — ${SITE_CONFIG.name}`;
+const description = `全面剖析传统商用 VPN (ExpressVPN/NordVPN) 与现代 IEPL/IPLC 专线机场的底层架构差异，涵盖协议抗封锁、国内晚高峰延迟实测、流媒体与 AI 解锁选型建议。`;
+
+const vpnJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: title,
+  description,
+  url: `${SITE_CONFIG.url}/vpn/`,
+  mainEntity: {
+    '@type': 'ItemList',
+    name: '2026 优质专线替代与跨境加速服务精选',
+    numberOfItems: 5,
+    itemListElement: TOP10_BRANDS.slice(0, 5).map((b, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      name: `${b.name} (${b.enName}) — ${b.lineType}`,
+      url: `${SITE_CONFIG.url}/brands/${b.slug}/`,
+    })),
+  },
+};
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  canonicalPath="/vpn/"
+  activeNav="vpn"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(vpnJsonLd)} />
+
+  <section class="compare-hero">
+    <div class="container">
+      <a href="/" class="back-link">&larr; 返回网站首页</a>
+      <span class="page-overline">VPN & Proxy Observatory · 专题栏目</span>
+      <h1>VPN 与专线机场对比推荐及选型指南</h1>
+      <p class="hero-sub">
+        很多国内初学者常将“科学上网”笼统地称为“VPN”。但在 2026 年的现代网络对抗环境下，传统的海外商用 VPN（如 ExpressVPN、NordVPN）与基于物理专线的现代机场代理在底层协议、晚高峰抗干扰与连接速度上有着截然不同的工程实现。
+      </p>
+    </div>
+  </section>
+
+  <section class="compare-summary">
+    <div class="container">
+
+      <!-- 栏目说明：深度科普与本质差异 -->
+      <div style="margin-bottom: 3rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">一、传统商用 VPN vs 现代 IEPL 专线机场：核心技术剖析</h2>
+        <div style="background:var(--card-bg, #161b22);border:1px solid var(--border-color, #30363d);border-radius:8px;padding:1.5rem;line-height:1.7;color:var(--text-secondary);font-size:0.92rem;">
+          <p style="margin-top:0;">
+            <strong>传统 VPN (Virtual Private Network) 的设计初衷是企业内网安全加密传输</strong>，采用 OpenVPN、WireGuard 或 IKEv2 等强加密握手协议。由于其特征极其明显，直接穿透国际公网出口时极易被 GFW 的深度数据包检测（DPI）主动识别并阻断重置，导致国内用户在晚高峰连接成功率骤降、频繁掉线。
+          </p>
+          <p style="margin-bottom:0;">
+            <strong>现代专线机场（IEPL/IPLC）则采用物理私有专网直连</strong>：用户在国内入口通过多路复用隧道加密接入，数据在境内经由企业内网物理专线直接跨海直达香港、日本或新加坡机房落地，<strong>全程不经过国际公网出口与审查网关</strong>，彻底实现零丢包、低延迟与 4K 秒开。
+          </p>
+        </div>
+      </div>
+
+      <!-- 二、横向对比表格 -->
+      <div style="margin-bottom: 3.5rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">二、关键性能指标横向比对表</h2>
+        <div class="matrix-wrap">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th>比对维度</th>
+                <th>传统海外商业 VPN</th>
+                <th class="col-highlight">IEPL / IPLC 物理专线机场（推荐）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>网络物理路径</strong></td>
+                <td>公网直连（易遭国际出口拥塞与 QoS 限速）</td>
+                <td class="col-highlight"><strong>企业级物理内网专线（不走公网国际出口）</strong></td>
+              </tr>
+              <tr>
+                <td><strong>晚高峰 (20:00-23:00)</strong></td>
+                <td>丢包率常达 20%~40%，严重卡顿甚至断连</td>
+                <td class="col-highlight"><strong>丢包率 &lt; 0.5%，延迟恒定 20~40ms</strong></td>
+              </tr>
+              <tr>
+                <td><strong>传输协议生态</strong></td>
+                <td>OpenVPN / WireGuard（特征明显易被封）</td>
+                <td class="col-highlight"><strong>VLESS / Shadowsocks / Hysteria 2 混淆</strong></td>
+              </tr>
+              <tr>
+                <td><strong>分流与规则灵活性</strong></td>
+                <td>全全局代理为主，国内网站常被误代理减速</td>
+                <td class="col-highlight"><strong>Clash 自动规则分流，国内直连、海外走专线</strong></td>
+              </tr>
+              <tr>
+                <td><strong>流媒体与 AI 解锁</strong></td>
+                <td>机房大段广播 IP，极易触发 ChatGPT/Netflix 封锁</td>
+                <td class="col-highlight"><strong>原生机房住宅 IP 定制，支持 4K 原生解锁</strong></td>
+              </tr>
+              <tr>
+                <td><strong>年付参考价格</strong></td>
+                <td>¥400 ~ ¥800 / 年（价格高昂且速度缓慢）</td>
+                <td class="col-highlight"><strong>¥99 ~ ¥150 / 年（如光速云 ¥99/年）</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 三、推荐替代方案卡片 -->
+      <div style="margin-bottom: 3.5rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">三、替代传统 VPN 的优质专线精选 (Top 3)</h2>
+        <div class="compare-cards">
+          {TOP10_BRANDS.slice(0, 3).map((brand) => (
+            <div class="compare-card highlight">
+              <span class="compare-card-tag">#{brand.rank} {brand.lineType.split('（')[0]}</span>
+              <h3>{brand.name} ({brand.enName})</h3>
+              <p style="color:var(--text-secondary);font-size:0.86rem;line-height:1.5;margin:0.5rem 0;">{brand.uniqueSellingPoint}</p>
+              <ul style="font-size:0.84rem;">
+                <li>起步价格：<strong>{brand.startingPrice}</strong></li>
+                <li>传输协议：<strong>{brand.protocols.join(' / ')}</strong></li>
+                <li>客户端支持：<strong>{brand.clientSupport === 'both' ? '官方客户端 + Clash/小火箭通用订阅' : '专属客户端登录即连'}</strong></li>
+              </ul>
+              <div style="margin-top:1rem;display:flex;gap:0.5rem;">
+                <a href={`/brands/${brand.slug}/`} class="btn btn-ghost btn-sm" style="flex:1;justify-content:center;">评测详情</a>
+                <a href={brand.affLink} target="_blank" rel="nofollow sponsored noopener" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">访问官网 ↗</a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- 四、子栏目与相关文章导航 -->
+      <div>
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">四、VPN 与科学上网延伸阅读指南</h2>
+        <div class="compare-cards">
+          <div class="compare-card">
+            <h3>📖 机场选购全景指南</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">从 42 家品牌中辨别 IEPL 专线与公网劣质直连，详细透视流量倍率与退款规则。</p>
+            <a href="/blog/2026-airport-selection-guide/" class="card-link" style="margin-top:0.5rem;">阅读选型指南 &rarr;</a>
+          </div>
+          <div class="compare-card">
+            <h3>⚙️ 跨平台客户端配置大全</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">Windows、macOS、iOS、Android 与软路由 Clash Verge Rev 及小火箭配置避坑实录。</p>
+            <a href="/clients/" class="card-link" style="margin-top:0.5rem;">查看客户端大全 &rarr;</a>
+          </div>
+          <div class="compare-card">
+            <h3>📊 42 家机场测速横评大表</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">五地节点（香港/日本/新加坡/美国/台湾）非晚高峰与晚高峰实测延迟与带宽。</p>
+            <a href="/compare/" class="card-link" style="margin-top:0.5rem;">查阅测速大表 &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</MarketingLayout>

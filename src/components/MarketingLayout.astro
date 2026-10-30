@@ -1,39 +1,131 @@
 ---
-import BuiltWith from './BuiltWith.astro';
+import { SITE_CONFIG, SEARCH_VERIFICATION } from '../config/site';
+import { AIRPORT_BRANDS } from '../data/brands';
 
 interface Props {
   title: string;
   description: string;
   canonicalPath: string;
+  robots?: string;
   ogType?: 'website' | 'article';
   ogImage?: string;
   ogImageAlt?: string;
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
+  category?: string;
+  tags?: string[];
+  activeNav?: string;
 }
 
 const {
   title,
   description,
   canonicalPath,
+  robots = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
   ogType = 'website',
-  ogImage = '/assets/og-card-v8.png',
-  ogImageAlt = 'varsha — premium website starter',
+  ogImage = SITE_CONFIG.ogImage,
+  ogImageAlt = SITE_CONFIG.ogImageAlt,
+  publishedTime,
+  modifiedTime,
+  author,
+  category,
+  tags = [],
 } = Astro.props;
-const canonicalUrl = new URL(canonicalPath, 'https://varsha.myndlabs.tech').toString();
-const ogImageUrl = new URL(ogImage, 'https://varsha.myndlabs.tech').toString();
+
+const canonicalUrl = new URL(canonicalPath, SITE_CONFIG.url).toString();
+const ogImageUrl = new URL(ogImage, SITE_CONFIG.url).toString();
+
+const BREADCRUMB_NAME_MAP: Record<string, string> = {
+  vpn: 'VPN推荐',
+  jichang: '机场推荐',
+  clash: 'Clash专区',
+  nodes: '节点测速',
+  tizi: '梯子选型',
+  free: '免费与平价',
+  tutorial: '使用教程',
+  brands: '42家品牌库',
+  blog: '评测专栏',
+  ranking: '机场推荐榜',
+  compare: '测速横评',
+  clients: '客户端大全',
+  features: '平台架构',
+  performance: '性能指标',
+  showcase: '技术体系',
+  docs: '教程百科',
+  about: '关于实验室',
+  methodology: '评测方法论',
+  author: '专栏作者',
+};
+
+function resolveBreadcrumbName(segment: string): string {
+  const decoded = decodeURIComponent(segment);
+  if (BREADCRUMB_NAME_MAP[decoded]) return BREADCRUMB_NAME_MAP[decoded];
+  const brand = AIRPORT_BRANDS.find((b) => b.slug === decoded);
+  if (brand) return brand.name;
+  return decoded.replace(/-/g, ' ');
+}
+
+const breadcrumbSegments = canonicalPath.split('/').filter(Boolean);
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: '首页',
+      item: `${SITE_CONFIG.url}/`,
+    },
+    ...breadcrumbSegments.map((segment, index) => ({
+      '@type': 'ListItem',
+      position: index + 2,
+      name: resolveBreadcrumbName(segment),
+      item: `${SITE_CONFIG.url}/${breadcrumbSegments.slice(0, index + 1).join('/')}/`,
+    })),
+  ],
+};
+
+const globalWebsiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE_CONFIG.name,
+  alternateName: SITE_CONFIG.brandEn,
+  url: `${SITE_CONFIG.url}/`,
+  description: SITE_CONFIG.description,
+};
+
+const globalOrgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE_CONFIG.name,
+  alternateName: SITE_CONFIG.brandEn,
+  url: `${SITE_CONFIG.url}/`,
+  logo: `${SITE_CONFIG.url}${SITE_CONFIG.logoPng}`,
+};
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
     <meta name="theme-color" content="#f0eee9" />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="sitemap" href="/sitemap.xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE_CONFIG.name} RSS`} href="/rss.xml" />
+
+    <!-- 搜索引擎验证预留代码 (可在 src/config/site.ts 中统一配置，服务端静态输出) -->
+    {SEARCH_VERIFICATION.google && <meta name="google-site-verification" content={SEARCH_VERIFICATION.google} />}
+    {SEARCH_VERIFICATION.bing && <meta name="msvalidate.01" content={SEARCH_VERIFICATION.bing} />}
+    {SEARCH_VERIFICATION.baidu && <meta name="baidu-site-verification" content={SEARCH_VERIFICATION.baidu} />}
+    {SEARCH_VERIFICATION.shenma && <meta name="shenma-site-verification" content={SEARCH_VERIFICATION.shenma} />}
 
     <meta property="og:type" content={ogType} />
-    <meta property="og:site_name" content="varsha" />
+    <meta property="og:site_name" content={SITE_CONFIG.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
@@ -41,6 +133,11 @@ const ogImageUrl = new URL(ogImage, 'https://varsha.myndlabs.tech').toString();
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={ogImageAlt} />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+    {author && <meta property="article:author" content={author} />}
+    {category && <meta property="article:section" content={category} />}
+    {tags.map((tag) => <meta property="article:tag" content={tag} />)}
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
@@ -48,58 +145,33 @@ const ogImageUrl = new URL(ogImage, 'https://varsha.myndlabs.tech').toString();
     <meta name="twitter:image" content={ogImageUrl} />
     <meta name="twitter:image:alt" content={ogImageAlt} />
 
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.png?v=15" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon.png" />
     <link rel="apple-touch-icon" href="/assets/logo.png" />
     <link rel="preload" href="/assets/jbm.woff2" as="font" type="font/woff2" crossorigin />
-    <script>
+    <script is:inline>
       (function () {
-        var saved = localStorage.getItem("varsha-palette");
+        var saved = localStorage.getItem("site-palette");
         var system = window.matchMedia("(prefers-color-scheme: dark)").matches
           ? "tokyo-night"
           : "tokyo-night-day";
         document.documentElement.setAttribute("data-palette", saved || system);
       })();
     </script>
-    <link rel="stylesheet" href="/css/style.css?v=45" />
-    <link rel="stylesheet" href="/css/a11y-tokens.css?v=1" />
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "varsha",
-      "url": canonicalUrl,
-      "description": description,
-      "publisher": {
-        "@type": "Organization",
-        "name": "myndlabs",
-        "url": "https://myndlabs.tech"
-      }
-    })} />
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "varsha",
-      "applicationCategory": "DeveloperApplication",
-      "operatingSystem": "Any",
-      "url": "https://varsha.myndlabs.tech",
-      "description": "A premium website starter template by myndlabs with built-in docs, blog, and design system.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "myndlabs",
-        "url": "https://myndlabs.tech"
-      },
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      }
-    })} />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/a11y-tokens.css" />
+
+    <!-- 基础结构化数据 (WebSite / Organization / BreadcrumbList) -->
+    <script type="application/ld+json" set:html={JSON.stringify(globalWebsiteJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(globalOrgJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+    <slot name="head" />
   </head>
   <body>
     <header class="site-header">
       <nav class="nav" aria-label="Primary navigation">
-        <a class="brand" href="/" aria-label="varsha home">
+        <a class="brand" href="/" aria-label={`${SITE_CONFIG.name} 首页`}>
           <span class="brand-logo" aria-hidden="true"></span>
-          <span>varsha</span>
+          <span>{SITE_CONFIG.name}</span>
         </a>
         <details class="nav-menu">
           <summary class="nav-menu-button" aria-label="Open navigation">
@@ -108,42 +180,66 @@ const ogImageUrl = new URL(ogImage, 'https://varsha.myndlabs.tech').toString();
             <span></span>
           </summary>
           <div class="nav-menu-panel">
-            <a href="/">Home</a>
-            <a href="/compare/">Features</a>
-            <a href="/plugins/">Showcase</a>
-            <a href="/blog/">Blog</a>
-            <a href="/docs/">Docs</a>
-            <a href="/docs/install/">Get started</a>
-            <a href="https://github.com/yethikrishna/web-ui-template">GitHub</a>
-            <a href="https://instagram.com/yethikrishnar">Instagram</a>
+            <a href="/">首页</a>
+            <a href="/jichang/">机场推荐</a>
+            <a href="/vpn/">VPN对比</a>
+            <a href="/clash/">Clash专区</a>
+            <a href="/nodes/">节点测速</a>
+            <a href="/tizi/">梯子指南</a>
+            <a href="/free/">免费平价</a>
+            <a href="/tutorial/">使用教程</a>
+            <a href="/brands/">42家品牌库</a>
+            <a href="/compare/">测速对比</a>
+            <a href="/clients/">客户端大全</a>
+            <a href="/docs/">教程百科</a>
+            <a href="/blog/">评测专栏</a>
+            <a href="/brands/guangsuyun/">首选推荐 · 光速云</a>
           </div>
         </details>
         <div class="nav-links">
-          <a href="/">Home</a>
-          <a href="/compare/">Features</a>
-          <a href="/plugins/">Showcase</a>
-          <a href="/docs/">Docs</a>
-          <a href="/blog/">Blog</a>
+          <a href="/">首页</a>
+          <a href="/jichang/">机场推荐</a>
+          <a href="/vpn/">VPN</a>
+          <a href="/clash/">Clash</a>
+          <a href="/nodes/">节点</a>
+          <a href="/brands/">品牌库</a>
+          <a href="/compare/">测速对比</a>
+          <a href="/clients/">客户端</a>
+          <a href="/docs/">百科</a>
+          <a href="/blog/">专栏</a>
         </div>
         <div class="nav-tools">
-          <a class="nav-icon-link" href="https://github.com/yethikrishna/web-ui-template" aria-label="varsha on GitHub">
-            <svg viewBox="0 0 16 16" aria-hidden="true">
-              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.64 7.64 0 0 1 8 3.87c.68 0 1.36.09 2 .26 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
-            </svg>
-          </a>
-          <a class="nav-icon-link" href="https://instagram.com/yethikrishnar" aria-label="varsha on Instagram">
-            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-              <circle cx="12" cy="12" r="4"/>
-              <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/>
-            </svg>
-          </a>
-          <a class="nav-cta" href="/docs/install/">Get started</a>
+          <a class="nav-cta" href="/brands/guangsuyun/">首选推荐 · 光速云</a>
         </div>
       </nav>
     </header>
 
     <slot />
+
+    <footer class="footer">
+      <a class="brand" href="/" aria-label={`${SITE_CONFIG.name} 首页`}>
+        <span class="brand-logo" aria-hidden="true"></span>
+        <span>{SITE_CONFIG.name}</span>
+      </a>
+      <div>
+        <a href="/jichang/">机场推荐</a>
+        <a href="/vpn/">VPN对比</a>
+        <a href="/clash/">Clash专区</a>
+        <a href="/nodes/">节点测速</a>
+        <a href="/tizi/">梯子指南</a>
+        <a href="/free/">免费平价</a>
+        <a href="/tutorial/">使用教程</a>
+        <a href="/brands/">42家品牌库</a>
+        <a href="/compare/">测速对比</a>
+        <a href="/clients/">客户端大全</a>
+        <a href="/docs/">教程百科</a>
+        <a href="/blog/">评测专栏</a>
+        <a href="/about/">关于实验室</a>
+        <a href="/methodology/">评测标准</a>
+        <a href="/rss.xml">RSS</a>
+        <a href="/sitemap.xml">Sitemap</a>
+      </div>
+    </footer>
 
     <div class="theme-hint" id="theme-hint" title="Press / or t to switch theme">
       <span class="theme-hint-dot"></span>
@@ -184,7 +280,7 @@ const ogImageUrl = new URL(ogImage, 'https://varsha.myndlabs.tech').toString();
       </div>
     </div>
 
-    <script>
+    <script is:inline>
       (function () {
         var overlay = document.getElementById("theme-overlay");
         var list = document.getElementById("theme-overlay-list");
@@ -192,7 +288,7 @@ const ogImageUrl = new URL(ogImage, 'https://varsha.myndlabs.tech').toString();
         if (!overlay || !list) return;
         var options = Array.prototype.slice.call(list.querySelectorAll("[role='option']"));
         var media = window.matchMedia("(prefers-color-scheme: dark)");
-        var saved = localStorage.getItem("varsha-palette") || "";
+        var saved = localStorage.getItem("site-palette") || "";
         var committed = saved || defaultPalette();
 
         function defaultPalette() {
@@ -215,7 +311,7 @@ const ogImageUrl = new URL(ogImage, 'https://varsha.myndlabs.tech').toString();
         function openOverlay() {
           overlay.hidden = false;
           document.body.style.overflow = "hidden";
-          committed = localStorage.getItem("varsha-palette") || defaultPalette();
+          committed = localStorage.getItem("site-palette") || defaultPalette();
           updateUI(committed);
           var active = list.querySelector("[aria-selected='true']") || options[0];
           if (active) active.focus();
@@ -240,7 +336,7 @@ const ogImageUrl = new URL(ogImage, 'https://varsha.myndlabs.tech').toString();
 
         function commit(value) {
           setPalette(value);
-          localStorage.setItem("varsha-palette", value);
+          localStorage.setItem("site-palette", value);
           updateUI(value);
           closeOverlay();
         }
@@ -252,7 +348,7 @@ const ogImageUrl = new URL(ogImage, 'https://varsha.myndlabs.tech').toString();
         }
 
         media.addEventListener("change", function () {
-          if (!localStorage.getItem("varsha-palette")) {
+          if (!localStorage.getItem("site-palette")) {
             setPalette("");
             updateUI("");
           }
@@ -289,11 +385,11 @@ const ogImageUrl = new URL(ogImage, 'https://varsha.myndlabs.tech').toString();
         });
 
         var themeHint = document.getElementById("theme-hint");
-        if (localStorage.getItem("varsha-theme-hint-seen") === "1") {
+        if (localStorage.getItem("site-theme-hint-seen") === "1") {
           themeHint.classList.add("is-seen");
         }
         themeHint.addEventListener("mouseenter", function () {
-          localStorage.setItem("varsha-theme-hint-seen", "1");
+          localStorage.setItem("site-theme-hint-seen", "1");
           themeHint.classList.add("is-seen");
         }, { once: true });
         themeHint.addEventListener("click", toggleOverlay);
@@ -302,49 +398,5 @@ const ogImageUrl = new URL(ogImage, 'https://varsha.myndlabs.tech').toString();
         updateUI(saved);
       })();
     </script>
-
-    <!-- varsha-builtwith:start -->
-    <BuiltWith variant="corner" />
-    <script>
-      (function () {
-        'use strict';
-        var HOOK = 'data-builtwith';
-        function createCredit() {
-          var a = document.createElement('a');
-          a.setAttribute(HOOK, 'true');
-          a.href = 'https://myndlabs.tech';
-          a.target = '_blank';
-          a.rel = 'noopener noreferrer';
-          a.setAttribute('aria-label', 'Built with varsha \u00b7 myndlabs');
-          a.className = 'builtwith-credit builtwith-credit--corner';
-          a.innerHTML = '<span class="builtwith-credit__dot"></span>' +
-            '<span class="builtwith-credit__text">Built with varsha</span>' +
-            '<span class="builtwith-credit__sep">\u00b7</span>' +
-            '<span class="builtwith-credit__company">myndlabs</span>';
-          return a;
-        }
-        function ensureCredit() {
-          var el = document.querySelector('[' + HOOK + ']');
-          if (!el || !document.body.contains(el)) {
-            document.body.appendChild(createCredit());
-            return;
-          }
-          var cs = window.getComputedStyle(el);
-          if (cs.display === 'none' || cs.visibility === 'hidden' || cs.opacity === '0' || parseFloat(cs.opacity) < 0.1) {
-            el.removeAttribute('style');
-            el.style.cssText = '';
-          }
-        }
-        function init() { ensureCredit(); }
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', init);
-        } else { init(); }
-        setInterval(ensureCredit, 2500);
-        if (typeof MutationObserver !== 'undefined') {
-          new MutationObserver(ensureCredit).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
-        }
-      })();
-    </script>
-    <!-- varsha-builtwith:end -->
   </body>
 </html>

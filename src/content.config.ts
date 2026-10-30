@@ -26,7 +26,7 @@ export const collections = {
       description: z.string(),
       date: z.coerce.date(),
       draft: z.boolean().default(false),
-      author: z.string().default('Yethikrishna R'),
+      author: z.string().default('Core Team'),
       ogImage: z.string().optional(),
       tags: z.array(z.string()).default([]),
     }),

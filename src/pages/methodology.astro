@@ -1,0 +1,180 @@
+---
+import MarketingLayout from '../components/MarketingLayout.astro';
+import { SITE_CONFIG } from '../config/site';
+
+const title = `专线机场测评标准与方法论 (2026 规程) — ${SITE_CONFIG.name}`;
+const description = `梯子机场 (${SITE_CONFIG.domain}) 42 家机场评测规程全面公开：涵盖五大维度评分模型、晚高峰 (20:00-23:00) 吞吐压测规程、丢包抖动率计算、流媒体/AI 原生 IP 自动化解锁探针与数据状态分级标准。`;
+
+const methodologyJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: title,
+  description,
+  url: `${SITE_CONFIG.url}/methodology/`,
+  author: {
+    '@type': 'Organization',
+    name: SITE_CONFIG.author.name,
+    url: SITE_CONFIG.url,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: SITE_CONFIG.name,
+    url: SITE_CONFIG.url,
+  },
+  dependencies: 'Speedtest CLI, Python Scapy, Curl, Shadowsocks, VLESS, Hysteria 2',
+  proficiencyLevel: 'Expert',
+};
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  canonicalPath="/methodology/"
+  activeNav="methodology"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(methodologyJsonLd)} />
+
+  <section class="compare-hero">
+    <div class="container">
+      <a href="/" class="back-link">&larr; 返回网站首页</a>
+      <span class="page-overline">Testing Protocol · 评测规程与量化模型</span>
+      <h1>梯子机场 42 家专线测评标准与方法论</h1>
+      <p class="hero-sub">
+        所有排行榜名次与评测结论均基于量化工程数据，杜绝主观臆测与营销通稿。本规程详细公开我们的五大评估维度、物理探针拓扑与晚高峰自动化压测机制。
+      </p>
+    </div>
+  </section>
+
+  <section class="compare-summary">
+    <div class="container">
+      
+      <!-- 一、五大维度评分权重 -->
+      <div style="margin-bottom: 3.5rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:0.75rem;color:var(--text-primary);">一、五大维度量化评估模型</h2>
+        <p style="color:var(--text-secondary);font-size:0.95rem;line-height:1.6;margin-bottom:1.5rem;">
+          针对每一家收录的机场品牌，我们从基础设施底层到终端使用体验设定了 5 项核心指标（满分 100 分），按严格权重加权计算综合排名：
+        </p>
+
+        <div class="compare-cards">
+          <div class="compare-card highlight">
+            <h3>1. 跨境专线架构含金量 (25%)</h3>
+            <p class="compare-card-tag">基础设施核心防线</p>
+            <ul>
+              <li><strong>IEPL / IPLC 物理专线：</strong>端到端内网点对点互联，不经过 GFW 公网审查，晚高峰零丢包（基准满分）</li>
+              <li><strong>大带宽 BGP 优质中转：</strong>多线入口智能接入，出口隧道加密，抗抖动能力良好（80-90分）</li>
+              <li><strong>劣质公网直连：</strong>晚高峰丢包超 15% 或频繁被阻断，单项判定不及格（&lt;60分）</li>
+            </ul>
+          </div>
+
+          <div class="compare-card">
+            <h3>2. 晚高峰实测吞吐与抖动 (25%)</h3>
+            <p class="compare-card-tag">真实用户峰值感知</p>
+            <ul>
+              <li><strong>测试时间窗口：</strong>每日 20:00 - 23:00（全网国际出口拥塞最高峰）</li>
+              <li><strong>单线程 4K 压测：</strong>模拟 YouTube 4K/8K 码率实时缓存，要求稳定 ≥ 35 Mbps</li>
+              <li><strong>多线程带宽封顶：</strong>探针千兆并发测速，记录单节点最高突破带宽与延迟抖动值</li>
+            </ul>
+          </div>
+
+          <div class="compare-card">
+            <h3>3. 流媒体与 AI 解锁矩阵 (20%)</h3>
+            <p class="compare-card-tag">原生住宅 IP 与机房纯净度</p>
+            <ul>
+              <li><strong>AI 生产力：</strong>ChatGPT (OpenAI)、Claude 3.5、Google Gemini 网页与 API 零阻断</li>
+              <li><strong>流媒体：</strong>Netflix 非自制剧 4K 原生解锁、Disney+、YouTube Premium 区域识别</li>
+              <li><strong>风控判定：</strong>结合 IPinfo、Scamalytics 检测 IP 欺诈分 (Fraud Score &lt; 25)</li>
+            </ul>
+          </div>
+
+          <div class="compare-card">
+            <h3>4. 套餐诚意度与计费灵活性 (15%)</h3>
+            <p class="compare-card-tag">性价比与资金安全</p>
+            <ul>
+              <li><strong>永久不限时套餐：</strong>对低频备份用户提供永久有效流量包（如光速云 147元/247GB 永久包）额外加分</li>
+              <li><strong>低门槛年付/月付：</strong>提供真实可用、折合 &lt; ¥10/月的入门专线，而非强制两年起售</li>
+              <li><strong>流量真实倍率：</strong>严打 1.5x~5x 虚标暗扣流量，要求 1.0x 节点比例 ≥ 85%</li>
+            </ul>
+          </div>
+
+          <div class="compare-card">
+            <h3>5. 客户端生态与服务稳定性 (15%)</h3>
+            <p class="compare-card-tag">跨平台兼容与运维底蕴</p>
+            <ul>
+              <li><strong>协议现代性：</strong>支持 Shadowsocks, VLESS (Reality), Trojan, Hysteria 2</li>
+              <li><strong>通用订阅开放：</strong>无缝支持 Clash Verge Rev, Shadowrocket, v2rayN, sing-box 及软路由</li>
+              <li><strong>运营历史：</strong>持续稳定运营 3 年以上品牌赋予稳定加分；发生故障工单响应时间 &lt; 2 小时</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 二、数据状态分级规范 -->
+      <div style="margin-bottom: 3.5rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:0.75rem;color:var(--text-primary);">二、数据状态四级分类体系 (Data Taxonomy)</h2>
+        <p style="color:var(--text-secondary);font-size:0.95rem;line-height:1.6;margin-bottom:1.5rem;">
+          为了杜绝行业内“拿历史测速当现况”或“拿官方宣传当实测”的虚假标榜，本站对 42 家品牌详情页的每组数据均强制挂载状态徽章：
+        </p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:1.25rem;">
+          <div style="padding:1.5rem;background:var(--card-bg, #161b22);border:1px solid #10b98155;border-radius:8px;">
+            <span style="display:inline-block;padding:0.2rem 0.6rem;background:#10b98122;color:#10b981;font-weight:700;font-size:0.8rem;border-radius:4px;margin-bottom:0.5rem;">
+              Measured · 近期实测数据
+            </span>
+            <p style="font-size:0.88rem;color:var(--text-secondary);margin:0;line-height:1.6;">
+              由实验室物理探针在最近 30 天内实机测速产出，附带具体测试时间戳与网络运营商环境。可作为当前网络表现的最高置信依据。
+            </p>
+          </div>
+
+          <div style="padding:1.5rem;background:var(--card-bg, #161b22);border:1px solid #38bdf855;border-radius:8px;">
+            <span style="display:inline-block;padding:0.2rem 0.6rem;background:#38bdf822;color:#38bdf8;font-weight:700;font-size:0.8rem;border-radius:4px;margin-bottom:0.5rem;">
+              Vendor · 品牌官方资料
+            </span>
+            <p style="font-size:0.88rem;color:var(--text-secondary);margin:0;line-height:1.6;">
+              来源于机场官方公开的套餐资费、节点列表与承诺带宽。实验室已对其真实性进行交叉抽样核验，但受网络波动影响不作为保证上限。
+            </p>
+          </div>
+
+          <div style="padding:1.5rem;background:var(--card-bg, #161b22);border:1px solid #f59e0b55;border-radius:8px;">
+            <span style="display:inline-block;padding:0.2rem 0.6rem;background:#f59e0b22;color:#f59e0b;font-weight:700;font-size:0.8rem;border-radius:4px;margin-bottom:0.5rem;">
+              Historical · 历史测评归档
+            </span>
+            <p style="font-size:0.88rem;color:var(--text-secondary);margin:0;line-height:1.6;">
+              历史测速数据超过 60 天未进行全量压测复核，或品牌近期线路有较大架构重构。保留作为长期可用性演进分析参考。
+            </p>
+          </div>
+
+          <div style="padding:1.5rem;background:var(--card-bg, #161b22);border:1px solid #94a3b855;border-radius:8px;">
+            <span style="display:inline-block;padding:0.2rem 0.6rem;background:#94a3b822;color:#94a3b8;font-weight:700;font-size:0.8rem;border-radius:4px;margin-bottom:0.5rem;">
+              Unverified · 待核实项
+            </span>
+            <p style="font-size:0.88rem;color:var(--text-secondary);margin:0;line-height:1.6;">
+              品牌宣称支持某些特定地区冷门流媒体（如日本 DMM、英国 BBC iPlayer），但实验室探针尚未部署测试点，标注待核实以提示风险。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 三、避坑与防跑路预警机制 -->
+      <div>
+        <h2 style="font-size:1.75rem;margin-bottom:0.75rem;color:var(--text-primary);">三、机场异常与下架预警机制</h2>
+        <div style="padding:1.5rem;background:var(--card-bg, #161b22);border:1px solid var(--border-color, #30363d);border-radius:8px;line-height:1.7;color:var(--text-secondary);font-size:0.92rem;">
+          <p style="margin-top:0;">
+            梯子机场评测实验室实行<strong>动态降级与下架机制</strong>。当出现以下任一技术异常或违规行为时，本站将立即对品牌详情页挂出醒目黄色/红色警示横幅，并在排行榜中扣分或除名：
+          </p>
+          <ol style="margin-bottom:0;padding-left:1.5rem;">
+            <li><strong>突击调高倍率：</strong>未提前公告将 1x 节点批量修改为 3x~5x 扣费，变相收割用户流量；</li>
+            <li><strong>降级线路偷梁换柱：</strong>宣称 IEPL 专线，实际暗中切换为廉价公网直连隧道；</li>
+            <li><strong>连续断流超时：</strong>晚高峰连续 3 天可用率低于 70%，且官方无应急备用入口；</li>
+            <li><strong>客服与运维失联：</strong>工单超过 48 小时无响应，群组开启全员禁言；</li>
+            <li><strong>跑路迹象：</strong>突然推出远低于成本的“3年付超低骨折包”，极可能是资金链断裂卷款前兆。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div style="margin-top: 3.5rem; text-align: center;">
+        <a href="/ranking/" class="btn btn-primary">查阅 2026 梯子机场推荐榜</a>
+        <a href="/compare/" class="btn btn-ghost" style="margin-left: 1rem;">查看五地测速对比大表 &rarr;</a>
+      </div>
+    </div>
+  </section>
+</MarketingLayout>

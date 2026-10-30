@@ -1,0 +1,1252 @@
+---
+import MarketingLayout from '../../components/MarketingLayout.astro';
+import AuthorCard from '../../components/AuthorCard.astro';
+import { SITE_CONFIG } from '../../config/site';
+import { AIRPORT_BRANDS, TOP10_BRANDS, type AirportBrand, type UnlockState } from '../../data/brands';
+import { PROXY_CLIENTS } from '../../data/clients';
+
+export function getStaticPaths() {
+  return AIRPORT_BRANDS.map((brand) => ({
+    params: { slug: brand.slug },
+    props: { brand },
+  }));
+}
+
+interface Props {
+  brand: AirportBrand;
+}
+
+const { brand } = Astro.props;
+const guangsuyun = AIRPORT_BRANDS[0];
+
+const pageTitle = `${brand.name}怎么样？2026最新套餐价格、优惠码与${brand.lineType.split('（')[0]}实测评测 — ${SITE_CONFIG.name}`;
+const pageDesc = `【2026年10月核验】${brand.name} (${brand.enName}) 深度评测：起步价 ${brand.startingPrice}，支持 ${brand.protocols.join('/')} 协议。详列完整套餐价格表、优惠码 ${brand.promoCode || '说明'}、五地节点测速表现、ChatGPT/Netflix 解锁状态及客户端配置指南。`;
+
+const statusBadgeMap = {
+  measured: { text: 'Measured · 近期实测数据', color: '#10b981', bg: 'rgba(16, 185, 129, 0.14)' },
+  vendor: { text: 'Vendor · 品牌官方资料', color: '#38bdf8', bg: 'rgba(56, 189, 248, 0.14)' },
+  historical: { text: 'Historical · 历史测评归档', color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.14)' },
+  unverified: { text: 'Unverified · 待核实项', color: '#94a3b8', bg: 'rgba(148, 163, 184, 0.14)' },
+};
+
+const unlockStateBadge = (state: UnlockState) => {
+  if (state === 'Supported') return { label: 'Supported · 已解锁', cls: 'unlock-yes' };
+  if (state === 'Partial') return { label: 'Partial · 视节点/规则', cls: 'unlock-partial' };
+  return { label: 'Not Tested · 待核实', cls: 'unlock-na' };
+};
+
+const unlockItems = [
+  { name: 'ChatGPT / OpenAI', category: 'AI 生产力', state: brand.unlock.chatgpt },
+  { name: 'Claude 3.5 / Anthropic', category: 'AI 生产力', state: brand.unlock.claude },
+  { name: 'Google Gemini', category: 'AI 生产力', state: brand.unlock.gemini },
+  { name: 'Netflix (非自制剧/4K)', category: '流媒体解锁', state: brand.unlock.netflix },
+  { name: 'Disney+', category: '流媒体解锁', state: brand.unlock.disney },
+  { name: 'YouTube Premium 4K', category: '流媒体解锁', state: brand.unlock.youtube },
+  { name: 'HBO Max', category: '流媒体解锁', state: brand.unlock.hbomax },
+  { name: 'TikTok 跨区短视频', category: '社媒与区域', state: brand.unlock.tiktok },
+  { name: 'Spotify 跨区流媒体', category: '音乐播客', state: brand.unlock.spotify },
+];
+
+// 推荐兼容客户端
+const recommendedClients =
+  brand.clientSupport === 'exclusive'
+    ? []
+    : PROXY_CLIENTS.filter((c) =>
+        ['clash-verge-rev', 'flclash', 'v2rayn', 'v2rayng', 'shadowrocket', 'hiddify'].includes(c.id),
+      );
+
+// 同梯队对比品牌（优先包含 #1 光速云 + 相邻排名品牌）
+const peerBrands = AIRPORT_BRANDS.filter(
+  (b) => b.slug !== brand.slug && (b.rank === 1 || Math.abs(b.rank - brand.rank) <= 2 || (b.tier === 'top10' && brand.tier === 'top10')),
+).slice(0, 4);
+
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: pageTitle,
+  description: pageDesc,
+  image: [new URL(brand.speedtest.screenshot || SITE_CONFIG.ogImage, SITE_CONFIG.url).toString()],
+  datePublished: brand.verifiedAt,
+  dateModified: brand.updatedAt,
+  author: {
+    '@type': 'Organization',
+    name: SITE_CONFIG.author.name,
+    url: SITE_CONFIG.url,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: SITE_CONFIG.name,
+    url: SITE_CONFIG.url,
+  },
+  mainEntityOfPage: `${SITE_CONFIG.url}/brands/${brand.slug}/`,
+};
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: brand.seo.faqs.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.a,
+    },
+  })),
+};
+
+const currentStatus = statusBadgeMap[brand.speedtest.dataStatus];
+---
+
+<MarketingLayout
+  title={pageTitle}
+  description={pageDesc}
+  canonicalPath={`/brands/${brand.slug}/`}
+  ogType="article"
+  ogImage={brand.speedtest.screenshot || SITE_CONFIG.ogImage}
+  ogImageAlt={`${brand.name} 测速与流媒体解锁评测报告`}
+  publishedTime={brand.verifiedAt}
+  activeNav="brands"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+  <article class="brand-detail-page">
+    <!-- 顶部面包屑与标题区 -->
+    <header class="page-hero-section" style={`border-bottom: 2px solid ${brand.accentColor}44;`}>
+      <div class="container">
+        <div class="breadcrumb-row">
+          <a href="/" class="back-link">首页</a>
+          <span class="sep">/</span>
+          <a href="/brands/" class="back-link">42家品牌库</a>
+          <span class="sep">/</span>
+          <span>#{brand.rank} {brand.name}</span>
+        </div>
+
+        <div class="brand-header-badges">
+          <span class="rank-pill" style={`background:${brand.accentColor};color:#090d16;`}>
+            综合排名 #{brand.rank} / 42
+          </span>
+          <span
+            class="status-pill"
+            style={`background:${currentStatus.bg};color:${currentStatus.color};border:1px solid ${currentStatus.color}55;`}
+          >
+            {currentStatus.text}
+          </span>
+          <span class="meta-pill">核验日期：{brand.verifiedAt}</span>
+          <span class="meta-pill">更新日期：{brand.updatedAt}</span>
+        </div>
+
+        <h1>{brand.name} ({brand.enName}) 深度评测：2026 套餐价格、测速与解锁表现</h1>
+        <p class="hero-sub">{brand.uniqueSellingPoint}</p>
+      </div>
+    </header>
+
+    <div class="container brand-body-container">
+      <!-- 若为历史归档品牌 (#29-#42)，在首屏显著位置提示迁移至 #1 光速云 -->
+      {brand.tier === 'historical' && (
+        <div class="historical-alert-banner" role="alert">
+          <div>
+            <strong>⚠️ 历史测评档案与可用性提示：</strong>
+            <span>
+              <strong>{brand.name}</strong> 收录自 {brand.verifiedAt} 历史品牌清单，{brand.registerUrl ? '其历史测速距今较久，当前节点表现需重新核验' : '当前未提供有效独立注册入口或近 30 日实测数据'}。为保障资金安全与晚高峰稳定性，建议优先选择本站榜首第一主推的 <strong>#1 光速云 (GuangSuYun)</strong>。
+            </span>
+          </div>
+          <a href="/brands/guangsuyun/" class="btn btn-primary btn-sm" style="white-space:nowrap;">
+            前往 #1 光速云 (IEPL双专线/147永久包) &rarr;
+          </a>
+        </div>
+      )}
+
+      <!-- GEO 首屏核心结论卡片 (Quick Verdict & Conversion Box) -->
+      <section class="geo-verdict-box" style={`border-left: 4px solid ${brand.accentColor};`}>
+        <div class="geo-verdict-main">
+          <div class="geo-verdict-overline">GEO 核心结论先行 · 30秒选型速览</div>
+          <h2>{brand.name} 值不值得买？一句话总结</h2>
+          <p class="geo-verdict-summary">{brand.summary}</p>
+
+          <div class="audience-grid">
+            <div class="audience-col audience-yes">
+              <h3>✅ 适合人群 (Best For)</h3>
+              <ul>
+                {brand.bestFor.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div class="audience-col audience-no">
+              <h3>⛔ 不适合人群 (Not Best For)</h3>
+              <ul>
+                {brand.notBestFor.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <aside class="geo-verdict-cta">
+          <div class="cta-card-head">
+            <span class="cta-price-label">入门起步价</span>
+            <strong class="cta-price-val" style={`color:${brand.accentColor};`}>{brand.startingPrice}</strong>
+            <span class="cta-traffic-sub">入门流量：{brand.entryTraffic}</span>
+          </div>
+
+          {brand.promoCode ? (
+            <div class="promo-code-box">
+              <div class="promo-code-top">
+                <span>专属优惠券码：</span>
+                <code id="promo-code-text">{brand.promoCode}</code>
+                <button
+                  type="button"
+                  class="copy-promo-btn"
+                  data-code={brand.promoCode}
+                  aria-label="复制优惠码"
+                >
+                  复制
+                </button>
+              </div>
+              <p class="promo-code-note">{brand.promoNote}</p>
+            </div>
+          ) : (
+            <div class="promo-code-box">
+              <p class="promo-code-note">{brand.promoNote}</p>
+            </div>
+          )}
+
+          <div class="cta-buttons-stack">
+            {brand.registerUrl ? (
+              <a
+                href={brand.registerUrl}
+                target="_blank"
+                rel="nofollow sponsored noopener"
+                class="btn btn-primary"
+                style="width:100%;justify-content:center;"
+              >
+                前往 {brand.name} 官网注册 ↗
+              </a>
+            ) : (
+              <a
+                href={guangsuyun.registerUrl!}
+                target="_blank"
+                rel="nofollow sponsored noopener"
+                class="btn btn-primary"
+                style="width:100%;justify-content:center;"
+              >
+                该品牌无独立入口 · 推荐前往 #1 光速云官网 ↗
+              </a>
+            )}
+
+            {!brand.isFeatured && (
+              <a
+                href="/brands/guangsuyun/"
+                class="btn btn-ghost"
+                style="width:100%;justify-content:center;font-size:0.84rem;"
+              >
+                对比榜首 #1 光速云 (¥99/年 或 ¥147永久) &rarr;
+              </a>
+            )}
+          </div>
+
+          <p class="affiliate-disclosure">
+            合规披露：上方官网按钮含推广追踪（<code>rel="nofollow sponsored"</code>），通过链接注册可能为本站带来佣金，<strong>不影响您的支付价格</strong>。所有套餐与售后规则以品牌官网实时公布为准。
+          </p>
+        </aside>
+      </section>
+
+      <!-- 核心参数规格一览表 -->
+      <section class="brand-section">
+        <h2>一、{brand.name} 基础档案与技术规格</h2>
+        <div class="specs-kv-grid">
+          <div class="kv-cell">
+            <span class="kv-label">品牌名称 / 英文名</span>
+            <strong class="kv-val">{brand.name} ({brand.enName})</strong>
+          </div>
+          <div class="kv-cell">
+            <span class="kv-label">创立时间 / 运营资历</span>
+            <strong class="kv-val">{brand.foundedYear}</strong>
+          </div>
+          <div class="kv-cell">
+            <span class="kv-label">骨干线路架构</span>
+            <strong class="kv-val">{brand.lineType}</strong>
+          </div>
+          <div class="kv-cell">
+            <span class="kv-label">传输代理协议</span>
+            <strong class="kv-val">{brand.protocols.join(' / ')}</strong>
+          </div>
+          <div class="kv-cell">
+            <span class="kv-label">客户端兼容模式</span>
+            <strong class="kv-val">{brand.clientNote}</strong>
+          </div>
+          <div class="kv-cell">
+            <span class="kv-label">同时在线设备限制</span>
+            <strong class="kv-val">{brand.deviceLimit}</strong>
+          </div>
+          <div class="kv-cell">
+            <span class="kv-label">支持支付方式</span>
+            <strong class="kv-val">{brand.paymentMethods}</strong>
+          </div>
+          <div class="kv-cell">
+            <span class="kv-label">覆盖国家与地区</span>
+            <strong class="kv-val">{brand.regions.join(' · ')}</strong>
+          </div>
+        </div>
+
+        <div class="highlights-box">
+          <h3>核心亮点提炼</h3>
+          <ul>
+            {brand.highlights.map((h) => (
+              <li>{h}</li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <!-- 二、暗黑网络观测台 (Dark Network Observatory 3大可视化面板) -->
+      <section class="brand-section">
+        <h2>二、网络观测台：节点测速、AI/流媒体解锁与专线拓扑</h2>
+        <p class="section-sub">
+          以下面板严格标注数据来源状态（<strong>{currentStatus.text}</strong>）。延迟与吞吐量受测试时段、本地运营商（电信/联通/移动）及跨网路由影响，仅供横向选型参考。
+        </p>
+
+        <!-- 面板 1：Performance Monitoring Report (测速进度条 + 实测截图) -->
+        <div class="observatory-card" style={`border-top: 3px solid ${brand.accentColor};`}>
+          <div class="obs-header">
+            <div>
+              <span class="obs-eyebrow">PANEL 01 · PERFORMANCE MONITORING REPORT</span>
+              <h3>{brand.name} 常用区域节点延迟与下行带宽观测</h3>
+            </div>
+            <div class="obs-meta">
+              <span class="obs-date">记录日期: {brand.speedtest.date}</span>
+              <span class="obs-status" style={`color:${currentStatus.color};border-color:${currentStatus.color}55;`}>
+                {brand.speedtest.dataStatus.toUpperCase()}
+              </span>
+            </div>
+          </div>
+
+          <p class="obs-env-note">测试环境说明：{brand.speedtest.envNote}</p>
+
+          <div class="speed-bars-list">
+            {brand.speedtest.nodes.map((node) => (
+              <div class="speed-bar-row">
+                <div class="speed-node-name">{node.region}</div>
+                <div class="speed-node-latency">{node.latency}</div>
+                <div class="speed-bar-track" aria-label={`${node.region} 下行速度 ${node.download}`}>
+                  <div
+                    class="speed-bar-fill"
+                    style={`width: ${Math.max(8, node.barPercent)}%; background: linear-gradient(90deg, ${brand.accentColor}, #3b82f6);`}
+                  />
+                </div>
+                <div class="speed-node-dl">{node.download}</div>
+                <div class={`speed-node-status status-${node.status.toLowerCase().replace(/\s+/g, '-')}`}>
+                  {node.status}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {brand.speedtest.screenshot && (
+            <div class="speedtest-screenshot-box">
+              <div class="screenshot-header">
+                <strong>📸 自动化拓扑与节点实测原图归档</strong>
+                <span>
+                  采集工具：{brand.speedtest.screenshotTool || 'Miaoko / Clash 批量测速'} · 实测时间：{brand.speedtest.screenshotTestedAt || brand.speedtest.date}
+                </span>
+              </div>
+              <figure class="screenshot-figure">
+                <img
+                  src={brand.speedtest.screenshot}
+                  alt={`${brand.name} (${brand.enName}) 节点延迟、拓扑与下行带宽实测报告图`}
+                  loading="lazy"
+                  class="speedtest-img"
+                />
+                <figcaption>
+                  图：{brand.name} 实测数据快照（测试时间戳：{brand.speedtest.screenshotTestedAt || brand.speedtest.date}，单次本地网络抽样，不同地区宽带表现可能存在差异）。
+                </figcaption>
+              </figure>
+            </div>
+          )}
+        </div>
+
+        <!-- 面板 2：Service Availability Matrix (3列流媒体与 AI 解锁矩阵) -->
+        <div class="observatory-card" style="margin-top:1.25rem;">
+          <div class="obs-header">
+            <div>
+              <span class="obs-eyebrow">PANEL 02 · SERVICE AVAILABILITY MATRIX</span>
+              <h3>流媒体 4K 与 AI 大模型解锁状态矩阵</h3>
+            </div>
+            <div class="obs-meta">
+              <span class="obs-date">数据状态: {brand.unlock.dataStatus.toUpperCase()}</span>
+            </div>
+          </div>
+
+          <p class="obs-env-note">{brand.unlock.note}</p>
+
+          <div class="unlock-matrix-grid">
+            {unlockItems.map((item) => {
+              const badge = unlockStateBadge(item.state);
+              return (
+                <div class="unlock-cell">
+                  <div class="unlock-cell-info">
+                    <span class="unlock-cat">{item.category}</span>
+                    <strong class="unlock-service">{item.name}</strong>
+                  </div>
+                  <span class={`unlock-badge ${badge.cls}`}>{badge.label}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <!-- 面板 3：Network Path Observatory (专线链路拓扑图) -->
+        <div class="observatory-card" style="margin-top:1.25rem;">
+          <div class="obs-header">
+            <div>
+              <span class="obs-eyebrow">PANEL 03 · NETWORK PATH OBSERVATORY</span>
+              <h3>{brand.name} 跨境传输链路与防丢包拓扑</h3>
+            </div>
+            <div class="obs-meta">
+              <span class="obs-date">传输协议: {brand.protocols.join(' / ')}</span>
+            </div>
+          </div>
+
+          <div class="topology-flow">
+            <div class="topo-node">
+              <span class="topo-step">STEP 01 · 本地终端</span>
+              <strong>用户设备与客户端</strong>
+              <p>Windows / macOS / iOS / Android / OpenWrt</p>
+            </div>
+            <div class="topo-arrow">
+              <span class="topo-proto">{brand.protocols.join(' / ')} 加密握手</span>
+              <div class="topo-line"></div>
+            </div>
+            <div class="topo-node topo-node-core" style={`border-color:${brand.accentColor};`}>
+              <span class="topo-step">STEP 02 · 骨干传输层</span>
+              <strong>{brand.lineType}</strong>
+              <p>规避公网国际出口拥堵与晚高峰 QoS 限速</p>
+            </div>
+            <div class="topo-arrow">
+              <span class="topo-proto">内网直连 / 低抖动转发</span>
+              <div class="topo-line"></div>
+            </div>
+            <div class="topo-node">
+              <span class="topo-step">STEP 03 · 海外原生落地</span>
+              <strong>全球多地区机房出口</strong>
+              <p>{brand.regions.slice(0, 6).join(' · ')}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 三、套餐价格与周期明细表 -->
+      <section class="brand-section">
+        <h2>三、{brand.name} 2026 套餐价格表与计费规则</h2>
+        <p class="section-sub">
+          以下价格与流量配额整理自 {brand.name} 官方公布信息（最近核验：{brand.verifiedAt}）。{brand.promoCode ? `结账时输入优惠券码「${brand.promoCode}」可享对应折扣：` : ''}{brand.promoNote}。
+        </p>
+
+        <div class="matrix-wrap">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th>套餐名称</th>
+                <th>计费周期</th>
+                <th class="col-highlight">官方参考价</th>
+                <th>周期流量配额</th>
+                <th>倍率、限速与适用说明</th>
+              </tr>
+            </thead>
+            <tbody>
+              {brand.plans.map((plan) => (
+                <tr>
+                  <td><strong>{plan.name}</strong></td>
+                  <td>{plan.cycle}</td>
+                  <td class="col-highlight"><strong style={`color:${brand.accentColor};`}>{plan.price}</strong></td>
+                  <td><strong>{plan.traffic}</strong></td>
+                  <td>{plan.period}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 四、客户端支持与全平台配置指引 -->
+      <section class="brand-section">
+        <h2>四、{brand.name} 客户端下载与订阅导入指南</h2>
+        <div class="client-compat-banner">
+          <div>
+            <strong>当前客户端兼容模式：</strong>
+            <span>{brand.clientNote}</span>
+          </div>
+          <a href="/clients/" class="btn btn-ghost btn-sm">查看 6 大系统 21 款客户端大全 &rarr;</a>
+        </div>
+
+        {brand.clientSupport === 'exclusive' ? (
+          <div class="exclusive-client-note">
+            <h3>🛡️ 官方专属客户端免配置模式说明</h3>
+            <p>
+              <strong>{brand.name}</strong> 采用官方自研专属客户端体系，旨在降低新手配置门槛并隐藏底层节点地址防止被恶意探测。您只需注册账号后，在官网后台下载对应系统（Windows / macOS / Android / iOS）的官方安装包，使用注册邮箱与密码登录即可一键加速，<strong>无需也不支持复制订阅链接到 Clash 或 Shadowrocket</strong>。
+            </p>
+            <p style="margin-top:0.5rem;">
+              💡 如果您需要在 OpenWrt 软路由、Clash Verge Rev 或 Shadowrocket 中进行自定义规则分流，建议选择同时支持「官方自研客户端 + 第三方通用订阅导入」的榜首 <strong><a href="/brands/guangsuyun/">#1 光速云</a></strong>。
+            </p>
+          </div>
+        ) : (
+          <div class="compare-cards" style="margin-top:1rem;">
+            {recommendedClients.map((client) => (
+              <div class="compare-card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+                  <span class="blog-tag">{client.platforms.join(' / ')}</span>
+                  <span style="font-size:0.76rem;color:var(--text-secondary);">{client.pricing}</span>
+                </div>
+                <h3 style="margin:0.2rem 0;"><a href="/clients/" style="color:inherit;text-decoration:none;">{client.name}</a></h3>
+                <p style="font-size:0.84rem;color:var(--text-secondary);line-height:1.55;margin:0.4rem 0 0.75rem;">
+                  {client.features}
+                </p>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;border-top:1px solid var(--line);padding-top:0.6rem;margin-top:auto;gap:0.5rem;">
+                  <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">内核: {client.kernel}</span>
+                  <a href={client.sourceUrl} target="_blank" rel="noopener noreferrer" class="card-link" style="white-space:nowrap;flex-shrink:0;">
+                    {client.sourceLabel} ↗
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <!-- 五、优缺点客观剖析、风险提示与同行对比 -->
+      <section class="brand-section">
+        <h2>五、客观优缺点评估、风险提示与同行横向对比</h2>
+        <div class="pros-cons-grid">
+          <div class="pros-card">
+            <h3>👍 核心优势 (Pros)</h3>
+            <ul>
+              {brand.pros.map((p) => (
+                <li>{p}</li>
+              ))}
+            </ul>
+          </div>
+          <div class="cons-card">
+            <h3>👎 局限与不足 (Cons)</h3>
+            <ul>
+              {brand.cons.map((c) => (
+                <li>{c}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div class="risk-diff-grid">
+          <div class="risk-card">
+            <h3>⚠️ 选购前必读风险提示</h3>
+            <p>{brand.riskNotice}</p>
+          </div>
+          <div class="diff-card">
+            <h3>⚖️ 与同价位 / 同梯队机场的核心差异</h3>
+            <p>{brand.diffWithPeers}</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 六、GEO 常见问答 (FAQ) 与非竞争关键词映射 -->
+      <section class="brand-section">
+        <h2>六、关于 {brand.name} 的常见问题解答 (FAQ)</h2>
+        <div class="faq-list">
+          {brand.seo.faqs.map((faq, idx) => (
+            <details class="faq-item" open={idx === 0}>
+              <summary class="faq-q">{faq.q}</summary>
+              <div class="faq-a">
+                <p>{faq.a}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+
+        <div class="seo-meta-footer">
+          <span><strong>主题集群：</strong>{brand.seo.topicCluster}</span>
+          <span><strong>决策阶段：</strong>{brand.seo.decisionStage}</span>
+          <div class="seo-kw-tags">
+            <span class="blog-tag">#{brand.seo.primaryKeyword}</span>
+            {brand.seo.secondaryKeywords.map((kw) => (
+              <span class="blog-tag">#{kw}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- 七、同梯队与首选替代方案横向内链 -->
+      <section class="brand-section">
+        <h2>七、同档位热门专线机场对比与替代推荐</h2>
+        <div class="compare-cards">
+          {peerBrands.map((peer) => (
+            <article class={`compare-card ${peer.rank === 1 ? 'highlight' : ''}`} style={`border-top: 3px solid ${peer.accentColor};`}>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+                <span class="blog-tag">#{peer.rank} {peer.tier === 'top10' ? 'Top 10 主推' : '同档对比'}</span>
+                <strong style={`color:${peer.accentColor};font-size:0.86rem;`}>{peer.startingPrice}</strong>
+              </div>
+              <h3 style="margin:0.2rem 0;">
+                <a href={`/brands/${peer.slug}/`} style="color:inherit;text-decoration:none;">
+                  {peer.name} ({peer.enName})
+                </a>
+              </h3>
+              <p style="font-size:0.84rem;color:var(--text-secondary);line-height:1.55;margin:0.4rem 0 0.85rem;">
+                {peer.uniqueSellingPoint}
+              </p>
+              <a href={`/brands/${peer.slug}/`} class="card-link">查看 {peer.name} 评测详情 &rarr;</a>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <AuthorCard />
+    </div>
+  </article>
+
+  <script is:inline>
+    (function () {
+      const btn = document.querySelector('.copy-promo-btn');
+      if (!btn) return;
+      btn.addEventListener('click', () => {
+        const code = btn.getAttribute('data-code') || '';
+        if (navigator.clipboard && code) {
+          navigator.clipboard.writeText(code).then(() => {
+            const orig = btn.textContent;
+            btn.textContent = '已复制 ✓';
+            setTimeout(() => {
+              btn.textContent = orig;
+            }, 1800);
+          });
+        }
+      });
+    })();
+  </script>
+
+  <style>
+    .breadcrumb-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      margin-bottom: 0.85rem;
+      color: var(--text-secondary);
+    }
+    .breadcrumb-row .sep {
+      opacity: 0.5;
+    }
+    .brand-header-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+    }
+    .rank-pill,
+    .status-pill,
+    .meta-pill {
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 0.22rem 0.65rem;
+      border-radius: 999px;
+    }
+    .meta-pill {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+    .brand-body-container {
+      padding-top: 2rem;
+      padding-bottom: 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+    .historical-alert-banner {
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.45);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .geo-verdict-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 330px;
+      gap: 1.75rem;
+      align-items: start;
+    }
+    @media (max-width: 920px) {
+      .geo-verdict-box {
+        grid-template-columns: 1fr;
+      }
+    }
+    .geo-verdict-overline {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      margin-bottom: 0.35rem;
+    }
+    .geo-verdict-main h2 {
+      margin: 0 0 0.65rem;
+      font-size: 1.4rem;
+    }
+    .geo-verdict-summary {
+      font-size: 0.96rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin: 0 0 1.25rem;
+    }
+    .audience-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 640px) {
+      .audience-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .audience-col {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+    }
+    .audience-col h3 {
+      margin: 0 0 0.5rem;
+      font-size: 0.92rem;
+    }
+    .audience-col ul {
+      margin: 0;
+      padding-left: 1.15rem;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+    .geo-verdict-cta {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+    .cta-card-head {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+    .cta-price-label {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+    }
+    .cta-price-val {
+      font-size: 1.45rem;
+      font-weight: 800;
+    }
+    .cta-traffic-sub {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+    .promo-code-box {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px dashed rgba(16, 185, 129, 0.45);
+      border-radius: 8px;
+      padding: 0.75rem;
+    }
+    .promo-code-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      margin-bottom: 0.35rem;
+    }
+    .promo-code-top code {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #10b981;
+    }
+    .copy-promo-btn {
+      background: #10b981;
+      color: #090d16;
+      border: none;
+      border-radius: 5px;
+      padding: 0.2rem 0.55rem;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .promo-code-note {
+      margin: 0;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .cta-buttons-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .affiliate-disclosure {
+      margin: 0;
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .brand-section h2 {
+      font-size: 1.45rem;
+      margin: 0 0 0.75rem;
+    }
+    .specs-kv-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .kv-cell {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.8rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .kv-label {
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+    }
+    .kv-val {
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+    .highlights-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+    }
+    .highlights-box h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1rem;
+    }
+    .highlights-box ul {
+      margin: 0;
+      padding-left: 1.2rem;
+      line-height: 1.7;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    /* Dark Network Observatory Console Styling (#111622) */
+    .observatory-card {
+      background: #111622;
+      color: #f8fafc;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 14px;
+      padding: 1.35rem 1.5rem;
+      box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.45);
+    }
+    .obs-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.75rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+      padding-bottom: 0.85rem;
+      margin-bottom: 0.85rem;
+    }
+    .obs-eyebrow {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: #94a3b8;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+    .obs-header h3 {
+      margin: 0;
+      font-size: 1.15rem;
+      color: #f8fafc;
+    }
+    .obs-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.76rem;
+    }
+    .obs-date {
+      color: #94a3b8;
+    }
+    .obs-status {
+      border: 1px solid;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+    .obs-env-note {
+      font-size: 0.84rem;
+      color: #94a3b8;
+      margin: 0 0 1rem;
+      line-height: 1.55;
+    }
+    .speed-bars-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .speed-bar-row {
+      display: grid;
+      grid-template-columns: 110px 85px 1fr 110px 100px;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      padding: 0.55rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+    @media (max-width: 720px) {
+      .speed-bar-row {
+        grid-template-columns: 1fr 1fr;
+      }
+      .speed-bar-track {
+        grid-column: 1 / -1;
+      }
+    }
+    .speed-node-name {
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+    .speed-node-latency {
+      font-family: var(--font-mono, monospace);
+      color: #38bdf8;
+      font-size: 0.82rem;
+    }
+    .speed-bar-track {
+      height: 8px;
+      background: rgba(148, 163, 184, 0.15);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .speed-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+    .speed-node-dl {
+      font-family: var(--font-mono, monospace);
+      font-weight: 700;
+      color: #f8fafc;
+      text-align: right;
+    }
+    .speed-node-status {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.74rem;
+      text-align: center;
+      padding: 0.15rem 0.45rem;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    .status-operational,
+    .status-stable {
+      background: rgba(16, 185, 129, 0.16);
+      color: #10b981;
+    }
+    .status-partial {
+      background: rgba(245, 158, 11, 0.16);
+      color: #f59e0b;
+    }
+    .status-not-tested {
+      background: rgba(148, 163, 184, 0.16);
+      color: #94a3b8;
+    }
+    .speedtest-screenshot-box {
+      margin-top: 1.25rem;
+      border-top: 1px solid rgba(148, 163, 184, 0.18);
+      padding-top: 1rem;
+    }
+    .screenshot-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.84rem;
+      color: #cbd5e1;
+    }
+    .screenshot-figure {
+      margin: 0;
+      background: #090d16;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: 10px;
+      padding: 0.75rem;
+      text-align: center;
+    }
+    .speedtest-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      max-height: 540px;
+      object-fit: contain;
+    }
+    .screenshot-figure figcaption {
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+      color: #94a3b8;
+    }
+
+    /* Unlock Matrix */
+    .unlock-matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+    @media (max-width: 820px) {
+      .unlock-matrix-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 540px) {
+      .unlock-matrix-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .unlock-cell {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: 8px;
+      padding: 0.7rem 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .unlock-cell-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.12rem;
+    }
+    .unlock-cat {
+      font-size: 0.7rem;
+      color: #94a3b8;
+    }
+    .unlock-service {
+      font-size: 0.86rem;
+      color: #f8fafc;
+    }
+    .unlock-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .unlock-yes {
+      background: rgba(16, 185, 129, 0.16);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+    .unlock-partial {
+      background: rgba(245, 158, 11, 0.16);
+      color: #f59e0b;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+    .unlock-na {
+      background: rgba(148, 163, 184, 0.14);
+      color: #94a3b8;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    /* Topology Flow */
+    .topology-flow {
+      display: grid;
+      grid-template-columns: 1fr auto 1.2fr auto 1fr;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+    @media (max-width: 860px) {
+      .topology-flow {
+        grid-template-columns: 1fr;
+      }
+      .topo-arrow {
+        transform: rotate(90deg);
+        margin: 0.4rem 0;
+      }
+    }
+    .topo-node {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .topo-node-core {
+      background: rgba(30, 41, 59, 0.85);
+      border-width: 2px;
+    }
+    .topo-step {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.7rem;
+      color: #38bdf8;
+    }
+    .topo-node strong {
+      font-size: 0.92rem;
+      color: #f8fafc;
+    }
+    .topo-node p {
+      margin: 0;
+      font-size: 0.78rem;
+      color: #94a3b8;
+      line-height: 1.45;
+    }
+    .topo-arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      min-width: 110px;
+    }
+    .topo-proto {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.7rem;
+      color: #cbd5e1;
+      text-align: center;
+    }
+    .topo-line {
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #38bdf8, #10b981);
+    }
+
+    /* Client & Pros/Cons */
+    .client-compat-banner {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.9rem 1.15rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+    }
+    .exclusive-client-note {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-top: 1rem;
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+    .exclusive-client-note h3 {
+      margin: 0 0 0.5rem;
+    }
+    .pros-cons-grid,
+    .risk-diff-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 720px) {
+      .pros-cons-grid,
+      .risk-diff-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .pros-card,
+    .cons-card,
+    .risk-card,
+    .diff-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.15rem 1.25rem;
+    }
+    .pros-card h3,
+    .cons-card h3,
+    .risk-card h3,
+    .diff-card h3 {
+      margin: 0 0 0.6rem;
+      font-size: 1.02rem;
+    }
+    .pros-card ul,
+    .cons-card ul {
+      margin: 0;
+      padding-left: 1.2rem;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--text-secondary);
+    }
+    .risk-card p,
+    .diff-card p {
+      margin: 0;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--text-secondary);
+    }
+
+    /* FAQ */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .faq-item {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 1.1rem;
+    }
+    .faq-q {
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.96rem;
+    }
+    .faq-a p {
+      margin: 0.65rem 0 0;
+      font-size: 0.9rem;
+      line-height: 1.65;
+      color: var(--text-secondary);
+    }
+    .seo-meta-footer {
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+    .seo-kw-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+  </style>
+</MarketingLayout>

@@ -1,0 +1,141 @@
+---
+import MarketingLayout from '../components/MarketingLayout.astro';
+import { SITE_CONFIG } from '../config/site';
+import { TOP10_BRANDS } from '../data/brands';
+
+const title = `梯子选型与避坑全景指南 (2026 最新科学上网科普) — ${SITE_CONFIG.name}`;
+const description = `全面揭秘 2026 梯子科学上网选型核心门道：从专线架构、流量暗扣倍率、按月付费防跑路到客户端全平台配置，助您用最少预算买到最稳网络。`;
+
+const tiziJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: title,
+  description,
+  url: `${SITE_CONFIG.url}/tizi/`,
+  mainEntity: {
+    '@type': 'ItemList',
+    name: '2026 安全靠谱科学上网梯子推荐',
+    numberOfItems: 4,
+    itemListElement: TOP10_BRANDS.slice(0, 4).map((b, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      name: `${b.name} (${b.enName}) — ${b.uniqueSellingPoint}`,
+      url: `${SITE_CONFIG.url}/brands/${b.slug}/`,
+    })),
+  },
+};
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  canonicalPath="/tizi/"
+  activeNav="tizi"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(tiziJsonLd)} />
+
+  <section class="compare-hero">
+    <div class="container">
+      <a href="/" class="back-link">&larr; 返回网站首页</a>
+      <span class="page-overline">Ladder & Proxy Guide · 避坑专栏</span>
+      <h1>2026 科学上网梯子选型与避坑全景指南</h1>
+      <p class="hero-sub">
+        民间俗称的“梯子”，指的是帮助个人与企业跨境访问海外互联网（学术文献、GitHub、ChatGPT、跨境电商、海外社交与 4K 流媒体）的加密代理节点服务。面对鱼龙混杂的商家，如何避免被割韭菜？
+      </p>
+    </div>
+  </section>
+
+  <section class="compare-summary">
+    <div class="container">
+
+      <!-- 栏目说明：新手四大深坑 -->
+      <div style="margin-bottom: 3.5rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">一、新手选购梯子最常踩的四大“暗坑”</h2>
+        <div class="compare-cards">
+          <div class="compare-card">
+            <span class="compare-card-tag" style="background:rgba(239, 68, 68, 0.15);color:#ef4444;">陷阱 01</span>
+            <h3>9.9 元超低价包年，两月跑路</h3>
+            <p style="color:var(--text-secondary);font-size:0.86rem;line-height:1.5;">很多不知名作坊通过低价走量吸引用户全款买多年，资金链断裂后立即删除群组换个马甲重新行骗。<strong>正规专线成本摆在那里，千万不要贪图无脑便宜</strong>。</p>
+          </div>
+          <div class="compare-card">
+            <span class="compare-card-tag" style="background:rgba(239, 68, 68, 0.15);color:#ef4444;">陷阱 02</span>
+            <h3>标称 500GB，暗藏 5 倍率扣费</h3>
+            <p style="color:var(--text-secondary);font-size:0.86rem;line-height:1.5;">有些机场宣称几十元给几百 G 流量，但稍快的节点全标注 3.0x~5.0x 倍率，实际看一个高清视频就消耗几十 G。<strong>首选全节点 1.0x 真实倍率商家</strong>。</p>
+          </div>
+          <div class="compare-card">
+            <span class="compare-card-tag" style="background:rgba(239, 68, 68, 0.15);color:#ef4444;">陷阱 03</span>
+            <h3>公网劣质直连冒充内网专线</h3>
+            <p style="color:var(--text-secondary);font-size:0.86rem;line-height:1.5;">将廉价云服务器公网直连包装成“顶级专线”，白天测试飞快，一到晚上 8 点国际出口拥塞，丢包率瞬间飙升至 30%，视频频繁卡顿转圈。</p>
+          </div>
+          <div class="compare-card">
+            <span class="compare-card-tag" style="background:rgba(239, 68, 68, 0.15);color:#ef4444;">陷阱 04</span>
+            <h3>锁死专属客户端，无通用订阅</h3>
+            <p style="color:var(--text-secondary);font-size:0.86rem;line-height:1.5;">部分商家不提供通用 Clash/小火箭订阅链接，用户无法导入软路由或自定义规则分流，且专有客户端内置后门与广告风险极大。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 安全选型黄金法则 -->
+      <div style="margin-bottom: 3.5rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">二、2026 梯子安全选型四大黄金法则</h2>
+        <div style="background:var(--card-bg, #161b22);border:1px solid var(--border-color, #30363d);border-radius:8px;padding:1.5rem;line-height:1.7;color:var(--text-secondary);font-size:0.92rem;">
+          <ol style="margin:0;padding-left:1.25rem;">
+            <li><strong>坚持月付试水：</strong>新认识的梯子品牌，无论吹得多神，一律先买一个月付极速版（如 ¥20~¥25/月）在本地实机测试晚高峰表现，满意再考虑长周期；</li>
+            <li><strong>优选老牌专线商家：</strong>如运营满 3 年以上、拥有真实 IEPL/企业内网专线架构的品牌（如 2020 年成立的 <strong><a href="/brands/guangsuyun/" style="color:var(--accent);">光速云</a></strong>）；</li>
+            <li><strong>备用容灾策略：</strong>主力使用高速专线套餐（如 99元/年），同时买一个永久不过期的不限时流量包（如光速云 147 永久包 247GB）作为冷备用，两手准备彻底杜绝失联；</li>
+            <li><strong>配合开源现代客户端：</strong>桌面端首选 Clash Verge Rev，iOS 首选 Shadowrocket 小火箭，Android 首选 FlClash 或 v2rayNG。</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- 推荐靠谱品牌列表 -->
+      <div style="margin-bottom: 3.5rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <h2 style="font-size:1.75rem;margin:0;color:var(--text-primary);">三、安全靠谱梯子精选 (Top 4)</h2>
+          <a href="/jichang/" class="btn btn-ghost btn-sm">查看完整推荐榜 &rarr;</a>
+        </div>
+
+        <div class="compare-cards">
+          {TOP10_BRANDS.slice(0, 4).map((brand) => (
+            <div class={`compare-card ${brand.rank === 1 ? 'highlight' : ''}`}>
+              <span class="compare-card-tag">#{brand.rank} {brand.lineType.split('（')[0]}</span>
+              <h3>{brand.name}</h3>
+              <p style="color:var(--text-secondary);font-size:0.86rem;line-height:1.5;margin:0.4rem 0;">{brand.uniqueSellingPoint}</p>
+              <div style="font-size:0.82rem;color:var(--text-secondary);margin:0.5rem 0;">
+                <div>起步价：<strong>{brand.startingPrice}</strong></div>
+                <div>优惠码：<code>{brand.promoCode || '无优惠码'}</code></div>
+              </div>
+              <div style="margin-top:auto;display:flex;gap:0.5rem;">
+                <a href={`/brands/${brand.slug}/`} class="btn btn-ghost btn-sm" style="flex:1;justify-content:center;">评测详情</a>
+                <a href={brand.affLink} target="_blank" rel="nofollow sponsored noopener" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">官网直达 ↗</a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- 延伸阅读导航 -->
+      <div>
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">四、梯子选型与避坑深度专栏</h2>
+        <div class="compare-cards">
+          <div class="compare-card">
+            <h3>📑 2026 梯子机场选型避坑长文</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">详解晚高峰测速、物理专线辨别、流量真实倍率与最优选型决策树。</p>
+            <a href="/blog/2026-airport-selection-guide/" class="card-link" style="margin-top:0.5rem;">阅读深度全文 &rarr;</a>
+          </div>
+          <div class="compare-card">
+            <h3>💡 机场选购常识百科</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">IEPL 与公网中转区别、退款条款避坑与流媒体解锁原理科普。</p>
+            <a href="/docs/airport-buying-guide/" class="card-link" style="margin-top:0.5rem;">查阅选购百科 &rarr;</a>
+          </div>
+          <div class="compare-card">
+            <h3>📱 全平台代理客户端配置手册</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">支持 Windows、macOS、iOS、Android 与软路由的客户端安装与分流指引。</p>
+            <a href="/clients/" class="card-link" style="margin-top:0.5rem;">进入客户端大全 &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</MarketingLayout>

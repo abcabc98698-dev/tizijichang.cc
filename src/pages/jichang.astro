@@ -1,0 +1,122 @@
+---
+import MarketingLayout from '../components/MarketingLayout.astro';
+import { SITE_CONFIG } from '../config/site';
+import { TOP10_BRANDS } from '../data/brands';
+
+const title = `2026 梯子机场推荐大全：42家主流IEPL/IPLC专线横评排行榜 — ${SITE_CONFIG.name}`;
+const description = `精选 2026 年度最具性价比与稳定性的梯子机场服务商：第一主推 2020 老牌「光速云」（99元/年或147永久包），涵盖晚高峰测速、ChatGPT与4K流媒体解锁及优惠码速查。`;
+
+const jichangJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: title,
+  description,
+  url: `${SITE_CONFIG.url}/jichang/`,
+  mainEntity: {
+    '@type': 'ItemList',
+    name: '2026 年度 Top 10 专线机场推荐榜单',
+    numberOfItems: TOP10_BRANDS.length,
+    itemListElement: TOP10_BRANDS.map((b) => ({
+      '@type': 'ListItem',
+      position: b.rank,
+      name: `${b.name} (${b.enName}) — 起步价 ${b.startingPrice}`,
+      url: `${SITE_CONFIG.url}/brands/${b.slug}/`,
+    })),
+  },
+};
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  canonicalPath="/jichang/"
+  activeNav="jichang"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jichangJsonLd)} />
+
+  <section class="compare-hero">
+    <div class="container">
+      <a href="/" class="back-link">&larr; 返回网站首页</a>
+      <span class="page-overline">Airport Directory & Review · 核心栏目</span>
+      <h1>2026 梯子机场推荐大全与选型排行榜</h1>
+      <p class="hero-sub">
+        依托网络工程实验室三网千兆实测探针，收录全网 42 家主流专线机场。从跨境物理专线、晚高峰带宽吞吐、流量真实倍率及客户端兼容性四大维度，为您筛选最值得信赖的主力与备用网络节点。
+      </p>
+    </div>
+  </section>
+
+  <section class="compare-summary">
+    <div class="container">
+
+      <!-- 栏目说明 -->
+      <div style="margin-bottom: 3rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">一、什么是优质梯子机场？2026 选型黄金准则</h2>
+        <div style="background:var(--card-bg, #161b22);border:1px solid var(--border-color, #30363d);border-radius:8px;padding:1.5rem;line-height:1.7;color:var(--text-secondary);font-size:0.92rem;">
+          <p style="margin-top:0;">
+            梯子机场本质上是<strong>为跨境网络加速量身定制的服务器集群服务</strong>。相比自建 VPS，成熟机场具备全球多入口 BGP 智能调度、内网私有专线冗余与专业运维团队，能够有效抵抗全网敏感期的 IP 封锁。
+          </p>
+          <ul style="margin-bottom:0;padding-left:1.25rem;">
+            <li><strong>物理专线高于公网直连：</strong>优先选择 IEPL/IPLC 专线，晚高峰杜绝丢包重传；</li>
+            <li><strong>真实 1.0x 倍率拒绝套路：</strong>警惕宣称 500GB 却按 3x~5x 扣费的虚标商家；</li>
+            <li><strong>优选老牌与特色套餐：</strong>如第一主推 <strong><a href="/brands/guangsuyun/" style="color:var(--accent);">光速云</a></strong>（2020 年运营至今，拥有独创的 147 元 247GB 永久不限时包与 99 元/年轻量包）；</li>
+            <li><strong>通用订阅与自研客户端双兼容：</strong>既方便新手扫码直连，又允许老手导入 Clash Verge Rev / Shadowrocket 精细分流。</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Top 10 核心卡片列表 -->
+      <div style="margin-bottom: 3.5rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <h2 style="font-size:1.75rem;margin:0;color:var(--text-primary);">二、2026 综合推荐排行榜 Top 10</h2>
+          <a href="/ranking/" class="btn btn-ghost btn-sm">查看完整排行大表 &rarr;</a>
+        </div>
+
+        <div class="compare-cards">
+          {TOP10_BRANDS.map((brand) => (
+            <div class={`compare-card ${brand.rank === 1 ? 'highlight' : ''}`}>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                <span class="compare-card-tag" style="margin:0;">#{brand.rank} {brand.lineType.split('（')[0]}</span>
+                <strong style="color:var(--accent);font-size:0.86rem;">{brand.startingPrice}</strong>
+              </div>
+              <h3 style="margin:0.25rem 0;">{brand.name} ({brand.enName})</h3>
+              <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;margin:0.4rem 0 0.8rem;">{brand.uniqueSellingPoint}</p>
+              
+              <div style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:0.8rem;">
+                <div>⚡ 协议：{brand.protocols.join('/')}</div>
+                <div>🏷️ 优惠码：<code>{brand.promoCode || '无/直接购买'}</code></div>
+              </div>
+
+              <div style="display:flex;gap:0.5rem;margin-top:auto;">
+                <a href={`/brands/${brand.slug}/`} class="btn btn-ghost btn-sm" style="flex:1;justify-content:center;">评测详情</a>
+                <a href={brand.affLink} target="_blank" rel="nofollow sponsored noopener" class="btn btn-primary btn-sm" style="flex:1;justify-content:center;">官网直达 ↗</a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- 快速导航入口 -->
+      <div>
+        <h2 style="font-size:1.75rem;margin-bottom:1rem;color:var(--text-primary);">三、更多专题与工具导航</h2>
+        <div class="compare-cards">
+          <div class="compare-card">
+            <h3>🌐 42 家品牌全量检索库</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">按价格、协议、地区、客户端类型一键多维筛选，支持按月付从低到高排序。</p>
+            <a href="/brands/" class="card-link" style="margin-top:0.5rem;">进入 42 家品牌库 &rarr;</a>
+          </div>
+          <div class="compare-card">
+            <h3>📊 五地节点测速横评</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">包含香港、日本、新加坡、美国、台湾的实时延迟、下行吞吐与流媒体解锁。</p>
+            <a href="/compare/" class="card-link" style="margin-top:0.5rem;">查阅测速横评 &rarr;</a>
+          </div>
+          <div class="compare-card">
+            <h3>📱 客户端下载与教程</h3>
+            <p style="color:var(--text-secondary);font-size:0.85rem;line-height:1.5;">涵盖 Windows、macOS、iOS、Android 及软路由的官方渠道与配置避坑指南。</p>
+            <a href="/clients/" class="card-link" style="margin-top:0.5rem;">查看客户端大全 &rarr;</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</MarketingLayout>

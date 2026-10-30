@@ -1,92 +1,94 @@
 ---
-const { siteTitle, siteTitleHref, locale } = Astro.locals.starlightRoute;
-const isPreview = Astro.url.pathname === '/docs/preview/' || Astro.url.pathname.startsWith('/docs/preview/');
-const localePrefix = locale ? `/${locale}` : '';
-const docsHref = isPreview ? '/docs/preview/' : `${localePrefix}/docs/`;
+import { SITE_CONFIG } from '../config/site';
+
+const locale = Astro.currentLocale || 'en';
+const docsPath = locale === 'en' ? '/docs/' : `/${locale}/docs/`;
 ---
 
-<div class="title-row sl-flex">
-  <a href={siteTitleHref} class="site-title sl-flex">
-    <span class="docs-brand-logo" aria-hidden="true"></span>
-    <span translate="no">{siteTitle}</span>
+<div class="site-title-group">
+  <a href={docsPath} class="site-title sl-flex">
+    <span class="brand-logo" aria-hidden="true"></span>
+    <span class="brand-text" translate="no">{SITE_CONFIG.name}</span>
   </a>
-  <nav class="title-nav" aria-label="Primary">
-    <a href={docsHref}>Docs</a>
-    <a href="/plugins/">Plugins</a>
-    <a href="/blog/">Blog</a>
+  <nav class="title-nav" aria-label="Main site">
+    <a href="/">首页</a>
+    <a href="/ranking/">机场推荐榜</a>
+    <a href="/brands/">42家品牌库</a>
+    <a href="/compare/">测速对比</a>
+    <a href="/clients/">客户端大全</a>
+    <a href={docsPath} aria-current="page">教程百科</a>
+    <a href="/blog/">评测专栏</a>
   </nav>
 </div>
 
 <style>
-  @layer starlight.core {
-    .title-row {
-      align-items: center;
-      gap: 1rem;
-      min-width: 0;
-    }
+  .site-title-group {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
 
-    .site-title {
-      align-items: center;
-      gap: 0.55rem;
-      font-family: var(--sl-font-mono);
-      font-size: var(--sl-text-h4);
-      font-weight: 700;
-      letter-spacing: -0.04em;
-      color: var(--sl-color-white);
-      text-decoration: none;
-      white-space: nowrap;
-      min-width: 0;
-      transition: color 120ms ease;
-    }
+  .site-title {
+    align-items: center;
+    gap: 0.45rem;
+    font-size: var(--sl-text-h4);
+    font-weight: 600;
+    color: var(--sl-color-text-accent);
+    text-decoration: none;
+    white-space: nowrap;
+    min-width: 0;
+  }
 
-    .docs-brand-logo {
-      position: relative;
-      display: inline-block;
-      width: 32px;
-      height: 32px;
-      flex: 0 0 auto;
-      border: 1px solid var(--sl-color-hairline);
-      border-radius: 4px;
-      background: var(--sl-color-bg-nav);
-    }
+  .brand-logo {
+    display: inline-block;
+    width: 1.35rem;
+    height: 1.35rem;
+    flex-shrink: 0;
+    background-color: var(--sl-color-white);
+    -webkit-mask-image: url('/assets/brand-mask.svg');
+    mask-image: url('/assets/brand-mask.svg');
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+  }
 
-    .docs-brand-logo::before {
-      content: "";
-      position: absolute;
-      inset: 2px;
-      background: var(--sl-color-white);
-      -webkit-mask: url("/assets/agent-icons/varsha-mask.svg") center / contain no-repeat;
-      mask: url("/assets/agent-icons/varsha-mask.svg") center / contain no-repeat;
-    }
+  .brand-text {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--sl-color-white);
+  }
 
-    span:not(.docs-brand-logo) {
-      overflow: hidden;
-    }
+  .title-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding-left: 1.1rem;
+    border-left: 1px solid var(--sl-color-hairline);
+    font-size: 0.85rem;
+  }
 
+  .title-nav a {
+    color: var(--sl-color-gray-2);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .title-nav a:hover {
+    color: var(--sl-color-white);
+  }
+
+  .title-nav a[aria-current="page"] {
+    color: var(--sl-color-white);
+  }
+
+  @media (max-width: 50rem) {
     .title-nav {
-      display: flex;
-      align-items: baseline;
-      gap: 0.75rem;
-      font-size: var(--sl-text-sm);
-      font-weight: 600;
-      line-height: 1;
-    }
-
-    .title-nav a {
-      color: var(--sl-color-white);
-      text-decoration: none;
-      transition: color 120ms ease;
-    }
-
-    .site-title:hover,
-    .title-nav a:hover {
-      color: var(--sl-color-accent-high);
-    }
-
-    @media (max-width: 35rem) {
-      .title-nav {
-        display: none;
-      }
+      display: none;
     }
   }
 </style>

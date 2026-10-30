@@ -1,132 +1,83 @@
 ---
-title: varsha documentation
-description: A premium website starter template by myndlabs. Beautiful UI, built-in docs, blog, design system, and multi-theme support — powered by Astro.
-template: splash
-hero:
-  tagline: "Ship a beautiful, fast, production-ready website in minutes. varsha gives you a polished marketing site, docs, blog, and design system out of the box."
-  image:
-    file: ../../assets/logo.svg
-  actions:
-    - text: Get started
-      link: /docs/install/
-    - text: Quick start
-      link: /docs/quick-start/
-      variant: secondary
+title: 2026 梯子机场选型百科与知识库全景速查
+description: 梯子机场 (tizijichang.cc) 官方百科：全面收录专线与中转线路原理、主流代理协议对比、6 大操作系统客户端配置教程与 42 家机场品牌避坑全指南。
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-## Why varsha?
+欢迎查阅 **梯子机场官方知识库 (tizijichang.cc)**。本百科旨在为跨境电商、外贸从业者、科研学者、程序员开发者以及日常流媒体影音用户，提供**中立、严谨、代码级可验证**的科学上网选型与配置标准。
 
-varsha is a premium website starter template built on Astro by [myndlabs.tech](https://myndlabs.tech). It is designed for founders, indie hackers, and teams who want a production-quality marketing site without spending weeks on design, accessibility, and infrastructure.
+:::tip[2026 核心推荐总览]
+购买任何机场服务前，请牢记核心避坑铁律：**「月付为王，远离年付不知名小盘；首选真 IEPL 专线与自研/通用双栖品牌」**。当前全站综合第一主推为 **[#1 光速云 (GuangSuYun)](/brands/guangsuyun/)**（IEPL+企业内网双专线、¥99/年 或 ¥147 一次性永久有效、自研端与第三方客户端双栖支持）。
+:::
 
-<CardGrid>
-  <Card title="Beautiful by default">
-    A carefully crafted design system with 18+ built-in themes (Tokyo Night, Catppuccin, Nord, Dracula, Gruvbox, and more), refined typography, and premium component patterns.
+## 知识库核心导航板块
+
+<CardGrid stagger>
+  <Card title="新手选型与防坑指南" icon="open-book">
+    系统梳理跑路盘特征、0.1 倍率虚标陷阱、晚高峰丢包成因与物理专线选购标准。
+    [立即阅读选购指南 &rarr;](/docs/airport-buying-guide/)
   </Card>
-  <Card title="Built-in docs & blog">
-    Starlight-powered documentation with full-text search, sidebar navigation, and i18n (English, Japanese, Simplified Chinese). A content-collections blog with MDX support, tags, and RSS.
+  <Card title="IEPL / IPLC 专线科普" icon="rocket">
+    深度拆解 IEPL 内网专线、IPLC 专线与 BGP 中转直连的底层物理拓扑及抗封锁原理。
+    [查看专线技术详解 &rarr;](/docs/iepl-vs-iplc/)
   </Card>
-  <Card title="Zero-config deployment">
-    First-class support for Vercel, Netlify, and Cloudflare Pages. Sitemaps, OG images, SEO metadata, and robots.txt work out of the box.
+  <Card title="客户端全平台保姆级配置" icon="laptop">
+    覆盖 Windows、macOS、iOS（小火箭）、Android 与 OpenWrt 软路由的订阅导入与 TUN 模式设置。
+    [查阅客户端教程 &rarr;](/docs/windows-setup/)
   </Card>
-  <Card title="Agent-friendly">
-    Ships with a dedicated agent skill file so AI coding assistants (TRAE, Cursor, Copilot) understand the project structure, conventions, and components from day one.
-  </Card>
-</CardGrid>
-
-## Start here
-
-<CardGrid>
-  <Card title="Getting started">
-    Install the starter, set up your environment, and run your first dev server.
-
-    [Install varsha →](/docs/install/)
-  </Card>
-  <Card title="Quick start">
-    Build and deploy your first page in under five minutes.
-
-    [5-minute quick start →](/docs/quick-start/)
-  </Card>
-  <Card title="Project structure">
-    Understand the directory layout, key configuration files, and where to put your content.
-
-    [Project structure →](/docs/concepts/)
+  <Card title="协议横评与 AI 流媒体解锁" icon="setting">
+    Shadowsocks、VLESS Reality、Trojan 与 Hysteria 2 协议横评，附 ChatGPT 与 Netflix 解锁排障。
+    [深入进阶玩法 &rarr;](/docs/protocols-guide/)
   </Card>
 </CardGrid>
 
-## Build your site
+---
 
-<CardGrid>
-  <Card title="Pages & layouts">
-    Create new pages, work with the MarketingLayout, and compose reusable UI sections.
+## 42 家机场品牌核心选型决策树
 
-    [Pages & layouts →](/docs/how-to-work/)
-  </Card>
-  <Card title="Customization">
-    Brand your site — change colors, typography, metadata, and site configuration.
+面对市面上琳琅满目的机场服务商，您无需逐一试错，可根据个人使用场景与预算对号入座：
 
-    [Customization →](/docs/configuration/)
-  </Card>
-  <Card title="Design system">
-    Learn the design principles, tokens, and component philosophy that power varsha.
+```mermaid
+flowchart TD
+    Start["选型需求入口"] --> Budget{"预算与使用频次"}
+    
+    Budget -->|"轻度备用 / 偶尔查资料"| NonExp["长期不过期方案"]
+    Budget -->|"日常高频主力 (月均10-25元)"| Stable["专线抗封锁主力"]
+    Budget -->|"极低预算 (月付 <10元)"| Cheap["高性价比入门"]
+    
+    NonExp --> Pick1["👑 首选: 光速云 147 永久套餐<br/>(¥147 一次性付清 · 247GB 永久不过期 · 峰值 2.5Gbps)"]
+    Stable --> Pick2["👑 首选: 光速云 极速版 (¥25/月)<br/>或 微风网络 / 暮光加速 / 大佬云"]
+    Cheap --> Pick3["推荐: 光速云轻量版 (折合 ¥8.25/月 · ¥99/年 69G/月)<br/>或 飞猫云 (¥7/月 学生版) / 大佬云 (¥5.6/月)"]
+    
+    Pick1 --> Done["直达官网注册与配置"]
+    Pick2 --> Done
+    Pick3 --> Done
+```
 
-    [Design system →](/docs/design-system/)
-  </Card>
-  <Card title="Content & blog">
-    Write Markdown and MDX content, manage collections, and publish blog posts.
+---
 
-    [Content & blog →](/docs/session-state/)
-  </Card>
-</CardGrid>
+## 梯子机场选型 4 大黄金铁律
 
-## Go live
+1. **协议不盲目追新，稳定性重于一切**：
+   - 目前抗封锁能力与兼容性最平衡的是 **VLESS (搭配 Reality/TLS)** 与 **Trojan**。
+   - 物理专线内部无需过度叠加复杂混淆，因其流量不经过公网 GFW 检测点。
+2. **警惕「0.1 倍率」与高倍率刺客**：
+   - 优质机场（如光速云）全节点坚持 **1.0x 真实倍率扣费**，绝不玩高倍率偷跑或低倍率超卖把戏。
+3. **确认客户端模式是否匹配需求**：
+   - **双模全兼容**：既有免配置自研客户端，又提供通用订阅（如光速云、微风网络、暮光加速）。
+   - **纯官方专属端**：仅支持下载专用软件输入账号登录，适合不想折腾的新手（如飞猫云、无忧链接）。
+   - **纯第三方订阅**：仅提供订阅链接，需配合 Clash、Shadowrocket 使用（如星岛梦、唯兔云）。
+4. **流媒体与 AI 解锁必须看节点原生 IP 属性**：
+   - 广播 IP 极易被 OpenAI、Claude 403 封锁或被 Netflix 判定为代理；建议选择配备**海外原生家庭宽带/商宽住宅 IP**的节点。
 
-<CardGrid>
-  <Card title="Deployment">
-    Deploy to Vercel, Netlify, Cloudflare Pages, or any static host with confidence.
+---
 
-    [Deployment →](/docs/persistence-remote/)
-  </Card>
-  <Card title="SEO & metadata">
-    Configure Open Graph tags, structured data, sitemaps, and robots for search visibility.
+## 全站核心功能直达
 
-    [SEO & metadata →](/docs/socket-api/)
-  </Card>
-</CardGrid>
-
-## Reference
-
-<CardGrid>
-  <Card title="Components">
-    Full reference for every built-in component — BuiltWith, hero cards, feature grids, and more.
-
-    [Components →](/docs/plugins/)
-  </Card>
-  <Card title="CSS tokens">
-    The complete design token system — colors, typography, spacing, radii, and shadows.
-
-    [CSS tokens →](/docs/cli-reference/)
-  </Card>
-  <Card title="Integrations">
-    Included Astro integrations: Starlight, sitemap, RSS, analytics, and more.
-
-    [Integrations →](/docs/integrations/)
-  </Card>
-  <Card title="Agent skill file">
-    The SKILL.md file that teaches AI coding agents how to work with your varsha project.
-
-    [Agent skill file →](/docs/agent-skill/)
-  </Card>
-</CardGrid>
-
-## Community and support
-
-- **GitHub:** [github.com/yethikrishna/web-ui-template](https://github.com/yethikrishna/web-ui-template)
-- **Instagram:** [@yethikrishnar](https://instagram.com/yethikrishnar)
-- **Example site:** [founder.myndlabs.tech](https://founder.myndlabs.tech)
-- **Company:** [myndlabs.tech](https://myndlabs.tech)
-
-## Attribution
-
-varsha is open-source and free to use. We ask that you keep the "Built with varsha by myndlabs" credit link that appears in the footer and corner of your site. This attribution supports continued development of the starter. See the [Customization guide](/docs/configuration/) for details on the attribution requirement.
+- 🏆 **[2026 年度 Top 10 核心推荐榜单](/ranking/)**：严格实测筛选出的年度第一梯队主力机场。
+- 👑 **[首选主推 · 光速云深度实测报告](/brands/guangsuyun/)**：7 档套餐明细、双专线网络拓扑及优惠码领取。
+- 🌐 **[42 家机场品牌横向横评库](/brands/)**：按专线、协议、客户端支持及月费实时多维度筛选。
+- 📊 **[五地节点晚高峰测速跑分矩阵](/compare/)**：延迟、带宽、丢包率与流媒体解锁状态全景表。
+- 📱 **[21 款主流代理客户端大全](/clients/)**：Windows、Android、iOS、macOS、Linux 与软路由全覆盖。
+- 📝 **[深度选型博客专栏](/blog/)**：定期发布最新网络安全动态、封锁应对策略与选购心得。
